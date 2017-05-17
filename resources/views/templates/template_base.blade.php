@@ -10,7 +10,7 @@
         <script src="{{url('bootstrap/js/bootstrap.min.js')}}"></script>
         
         <style>
-            body{
+            body{                
                 padding: 0px;
                 margin:0px; 
                 background-color:#bbbbd6; 
@@ -21,8 +21,7 @@
                 padding-top:10px;
                 padding-left:25%;
                 color:whitesmoke;
-            }
-            
+            }            
          </style>
 	
     </head>
