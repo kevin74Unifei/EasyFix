@@ -14,3 +14,11 @@
 Route::get('/', function () {
     return view('loginSystem');
 });
+
+Route::get('/funcionario/cadastro', function () {
+    return view('crud-funcionario/funcionariosCadastro');
+});
+
+Route::post('/logar', function () {
+    return view('loginSystem');
+});

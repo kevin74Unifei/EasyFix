@@ -34,7 +34,7 @@
     </div>
 
     <div class='form-per1' data-provide="datepicker">
-        <form>
+        <form method="post" action="{{url('logar')}}">
             <div>
                 <label for='login'  >Login:</label><br/>        
                 <input  type='text' class="form-control" name='login'placeholder="Login"><br/>         
