@@ -16,7 +16,9 @@ Route::get('/', function () {
 });
 
 Route::get('/funcionario/cadastro', function () {
-    return view('crud-funcionario/funcionariosCadastro');
+    $title="Funcionarios";
+    $ent ="Func";
+    return view('crud-funcionario/funcionariosCadastro',compact("title","ent"));
 });
 
 Route::post('/logar', function () {
