@@ -2,7 +2,7 @@
     <div class="row">
         <div class='col-sm-6'>
             <div class="form-group">
-                <label for="func_dataNasc">Data de nascimento:</label><br/>
+                <label for="func_dataNasc">{{$fieldDate or "date"}}</label><br/>
                 <div class='input-group date' id='datetimepicker1' name="{{$fieldDate or "date"}}">                                    
                     <input type='text' class="form-control" required="required" />
                     <span class="input-group-addon">

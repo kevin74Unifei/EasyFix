@@ -17,12 +17,12 @@ fieldset{
             <div class="form-group">
                 <label for="func_end_rua">Nº:</label><br/>
                 <input type="text" size="6" class="form-control" 
-                       required="required" name="{{$ent or "ent"}}_end_rua:" placeholder="Numero">
+                       required="required" name="{{$ent or "ent"}}_end_numero:" placeholder="Numero">
             </div>
 
             <div class="form-group">
                 <label for="func_end_complemento">Complemento:</label><br/>
-                <input type="text" class="form-control" size="35" name="{{$ent or "ent"}}_dataNasc:">
+                <input type="text" class="form-control" size="35" name="{{$ent or "ent"}}_end_complemento:">
             </div> 
         
             @include('../templates/components/fieldCity')
