@@ -25,3 +25,10 @@ Route::get('/funcionario/cadastro', function () {
 Route::post('/logar', function () {
     return view('loginSystem');
 });
+
+Route::get('/usuario/cadastro', function (){
+   $title = "Usuarios";
+   $ent = "Usua";
+   return view('crud-usuario/CadastroUsuario', compact("title","ent"));
+    
+});
