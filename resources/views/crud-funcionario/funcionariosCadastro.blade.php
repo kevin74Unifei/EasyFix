@@ -40,16 +40,16 @@
 </style>
 
 
-<script type="text/javascript">    
-    
-$(function(){
-$("#campoTelefoneCel").mask("(99) 9-9999-9999");
-$("#campoTelefone").mask("(99) 9999-9999");
-});
-</script>
-
 <div class="pagina">
-    <form class="form-inline">
+    @if(isset($errors) && count($errors)>0)
+    <div class="alert alert-danger">
+        @foreach($errors->all() as $error)
+        <p>{{$error}}</p>
+        @endforeach
+    </div>
+    @endif
+    <form class="form-inline" method='post' action='{{url('funcionario/cadastrar')}}'>
+        <input type="hidden" name="_token" value="{{csrf_token()}}">
         <fieldset>
             <legend>Informações pessoais:</legend>            
             
@@ -83,7 +83,7 @@ $("#campoTelefone").mask("(99) 9999-9999");
                     <div class="form-group">
                         <label for="func_cargaHor">Carga Horaria:</label><br/>
                         <input type="number" class="form-control" required="required"
-                               min="0" max="8" name="func_cargaHor:">
+                               min="0" max="8" name="func_cargaHor">
                     </div>
                 </div>
             </div> 
@@ -91,12 +91,7 @@ $("#campoTelefone").mask("(99) 9999-9999");
 
         @include('../templates/form/areaEndereco')
         @include('../templates/form/areaContato')
-        
-        <br/>
-        <div class="buttons">
-            <button action="submit" class="btn btn-primary" >Cadastrar</button>
-            <button action="cancelar" class="btn btn-warning" >Cancelar</button>
-        </div>
-    </form>
+        @include('../templates/form/areaBotao') 
+        <br/> 
 </div>
 @endsection

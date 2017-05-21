@@ -16,12 +16,16 @@ Route::get('/', function () {
     return view('loginSystem');
 });
 
-Route::get('/funcionario/cadastro', function () {
-    $title="Funcionarios";
-    $ent ="Func";
-    return view('crud-funcionario/funcionariosCadastro',compact("title","ent"));
-});
-
 Route::post('/logar', function () {
     return view('loginSystem');
 });
+
+Route::get('/funcionario/form', function () {
+    $title="Funcionarios";
+    $ent ="func";
+    $fieldDateTitle="Data de Nascimento";
+    $fieldDate="_dataNasc";
+    return view('crud-funcionario/funcionariosCadastro',compact("title","ent","fieldDateTitle","fieldDate"));
+});
+
+Route::post('funcionario/cadastrar','FuncionarioController@create');

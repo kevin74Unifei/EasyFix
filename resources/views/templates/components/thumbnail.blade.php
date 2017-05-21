@@ -20,5 +20,5 @@ $(function(){
     </div>
 </div>            
             
-<input type="file" style="display:none" id="imageButton" name="{{$ent or "ent"}}_imagem"/>
+<input type="file" style="display:none"  id="imageButton" name="{{$ent or "ent"}}_imagem"/>
 

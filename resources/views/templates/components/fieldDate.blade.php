@@ -2,9 +2,9 @@
     <div class="row">
         <div class='col-sm-6'>
             <div class="form-group">
-                <label for="func_dataNasc">{{$fieldDate or "date"}}</label><br/>
-                <div class='input-group date' id='datetimepicker1' name="{{$fieldDate or "date"}}">                                    
-                    <input type='text' class="form-control" required="required" />
+                <label for="func_dataNasc">{{$fieldDateTitle or "date"}}</label><br/>
+                <div class='input-group date' id='datetimepicker1' >                                    
+                    <input type='text' class="form-control" required="required" name="{{$ent}}{{$fieldDate or "date"}}" />
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
                     </span>

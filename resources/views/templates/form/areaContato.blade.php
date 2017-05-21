@@ -3,6 +3,14 @@ fieldset{
         margin-top: 20px;
     }
 </style>
+<script type="text/javascript">    
+    
+$(function(){
+$("#campoTelefoneCel").mask("(99) 9-9999-9999");
+$("#campoTelefone").mask("(99) 9999-9999");
+});
+</script>
+
 <fieldset>
             <legend>Contato:</legend>
                 <div class="form-group">
