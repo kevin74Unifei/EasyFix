@@ -20,6 +20,7 @@ Route::post('/logar', function () {
     return view('loginSystem');
 });
 
+
 Route::get('/funcionario/form', function () {
     $title="Funcionarios";
     $ent ="func";
@@ -29,3 +30,10 @@ Route::get('/funcionario/form', function () {
 });
 
 Route::post('funcionario/cadastrar','FuncionarioController@create');
+
+Route::get('/usuario/cadastro', function (){
+   $title = "Usuarios";
+   $ent = "Usua";
+   return view('crud-usuario/CadastroUsuario', compact("title","ent"));
+    
+
