@@ -13,6 +13,25 @@ class FuncionarioController extends Controller
         $this->func=$f;        
     }
     
+    public function index(Request $request){        
+        $title="SISSAR Painel Funcionario";        
+       
+        $filter = $request->all();//Carregando filtros        
+        if($filter){//Se filtros existirem, carrega dados atraves da operação LIKE do sql 
+            $dadosFunc = $this->func->where($filter['campo_ent'],'LIKE','%'.$filter['chave_busca'].'%')->get(); 
+            $valor_filter_text = $filter['chave_busca'];
+            $valor_filter_campo = $filter['campo_ent'];
+        }else{//Senão existir filtros carrega qualquer um.
+            $dadosFunc = $this->func->all();
+        }        
+        
+        
+        return view("crud-funcionario/funcionariosList",compact("dadosFunc",
+                                                                "title",
+                                                                "valor_filter_text",
+                                                                "valor_filter_campo"));
+    }
+    
     public function create(Request $request){
         $dataForm = $request->except('_token');
         $messages = [
@@ -43,5 +62,9 @@ class FuncionarioController extends Controller
         if($insert)
            return redirect('/'); 
         else return redirect ()->back();            
+    }
+    
+    public function edit($id){
+        return "foi: ".$id;
     }
 }

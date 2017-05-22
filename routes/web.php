@@ -20,6 +20,7 @@ Route::post('/logar', function () {
     return view('loginSystem');
 });
 
+Route::get('/funcionario/list','FuncionarioController@index');
 
 Route::get('/funcionario/form', function () {
     $title="Funcionarios";
@@ -29,11 +30,14 @@ Route::get('/funcionario/form', function () {
     return view('crud-funcionario/funcionariosCadastro',compact("title","ent","fieldDateTitle","fieldDate"));
 });
 
+Route::get('/funcionario/edit/{id}','FuncionarioController@edit');
+        
 Route::post('funcionario/cadastrar','FuncionarioController@create');
 
 Route::get('/usuario/cadastro', function (){
    $title = "Usuarios";
    $ent = "Usua";
    return view('crud-usuario/CadastroUsuario', compact("title","ent"));
+});
     
 
