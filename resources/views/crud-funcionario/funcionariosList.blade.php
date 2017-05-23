@@ -49,7 +49,7 @@
                     @endif>CPF</option>
             </select>
             <input type="text" id="chave_busca" name="chave_busca" class="form-control"  
-                value="@if(isset($valor_filter_text)){{$valor_filter_text}}@endif" >                 
+                value="{{$valor_filter_text or ""}}" >                 
         </form>
     </div>
 <script type="text/javascript">
@@ -78,7 +78,7 @@
                         <label>Cargo: {{$f['func_cargo']}}</label>                   
                     </div>  
                     
-                    <a href="{{url("funcionario/edit/".$f['func_cod'])}}" class="buttons_tools">
+                    <a href="{{url("funcionario/form/edit/".$f['func_cod'])}}" class="buttons_tools">
                         <span class="glyphicon glyphicon-pencil" style="padding:4px;" aria-hidden="true"></span>Editar</a> 
                     <a href="#" class="buttons_tools">
                         <span class="glyphicon glyphicon-trash" style="padding: 4px;" aria-hidden="true"></span>Excluir</a>

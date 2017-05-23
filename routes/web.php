@@ -22,17 +22,11 @@ Route::post('/logar', function () {
 
 Route::get('/funcionario/list','FuncionarioController@index');
 
-Route::get('/funcionario/form', function () {
-    $title="Funcionarios";
-    $ent ="func";
-    $fieldDateTitle="Data de Nascimento";
-    $fieldDate="_dataNasc";
-    return view('crud-funcionario/funcionariosCadastro',compact("title","ent","fieldDateTitle","fieldDate"));
-});
+Route::get('/funcionario/form','FuncionarioController@create');
 
-Route::get('/funcionario/edit/{id}','FuncionarioController@edit');
+Route::get('/funcionario/form/edit/{id}','FuncionarioController@create');
         
-Route::post('funcionario/cadastrar','FuncionarioController@create');
+Route::post('funcionario/cadastrar','FuncionarioController@store');
 
 Route::get('/usuario/cadastro', function (){
    $title = "Usuarios";

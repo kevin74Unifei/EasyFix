@@ -27,7 +27,7 @@ $("#campoTelefone").mask("(99) 9999-9999");
                 <div class="form-group">
                     <label for="func_telefoneCel">Telefone Celular:</label><br/>
                     <input type="text" class="form-control" id="campoTelefoneCel" 
-                           autocomplete="off" name="{{$ent or "ent"}}_telefoneCel" pattern="\([0-9]{2}\)  [0-9]{1}-[0-9]{4,6}-[0-9]{3,4}$" >
+                           autocomplete="off" name="{{$ent or "ent"}}_telefoneCel" pattern="\([0-9]{2}\) [0-9]{1}-[0-9]{4,6}-[0-9]{3,4}$" >
                 </div>
 </fieldset>
 

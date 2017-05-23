@@ -32,7 +32,15 @@ class FuncionarioController extends Controller
                                                                 "valor_filter_campo"));
     }
     
-    public function create(Request $request){
+    public function create($func_cod){
+        $title="SISSAR Cadastro Funcionario";
+        $ent ="func";
+        $fieldDateTitle="Data de Nascimento";
+        $fieldDate="_dataNasc";
+        return view('crud-funcionario/funcionariosCadastro',compact("title","ent","fieldDateTitle","fieldDate"));         
+    }
+    
+    public function store(Request $request){
         $dataForm = $request->except('_token');
         $messages = [
             'func_nome.required' => "É obrigatorio preechimento do campo NOME",
@@ -61,7 +69,7 @@ class FuncionarioController extends Controller
         
         if($insert)
            return redirect('/'); 
-        else return redirect ()->back();            
+        else return redirect ()->back();
     }
     
     public function edit($id){
