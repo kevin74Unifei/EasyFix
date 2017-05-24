@@ -15,7 +15,7 @@ $(function(){
 <div class="row" >
     <div class="col-xs-6 col-md-3">
         <a href="#" class="thumbnail">
-            <img  style="width:173px;height:240px; "src="{{url('img/avatar.png')}}" id="thumb" alt="img_perfil">                    
+            <img  style="width:173px;height:240px; "src="{{$resp['imagem'] or url('img/avatar.png')}}" id="thumb" alt="img_perfil">                    
         </a>
     </div>
 </div>            

@@ -1,5 +1,11 @@
         <div class="buttons">
-            <button action="submit" class="btn btn-primary" >Cadastrar</button>
+            <button action="submit" class="btn btn-primary" >
+                @if(isset($resp))
+                    Alterar
+                @else
+                    Cadastrar
+                @endif
+            </button>
         </form>            
         </div>
 

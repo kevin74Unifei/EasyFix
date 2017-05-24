@@ -22,11 +22,12 @@ Route::post('/logar', function () {
 
 Route::get('/funcionario/list','FuncionarioController@index');
 
-Route::get('/funcionario/form','FuncionarioController@create');
-
-Route::get('/funcionario/form/edit/{id}','FuncionarioController@create');
+Route::get('/funcionario/form/{id?}','FuncionarioController@create');
         
 Route::post('funcionario/cadastrar','FuncionarioController@store');
+
+Route::post('funcionario/edit/{id}','FuncionarioController@edit');
+
 
 Route::get('/usuario/cadastro', function (){
    $title = "Usuarios";

@@ -39,7 +39,6 @@
    
 </style>
 
-
 <div class="pagina">
     @if(isset($errors) && count($errors)>0)
     <div class="alert alert-danger">
@@ -48,7 +47,13 @@
         @endforeach
     </div>
     @endif
-    <form class="form-inline" method='post' action='{{url('funcionario/cadastrar')}}'>
+    <form class="form-inline" method='post' action='
+            @if(isset($resp))
+                {{url('funcionario/edit/'.$resp['cod'])}}    
+            @else
+                {{url('funcionario/cadastrar')}}
+            @endif
+            '>
         <input type="hidden" name="_token" value="{{csrf_token()}}">
         <fieldset>
             <legend>Informações pessoais:</legend>            
@@ -65,12 +70,12 @@
                 <div class="form-group">
                     <label for="func_RG">RG:</label><br/>
                     <input type="text" maxlength="14" size="27" class="form-control" name="func_RG"
-                           required="required">
+                         value="{{$resp["RG"] or ""}}"  required="required">
                 </div>                                
                 <div class="form-group">
                     <label for="func_cartTrab">Nº da Carteira de Trabalho:</label><br/>
                         <input type="text" size="27" class="form-control" name="func_cartTrab"
-                               required="required">
+                               required="required" value="{{$resp["cartTrab"] or ""}}">
                 </div>
                         
                 @include('../templates/components/fieldDate')
@@ -83,12 +88,11 @@
                     <div class="form-group">
                         <label for="func_cargaHor">Carga Horaria:</label><br/>
                         <input type="number" class="form-control" required="required"
-                               min="0" max="8" name="func_cargaHor">
+                               min="0" max="8" name="func_cargaHor" value="{{$resp["cargaHor"] or ""}}" >
                     </div>
                 </div>
             </div> 
         </fieldset>
-
         @include('../templates/form/areaEndereco')
         @include('../templates/form/areaContato')
         @include('../templates/form/areaBotao') 
