@@ -6,9 +6,9 @@
 @section('Base')
 <style>  
     .pagina{        
-        position:fixed;
-        width:1000px;
-        height:600px;
+        position:absolute;
+        width:1000en;
+        height:600en;
         top:159px;
         left:15%;
     }

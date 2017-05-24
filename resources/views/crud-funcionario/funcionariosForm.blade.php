@@ -8,24 +8,28 @@
 @section('Base')
 
 <style>
+    
     .pagina{position: absolute;
         top:100px;
-        left:150px;        
-        width:1050px;
+        left:15%;        
+        width:1050en;
         background-color: whitesmoke;
         padding: 4%;
         padding-bottom:100px;
     }
-    
-    .info_pessoal{position:absolute;
-        top:100px;
-        left:300px;
+
+    .info_pessoal{position:relative;
+        float:right;
     }
+    .img_perfil{
+        padding-left: 4%;
+        float:left;
+    }
+    
     .form-group{
         padding-left: 11px;
         padding-top: 10px;
-    } 
-    
+    }     
     
     .buttons{position: relative;  
         top:30px;
@@ -33,9 +37,10 @@
     }
     
     .area_cargo{position: absolute;
-                top:160px;
-                left:350px;
+         top:160px;
+         left:350px;
     }
+    
    
 </style>
 
@@ -57,9 +62,9 @@
         <input type="hidden" name="_token" value="{{csrf_token()}}">
         <fieldset>
             <legend>Informações pessoais:</legend>            
-            
-            @include('../templates/components/thumbnail')
-            
+            <div class="img_perfil">
+                @include('../templates/components/thumbnail')
+            </div>
             <div class="info_pessoal">
                 
                 @include('../templates/components/fieldName')

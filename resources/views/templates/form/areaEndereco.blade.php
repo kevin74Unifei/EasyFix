@@ -19,7 +19,7 @@ fieldset{
                 <input type="text" size="6" class="form-control" 
                        value="{{$resp["end_numero"] or ""}}" required="required" 
                        name="{{$ent or "ent"}}_end_numero" placeholder="Numero">
-            </div>
+            </div><br/>
 
             <div class="form-group">
                 <label for="func_end_complemento">Complemento:</label><br/>

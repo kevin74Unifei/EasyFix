@@ -5,7 +5,7 @@
                 @else
                     Cadastrar
                 @endif
-            </button>
-        </form>            
+            </button>                 
         </div>
+</form>   
 
