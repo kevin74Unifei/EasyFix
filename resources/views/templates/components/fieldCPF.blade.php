@@ -56,6 +56,6 @@ $(function()
 <div id="labelCPF" class="form-group">
     <label for="func_CPF">CPF:</label><br/>
     <input type="text" maxlength="14" size="22" id="cpf" class="form-control" 
-           name="{{$ent or "ent"}}_CPF" value="{{$resp['CPF'] or ""}}"   required="required" >
+           name="{{$ent or "ent"}}_CPF" value="{{$resp['CPF'] or ""}}"   required="required" {{$enabledEdition['CPF'] or ""}} >
 </div>
 

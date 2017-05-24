@@ -22,6 +22,8 @@ Route::post('/logar', function () {
 Route::get('/funcionario/list','FuncionarioController@index');
 
 Route::get('/funcionario/form/{id?}','FuncionarioController@create');
+
+Route::get('funcionario/show/{id}','FuncionarioController@show');
         
 Route::post('funcionario/cadastrar','FuncionarioController@store');
 

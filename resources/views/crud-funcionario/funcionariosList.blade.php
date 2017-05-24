@@ -60,18 +60,25 @@
    
 </div>
     
-<!--LISTA DE FUNCIONARIOS-->
+
 <div class="pagina">
-    <a href="{{url("funcionario/form/")}}">Cadastrar</a>
+    
+    
+    <!--LISTA DE FUNCIONARIOS-->
     <table class="table">
         <thead class="thead-inverse">
-            <tr><th><h1>Funcionários</h1></th></tr>
+            <tr><th><h1>Funcionários</h1></th>
+                <th>
+                <a style="float:right;" href="{{url("funcionario/form/")}}" class="btn btn-primary" role="button">
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true" style="margin-right:5px;"></span>Cadastrar
+                </a>      
+            </th></tr>
         </thead>
         <tbody>         
         @foreach($dadosFunc as $f)
         <tr>
-            <th>
-                <a href="#" class="list-group-item" style="height:100px;width:620px;">  
+            <th colspan="2">
+                <a href="{{url("funcionario/show/".$f['func_cod'])}}" class="list-group-item" style="height:100px;width:620px;">  
                     <img src="{{url('img/avatar.png')}}" style="width:51px;height:72px;" alt="perfil_foto">
                     <div style="position:relative;top:-92px;left:70px;width:500px;">                        
                         <h3>{{$f['func_nome']}}</h3>                         

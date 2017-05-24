@@ -4,8 +4,8 @@
             <div class="form-group">
                 <label for="func_dataNasc">{{$fieldDateTitle or "date"}}</label><br/>
                 <div class='input-group date' id='datetimepicker1' >                                    
-                    <input type='text' class="form-control" required="required" name="{{$ent}}{{$fieldDate or "date"}}" 
-                           value="{{$resp['data'] or ""}}"/>
+                    <input type='text' class="form-control" required="required" name="{{$ent or ""}}{{$fieldDate or 'date'}}"
+                           value="{{$resp['data'] or ""}}" {{$enabledEdition['data'] or ""}}/>
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
                     </span>

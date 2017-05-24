@@ -1,6 +1,6 @@
 <div class="form-group">
                 <label for="func_cargo">Logradouro:</label><br/>
-                <select class="form-control" name="{{$ent or "ent"}}_end_logradouro">
+                <select class="form-control" name="{{$ent or "ent"}}_end_logradouro" {{$enabledEdition['end_logradouro'] or ""}}>
                     <option value="Avenida"@if(isset($resp)&& $resp['end_logradouro']=="Avenida"){{"selected"}}@endif>Avenida</option>
                     <option value="Condomínio" @if(isset($resp)&& $resp['end_logradouro']=="Condomínio"){{"selected"}}@endif>Condomínio</option>
                     <option value="Estrada" @if(isset($resp)&& $resp['end_logradouro']=="Estrada"){{"selected"}}@endif>Estrada</option>

@@ -20,7 +20,7 @@ class FuncionarioController extends Controller
             'func_end_bairro.required'=> "É obrigatorio preechimento do campo Bairro",
             'func_end_rua.required'=> "É obrigatorio preechimento do campo Nome do Logradouro",
             'func_end_numero.required'=>"É obrigatorio preechimento do campo Numero",           
-            'func_cargaHor.required'=>"É obrigatorio preechimento do carga Horária",
+            'func_cargaHor.required'=>"É obrigatorio preechimento do carga Horária",            
     ];
     
     public function __construct(Funcionario $f){
@@ -49,13 +49,72 @@ class FuncionarioController extends Controller
                                                                 "valor_filter_campo"));
     }
     
+    public function show($func_cod){
+        $title="SISSAR Visualização Funcionario";        
+        $fieldDateTitle="Data de Nascimento";
+        $fieldDate="_dataNasc";        
+       
+        $dadosFuncs = $this->func->where("func_cod",$func_cod)->get();   
+        foreach($dadosFuncs as $d){
+            $resp= [//guarda dados em um vetor com nomes genericos para ser utilizado pelo components-templates
+                    'cod' => $d['func_cod'],
+                    'nome' => $d['func_nome'],
+                    'imagem' => $d['func_imagem'],
+                    'CPF' => $d['func_CPF'], 
+                    'RG' => $d['func_RG'],  
+                    'cartTrab' => $d['func_cartTrab'],
+                    'cargo' => $d['func_cargo'],
+                    'data' => implode("/",array_reverse(explode("-",$d['func_dataNasc']))),
+                    'end_cidade' => $d['func_end_cidade'],
+                    'end_estado' => $d['func_end_estado'],
+                    'end_bairro' => $d['func_end_bairro'],
+                    'end_rua' => $d['func_end_rua'],
+                    'end_numero' => $d['func_end_numero'],
+                    'end_complemento' => $d['func_end_complemento'],
+                    'end_logradouro' => $d['func_end_logradouro'],
+                    'email' => $d['func_email'],
+                    'telefone' => $d['func_telefone'],
+                    'telefoneCel' => $d['func_telefoneCel'],
+                    'sexo' => $d['func_sexo'],
+                    'cargaHor'=>$d['func_cargaHor'],
+            ];  
+                
+            break;
+        }//Retorna um formulario para alteração de dados.            
+                $enabledEdition = [
+                    'cod' => "disabled",
+                    'nome' => "disabled",
+                    'imagem' => "enabled",
+                    'CPF' => "disabled", 
+                    'RG' => "disabled",  
+                    'cartTrab' => "disabled",
+                    'cargo' =>  "disabled",
+                    'data' => "disabled",
+                    'end_cidade' => "disabled",
+                    'end_estado' => "disabled",
+                    'end_bairro' => "disabled",
+                    'end_rua' => "disabled",
+                    'end_numero' => "disabled",
+                    'end_complemento' => "disabled",
+                    'end_logradouro' => "disabled",
+                    'email' => "disabled",
+                    'telefone' => "disabled",
+                    'telefoneCel' => "disabled",
+                    'sexo' => "disabled",
+                    'cargaHor'=> "disabled",
+                    'action' => 'visualizar'
+                ];
+            return view('crud-funcionario/funcionariosForm',compact("title","fieldDateTitle","fieldDate","resp","enabledEdition"));    
+    }
+    
     public function create($func_cod=null){
-        $title="SISSAR Cadastro Funcionario";
+        
         $ent ="func";
         $fieldDateTitle="Data de Nascimento";
         $fieldDate="_dataNasc";
         
         if($func_cod!=null){//Se recebe um parametro, faz o que esta aqui dentro
+            $title="SISSAR Edição Funcionario";
             $dadosFuncs = $this->func->where("func_cod",$func_cod)->get();   
             foreach($dadosFuncs as $d){
                 $resp= [//guarda dados em um vetor com nomes genericos para ser utilizado pelo components-templates
@@ -79,11 +138,35 @@ class FuncionarioController extends Controller
                     'telefoneCel' => $d['func_telefoneCel'],
                     'sexo' => $d['func_sexo'],
                     'cargaHor'=>$d['func_cargaHor'],
-                ];   
+                ];  
+                
                 break;
-            }//Retorna um formulario para alteração de dados. 
-            return view('crud-funcionario/funcionariosForm',compact("title","ent","fieldDateTitle","fieldDate","resp"));
+            }//Retorna um formulario para alteração de dados.            
+                $enabledEdition = [
+                    'cod' => "disabled",
+                    'nome' => "disabled",
+                    'imagem' => "enabled",
+                    'CPF' => "disabled", 
+                    'RG' => "disabled",  
+                    'cartTrab' => "disabled",
+                    'cargo' =>  "enabled",
+                    'data' => "disabled",
+                    'end_cidade' => "enabled",
+                    'end_estado' => "enabled",
+                    'end_bairro' => "enabled",
+                    'end_rua' => "enabled",
+                    'end_numero' => "enabled",
+                    'end_complemento' => "enabled",
+                    'end_logradouro' => "enabled",
+                    'email' => "enabled",
+                    'telefone' => "enabled",
+                    'telefoneCel' => "enabled",
+                    'sexo' => "disabled",
+                    'cargaHor'=> "enabled",
+                ];
+            return view('crud-funcionario/funcionariosForm',compact("title","ent","fieldDateTitle","fieldDate","resp","enabledEdition"));
         }else{//Se não tiver parametros retorna um formulario basico de cadastro
+            $title="SISSAR Cadastro Funcionario";
             return view('crud-funcionario/funcionariosForm',compact("title","ent","fieldDateTitle","fieldDate")); 
         }                
     }
@@ -111,10 +194,8 @@ class FuncionarioController extends Controller
        /* if(!$dataForm['func_imagem']){
             $dataForm['func_imagem'] = url('img/avatar.png');
         }*/
-        //mudando padrão de datas..
-        $dataForm['func_dataNasc']= implode("/",array_reverse(explode("/",$dataForm['func_dataNasc'])));
         
-        $this->validate($request,$this->func->rules,$this->messages);//Chamando validação dos dados de entrada
+        $this->validate($request,$this->func->rulesEdit,$this->messages);//Chamando validação dos dados de entrada
         $update = $this->func->where('func_cod',$id)->update($dataForm);//alterado a linha selecionada no banco de dados 
         
         if($update)

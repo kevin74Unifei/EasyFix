@@ -30,4 +30,18 @@ class Funcionario extends Model
             'func_sexo'=>"required",
             'func_cargaHor'=>"required",
         ];
+        
+        public $rulesEdit = [
+            'func_cargo'=> "required",            
+            'func_end_cidade'=> "required",
+            'func_end_estado'=> "required",
+            'func_end_bairro'=> "required",
+            'func_end_rua'=> "required",
+            'func_end_numero'=>"required",            
+            'func_end_logradouro' =>"required",            
+            'func_cargaHor'=>"required",
+        ];
+        
+ 
+        
 }

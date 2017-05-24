@@ -75,12 +75,12 @@
                 <div class="form-group">
                     <label for="func_RG">RG:</label><br/>
                     <input type="text" maxlength="14" size="27" class="form-control" name="func_RG"
-                         value="{{$resp["RG"] or ""}}"  required="required">
+                         value="{{$resp["RG"] or ""}}"  required="required" {{$enabledEdition['RG'] or ""}}>
                 </div>                                
                 <div class="form-group">
                     <label for="func_cartTrab">Nº da Carteira de Trabalho:</label><br/>
                         <input type="text" size="27" class="form-control" name="func_cartTrab"
-                               required="required" value="{{$resp["cartTrab"] or ""}}">
+                               required="required" value="{{$resp["cartTrab"] or ""}}" {{$enabledEdition['cartTrab'] or ""}}>
                 </div>
                         
                 @include('../templates/components/fieldDate')
@@ -92,8 +92,8 @@
                     
                     <div class="form-group">
                         <label for="func_cargaHor">Carga Horaria:</label><br/>
-                        <input type="number" class="form-control" required="required"
-                               min="0" max="8" name="func_cargaHor" value="{{$resp["cargaHor"] or ""}}" >
+                        <input type="number" class="form-control" required="required" min="0" max="8" name="func_cargaHor" 
+                               value="{{$resp["cargaHor"] or ""}}" {{$enabledEdition['cargaHor'] or ""}} >
                     </div>
                 </div>
             </div> 
