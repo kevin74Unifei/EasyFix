@@ -37,4 +37,4 @@ Route::get('/usuario/cadastro', function (){
    return view('crud-usuario/CadastroUsuario', compact("title","ent"));
 });
     
-
+Route::get('cidades/{idEstado}', "siteController@getCidades");

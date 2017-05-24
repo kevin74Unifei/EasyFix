@@ -74,7 +74,7 @@
                 
                 <div class="form-group">
                     <label for="func_RG">RG:</label><br/>
-                    <input type="text" maxlength="14" size="27" class="form-control" name="func_RG"
+                    <input type="text" maxlength="20" size="27" class="form-control" name="func_RG"
                          value="{{$resp["RG"] or ""}}"  required="required" {{$enabledEdition['RG'] or ""}}>
                 </div>                                
                 <div class="form-group">

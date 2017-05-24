@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Funcionario;
+use DB;
 
 class FuncionarioController extends Controller
 {
@@ -53,7 +54,9 @@ class FuncionarioController extends Controller
         $title="SISSAR Visualização Funcionario";        
         $fieldDateTitle="Data de Nascimento";
         $fieldDate="_dataNasc";        
-       
+        
+        $states = DB::select('select * from estados');//pesquisando estados do Brasil no banco
+        
         $dadosFuncs = $this->func->where("func_cod",$func_cod)->get();   
         foreach($dadosFuncs as $d){
             $resp= [//guarda dados em um vetor com nomes genericos para ser utilizado pelo components-templates
@@ -104,7 +107,7 @@ class FuncionarioController extends Controller
                     'cargaHor'=> "disabled",
                     'action' => 'visualizar'
                 ];
-            return view('crud-funcionario/funcionariosForm',compact("title","fieldDateTitle","fieldDate","resp","enabledEdition"));    
+            return view('crud-funcionario/funcionariosForm',compact("title","fieldDateTitle","fieldDate","resp","enabledEdition","states"));    
     }
     
     public function create($func_cod=null){
@@ -113,6 +116,8 @@ class FuncionarioController extends Controller
         $fieldDateTitle="Data de Nascimento";
         $fieldDate="_dataNasc";
         
+        $states = DB::select('select * from estados');
+                
         if($func_cod!=null){//Se recebe um parametro, faz o que esta aqui dentro
             $title="SISSAR Edição Funcionario";
             $dadosFuncs = $this->func->where("func_cod",$func_cod)->get();   
@@ -137,7 +142,7 @@ class FuncionarioController extends Controller
                     'telefone' => $d['func_telefone'],
                     'telefoneCel' => $d['func_telefoneCel'],
                     'sexo' => $d['func_sexo'],
-                    'cargaHor'=>$d['func_cargaHor'],
+                    'cargaHor'=>$d['func_cargaHor'],                    
                 ];  
                 
                 break;
@@ -163,11 +168,12 @@ class FuncionarioController extends Controller
                     'telefoneCel' => "enabled",
                     'sexo' => "disabled",
                     'cargaHor'=> "enabled",
+                    'action' => 'editar'
                 ];
-            return view('crud-funcionario/funcionariosForm',compact("title","ent","fieldDateTitle","fieldDate","resp","enabledEdition"));
+            return view('crud-funcionario/funcionariosForm',compact("title","ent","fieldDateTitle","fieldDate","resp","enabledEdition","states"));
         }else{//Se não tiver parametros retorna um formulario basico de cadastro
             $title="SISSAR Cadastro Funcionario";
-            return view('crud-funcionario/funcionariosForm',compact("title","ent","fieldDateTitle","fieldDate")); 
+            return view('crud-funcionario/funcionariosForm',compact("title","ent","fieldDateTitle","fieldDate","states")); 
         }                
     }
     

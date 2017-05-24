@@ -26,15 +26,29 @@ fieldset{
                 <input type="text" class="form-control" size="35" value="{{$resp["end_complemento"] or ""}}" 
                        name="{{$ent or "ent"}}_end_complemento" {{$enabledEdition['end_complemento'] or ""}}>
             </div> 
-        
+            
+            @include('../templates/components/fieldState')
             @include('../templates/components/fieldCity')
 
             <div class="form-group">
                 <label for="func_end_bairro">Bairro:</label><br/>
-                <input type="text" class="form-control" size="33" required="required" 
+                <input type="text" class="form-control" size="33" required="required" id="end_bairro"
                        name="func_end_bairro" value="{{$resp["end_bairro"] or ""}}" {{$enabledEdition['end_bairro'] or ""}}>
             </div>
             
-            @include('../templates/components/fieldState')
+                   <script type="text/javascript">
+                        $('#fieldState').on('change',function () {                            
+                            var idEstado = $(this).val();
+                            $.get("{{url('/cidades')}}" +'/'+ idEstado, function (cidades) {
+                                $("#fieldCity").empty();
+                                $.each(cidades, function (key, value) {
+                                    $('#fieldCity').append('<option value=' + value.nome + '>' + value.nome + '</option>');
+                                });
+                            });
+                            $('#end_bairro').attr('size',15);
+                        });
+                    </script>
+            
+                
 
         </fieldset>
