@@ -62,6 +62,7 @@
     
 <!--LISTA DE FUNCIONARIOS-->
 <div class="pagina">
+    <a href="{{url("funcionario/form/")}}">Cadastrar</a>
     <table class="table">
         <thead class="thead-inverse">
             <tr><th><h1>Funcionários</h1></th></tr>
@@ -80,7 +81,7 @@
                     
                     <a href="{{url("funcionario/form/".$f['func_cod'])}}" class="buttons_tools">
                         <span class="glyphicon glyphicon-pencil" style="padding:4px;" aria-hidden="true"></span>Editar</a> 
-                    <a href="#" class="buttons_tools">
+                    <a href="{{url("funcionario/delete/".$f['func_cod'])}}" class="buttons_tools">
                         <span class="glyphicon glyphicon-trash" style="padding: 4px;" aria-hidden="true"></span>Excluir</a>
                     
                 </a>                

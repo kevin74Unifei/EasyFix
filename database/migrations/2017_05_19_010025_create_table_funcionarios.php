@@ -34,6 +34,7 @@ class CreateTableFuncionarios extends Migration
             $table->string('func_telefoneCel')->nullable();
             $table->char('func_sexo',1);
             $table->integer('func_cargaHor');
+            $table->integer('func_status')->default(1);
             $table->timestamps();            
         });
     }

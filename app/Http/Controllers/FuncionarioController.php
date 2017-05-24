@@ -8,7 +8,7 @@ use App\Funcionario;
 class FuncionarioController extends Controller
 {
     private $func;
-    private $messages = [
+    private $messages = [//mensagens que serão exibidas quando a validação falhar
             'func_nome.required' => "É obrigatorio preechimento do campo NOME",
             'func_nome.min' => "É obrigatorio preechimento do campo NOME com pelo menos 3 letras",
             'func_CPF.required' => "É obrigatorio preechimento do campo CPF",
@@ -32,15 +32,15 @@ class FuncionarioController extends Controller
        
         $filter = $request->all();//Carregando filtros        
         if($filter){//Se filtros existirem, carrega dados atraves da operação LIKE do sql, em ordem crescente
-            $dadosFunc = $this->func->where($filter['campo_ent'],'LIKE',$filter['chave_busca'].'%')
+            $dadosFunc = $this->func->where("func_status",'1')
+                                ->where($filter['campo_ent'],'LIKE',$filter['chave_busca'].'%')
                                 ->orderBy('func_nome', 'asc')
                                 ->get(); 
             
             $valor_filter_text = $filter['chave_busca'];
             $valor_filter_campo = $filter['campo_ent'];
         }else{//Senão existir filtros carrega todas as linhas da tabela, por ordem crescente.
-            $dadosFunc = $this->func->orderBy('func_nome', 'asc')->get();
-                                
+            $dadosFunc = $this->func->where("func_status",'1')->orderBy('func_nome', 'asc')->get();                                
         }       
         
         return view("crud-funcionario/funcionariosList",compact("dadosFunc",
@@ -55,10 +55,10 @@ class FuncionarioController extends Controller
         $fieldDateTitle="Data de Nascimento";
         $fieldDate="_dataNasc";
         
-        if($func_cod!=null){
+        if($func_cod!=null){//Se recebe um parametro, faz o que esta aqui dentro
             $dadosFuncs = $this->func->where("func_cod",$func_cod)->get();   
             foreach($dadosFuncs as $d){
-                $resp= [
+                $resp= [//guarda dados em um vetor com nomes genericos para ser utilizado pelo components-templates
                     'cod' => $d['func_cod'],
                     'nome' => $d['func_nome'],
                     'imagem' => $d['func_imagem'],
@@ -81,45 +81,53 @@ class FuncionarioController extends Controller
                     'cargaHor'=>$d['func_cargaHor'],
                 ];   
                 break;
-            }          
+            }//Retorna um formulario para alteração de dados. 
             return view('crud-funcionario/funcionariosForm',compact("title","ent","fieldDateTitle","fieldDate","resp"));
-        }else{
+        }else{//Se não tiver parametros retorna um formulario basico de cadastro
             return view('crud-funcionario/funcionariosForm',compact("title","ent","fieldDateTitle","fieldDate")); 
         }                
     }
     
     public function store(Request $request){
-        $dataForm = $request->except('_token');
+        $dataForm = $request->except('_token');//recebendo dados dos input do formulario
         
        /* if(!$dataForm['func_imagem']){
             $dataForm['func_imagem'] = url('img/avatar.png');
         }*/
-        
+        //mudando padrão de datas..
         $dataForm['func_dataNasc']= implode("/",array_reverse(explode("/",$dataForm['func_dataNasc'])));
         
-        $this->validate($request,$this->func->rules,$this->messages);
-        $insert = $this->func->create($dataForm);
+        $this->validate($request,$this->func->rules,$this->messages);//Chamando validação dos dados de entrada
+        $insert = $this->func->create($dataForm);//cadastrado no banco de dados 
         
-        if($insert)
+        if($insert)//se ocorre com sucesso direciona para..
            return redirect('/'); 
         else return redirect ()->back();
     }
     
     public function edit($id,Request $request){
-        $dataForm = $request->except('_token');
+        $dataForm = $request->except('_token');//recebe dados do formulario
         
        /* if(!$dataForm['func_imagem']){
             $dataForm['func_imagem'] = url('img/avatar.png');
         }*/
-        
+        //mudando padrão de datas..
         $dataForm['func_dataNasc']= implode("/",array_reverse(explode("/",$dataForm['func_dataNasc'])));
         
-        $this->validate($request,$this->func->rules,$this->messages);
-        $update = $this->func->where('func_cod',$id)->update($dataForm);
+        $this->validate($request,$this->func->rules,$this->messages);//Chamando validação dos dados de entrada
+        $update = $this->func->where('func_cod',$id)->update($dataForm);//alterado a linha selecionada no banco de dados 
         
         if($update)
            return redirect('/funcionario/list'); 
         else return redirect ()->back();
     }
     
+    public function destroy($id){
+        //fazendo a alteração do status da linha do banco de dados 
+        $update = $this->func->where('func_cod',$id)->update(["func_status"=>'0']);
+        
+         if($update)//se feito com sucesso direciona para...
+           return redirect('/funcionario/list'); 
+        else return redirect ()->back();
+    }    
 }

@@ -12,7 +12,6 @@
 */
 
 Route::get('/', function () {
-
     return view('loginSystem');
 });
 
@@ -28,6 +27,7 @@ Route::post('funcionario/cadastrar','FuncionarioController@store');
 
 Route::post('funcionario/edit/{id}','FuncionarioController@edit');
 
+Route::get('funcionario/delete/{id}','FuncionarioController@destroy');
 
 Route::get('/usuario/cadastro', function (){
    $title = "Usuarios";
