@@ -184,7 +184,7 @@ class FuncionarioController extends Controller
             $imagem = $request->file('func_imagem');
             $ext=$imagem->getClientOriginalExtension();            
             $filename = md5(time()).".".$ext;//Criando um nome que não será repetido
-            $request->func_imagem->storeAs('imgperfil', $filename); 
+            $request->func_imagem->storeAs('public/storage/imgperfil', $filename); 
             $dataForm['func_imagem'] = $filename;
         }
         
@@ -206,7 +206,7 @@ class FuncionarioController extends Controller
             $imagem = $request->file('func_imagem');
             $ext=$imagem->getClientOriginalExtension();            
             $filename = md5(time()).".".$ext;//Criando um nome que não será repetido
-            $request->func_imagem->storeAs('imgperfil', $filename); 
+            $request->func_imagem->storeAs('public/imgperfil', $filename); 
             $dataForm['func_imagem'] = $filename;
         }
         
