@@ -61,8 +61,7 @@
 </div>
     
 
-<div class="pagina">
-    
+<div class="pagina">    
     
     <!--LISTA DE FUNCIONARIOS-->
     <table class="table">
@@ -79,7 +78,7 @@
         <tr>
             <th colspan="2">
                 <a href="{{url("funcionario/show/".$f['func_cod'])}}" class="list-group-item" style="height:100px;width:620px;">  
-                    <img src="http://localhost/sissarproject/storage/app/imgperfil/{{$f['func_imagem'] or 'avatar.png'}}" style="width:51px;height:72px;" alt="perfil_foto">
+                    <img src="{{url('storage/imgperfil/')."/"}}{{$f['func_imagem'] or 'avatar.png'}}" style="width:51px;height:72px;" alt="perfil_foto">
                     <div style="position:relative;top:-92px;left:70px;width:500px;">                        
                         <h3>{{$f['func_nome']}}</h3>                         
                         <label>CPF: {{$f['func_CPF']}}</label><br/>
