@@ -31,10 +31,21 @@ Route::post('funcionario/edit/{id}','FuncionarioController@edit');
 
 Route::get('funcionario/delete/{id}','FuncionarioController@destroy');
 
-Route::get('/usuario/cadastro', function (){
-   $title = "Usuarios";
-   $ent = "Usua";
-   return view('crud-usuario/CadastroUsuario', compact("title","ent"));
-});
+
     
 Route::get('cidades/{idEstado}', "siteController@getCidades");
+
+
+
+Route::get('/usuario/list','UserController@index');
+
+Route::get('/usuario/cadastro/{id?}', 'UserController@create');
+
+Route::post('/usuario/cadastrar/', 'UserController@store');
+
+Route::get('usuario/show/{id}','UserController@show');
+
+Route::post('usuario/edit/{id}','UserController@edit');
+
+Route::get('usuario/delete/{id}','UserController@destroy');
+    
