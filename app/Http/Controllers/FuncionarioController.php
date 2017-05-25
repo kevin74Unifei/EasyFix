@@ -180,9 +180,14 @@ class FuncionarioController extends Controller
     public function store(Request $request){
         $dataForm = $request->except('_token');//recebendo dados dos input do formulario
         
-       /* if(!$dataForm['func_imagem']){
-            $dataForm['func_imagem'] = url('img/avatar.png');
-        }*/
+        if($request->hasFile('func_imagem')){//Se existir imagem faz upload e armazena   
+            $imagem = $request->file('func_imagem');
+            $ext=$imagem->getClientOriginalExtension();            
+            $filename = md5(time()).".".$ext;//Criando um nome que não será repetido
+            $request->func_imagem->storeAs('imgperfil', $filename); 
+            $dataForm['func_imagem'] = $filename;
+        }
+        
         //mudando padrão de datas..
         $dataForm['func_dataNasc']= implode("/",array_reverse(explode("/",$dataForm['func_dataNasc'])));
         
@@ -197,13 +202,17 @@ class FuncionarioController extends Controller
     public function edit($id,Request $request){
         $dataForm = $request->except('_token');//recebe dados do formulario
         
-       /* if(!$dataForm['func_imagem']){
-            $dataForm['func_imagem'] = url('img/avatar.png');
-        }*/
+        if($request->hasFile('func_imagem')){//Se existir imagem faz upload e armazena   
+            $imagem = $request->file('func_imagem');
+            $ext=$imagem->getClientOriginalExtension();            
+            $filename = md5(time()).".".$ext;//Criando um nome que não será repetido
+            $request->func_imagem->storeAs('imgperfil', $filename); 
+            $dataForm['func_imagem'] = $filename;
+        }
         
         $this->validate($request,$this->func->rulesEdit,$this->messages);//Chamando validação dos dados de entrada
-        $update = $this->func->where('func_cod',$id)->update($dataForm);//alterado a linha selecionada no banco de dados 
-        
+        $update = $this->func->where('func_cod',$id)->update($dataForm);//alterado a linha selecionada no banco de dados     
+              
         if($update)
            return redirect('/funcionario/list'); 
         else return redirect ()->back();

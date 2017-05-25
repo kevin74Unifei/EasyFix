@@ -52,7 +52,7 @@
         @endforeach
     </div>
     @endif
-    <form class="form-inline" method='post' action='
+    <form class="form-inline" method='post' enctype="multipart/form-data" action='
             @if(isset($resp))
                 {{url('funcionario/edit/'.$resp['cod'])}}    
             @else
