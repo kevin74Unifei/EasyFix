@@ -65,7 +65,7 @@ class UserController extends Controller {
             $valor_filter_text = $filter['chave_busca'];
             $valor_filter_campo = $filter['campo_ent'];
         }else{//Senão existir filtros carrega todas as linhas da tabela, por ordem crescente.
-            $dadosUser = $this->user->orderBy('user_login', 'asc')->get();
+            $dadosUser = $this->where("user_status",'1')->user->orderBy('user_login', 'asc')->get();
                                 
         }       
         

@@ -33,7 +33,7 @@ fieldset{
             <div class="form-group">
                 <label for="func_end_bairro">Bairro:</label><br/>
                 <input type="text" class="form-control" size="33" required="required" id="end_bairro"
-                       name="func_end_bairro" value="{{$resp["end_bairro"] or ""}}" {{$enabledEdition['end_bairro'] or ""}}>
+                       name="{{$ent or "ent"}}_end_bairro" value="{{$resp["end_bairro"] or ""}}" {{$enabledEdition['end_bairro'] or ""}}>
             </div>
             
                    <script type="text/javascript">

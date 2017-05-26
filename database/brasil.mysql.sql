@@ -1,17 +1,4 @@
---      Os dados contidos nesse arquivo foram extraídos do site: http://ibge.gov.br/cidadesat utilizando ruby, nokogiri e expressões regulares.
---      Autor: Mauricio Natanael Ferreira
---      Github: https://github.com/manfe
---      Twitter: @manfe01
---      Email: contato [at] ferreiramauricio [dot] com
 
--- ***********************************************************************************************************************************************
-
--- id               ...
--- nome             Nome da Cidade
--- codigo_ibge      Código do IBGE referente a cidade
--- populacao_2010   População em 2010, segundo IBGE
--- densidade_demo   População por KM quadrado
--- area             Área do município ex: "3916.507" - 3.916,507 KM Quadrado
 CREATE TABLE cidades (
     id integer NOT NULL AUTO_INCREMENT,
     nome varchar(250),

@@ -48,4 +48,22 @@ Route::get('usuario/show/{id}','UserController@show');
 Route::post('usuario/edit/{id}','UserController@edit');
 
 Route::get('usuario/delete/{id}','UserController@destroy');
-    
+
+
+
+ 
+Route::get('/candidato/form/{id?}','CandidatoController@create');
+
+Route::post('/candidato/cadastrar','CandidatoController@store');
+
+/*Route::get('/candidato/list','CandidatoController@index');
+
+
+
+Route::get('candidato/show/{id}','CandidatoController@show');
+        
+
+
+Route::post('candidato/edit/{id}','CandidatoController@edit');
+
+Route::get('candidato/delete/{id}','CandidatoController@destroy');*/
