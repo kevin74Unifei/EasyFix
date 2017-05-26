@@ -56,10 +56,10 @@ Route::get('/candidato/form/{id?}','CandidatoController@create');
 
 Route::post('/candidato/cadastrar','CandidatoController@store');
 
-/*Route::get('/candidato/list','CandidatoController@index');
+Route::get('/candidato/list','CandidatoController@index');
 
 
-
+/*
 Route::get('candidato/show/{id}','CandidatoController@show');
         
 

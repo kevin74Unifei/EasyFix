@@ -26,34 +26,105 @@ class CandidatoController extends Controller
         $this->cand=$f;        
     }
     
-    public function create($cand_cond = null){
+    public function index(Request $request){
+        $title="SISSAR Painel Candidatos";        
+       
+        $filter = $request->all();//Carregando filtros        
+        if($filter){//Se filtros existirem, carrega dados atraves da operação LIKE do sql, em ordem crescente
+            $dadosCandadosCand = $this->cand->where("cand_status",'1')
+                                ->where($filter['campo_ent'],'LIKE',$filter['chave_busca'].'%')
+                                ->orderBy('cand_nome', 'asc')
+                                ->get(); 
+            
+            $valor_filter_text = $filter['chave_busca'];
+            $valor_filter_campo = $filter['campo_ent'];
+        }else{//Senão existir filtros carrega todas as linhas da tabela, por ordem crescente.
+            $dadosCandadosCand = $this->cand->where("cand_status",'1')->orderBy('cand_nome', 'asc')->get();                                
+        }       
+        
+        return view("crud-candidato/candidatosList",compact("dadosCand",
+                                                                "title",
+                                                                "valor_filter_text",
+                                                                "valor_filter_campo"));
+    }
+    
+    public function create($cand_cod = null){
         $ent = "cand";
         $title = "SISSAR Candidatos Painel";
         $fieldDateTitle="Data de Nascimento";
         $fieldDate="_dataNasc";
         
-        $states = DB::select('select * from estados');//pesquisando estados do Brasil no banco
-        if(!$cand_cond!=null){
-            return view("crud-candidato/candidatoForm",compact("ent","title","states","fieldDate","fieldDateTitle"));
+        $states = DB::select('select * from estados');//pesquisando estados do Brasil no banco    
+        
+        if($cand_cod!=null){//Se recebe um parametro, faz o que esta aqui dentro
+            $title="SISSAR Edição Funcionario";
+            $dadosCand = $this->cand->where("cand_cod",$cand_cod)->get()->first();   
+           
+                $resp= [//guarda dados em um vetor com nomes genericos para ser utilizado pelo components-templates
+                    'cod' => $dadosCand['cand_cod'],
+                    'nome' => $dadosCand['cand_nome'],
+                    'imagem' => $dadosCand['cand_imagem'],
+                    'CPF' => $dadosCand['cand_CPF'], 
+                    'RG' => $dadosCand['cand_RG'],  
+                    'data' => implode("/",array_reverse(explode("-",$dadosCand['cand_dataNasc']))),
+                    'end_cidade' => $dadosCand['cand_end_cidade'],
+                    'end_estado' => $dadosCand['cand_end_estado'],
+                    'end_bairro' => $dadosCand['cand_end_bairro'],
+                    'end_rua' => $dadosCand['cand_end_rua'],
+                    'end_numero' => $dadosCand['cand_end_numero'],
+                    'end_complemento' => $dadosCand['cand_end_complemento'],
+                    'end_logradouro' => $dadosCand['cand_end_logradouro'],
+                    'email' => $dadosCand['cand_email'],
+                    'telefone' => $dadosCand['cand_telefone'],
+                    'telefoneCel' => $dadosCand['cand_telefoneCel'],
+                    'sexo' => $dadosCand['cand_sexo'],                    
+                ];  
+            
+            //Retorna um formulario para alteração de dados.            
+                $enabledEdition = [
+                    'cod' => "disabled",
+                    'nome' => "disabled",
+                    'imagem' => "enabled",
+                    'CPF' => "disabled", 
+                    'RG' => "disabled",  
+                    'data' => "disabled",
+                    'end_cidade' => "enabled",
+                    'end_estado' => "enabled",
+                    'end_bairro' => "enabled",
+                    'end_rua' => "enabled",
+                    'end_numero' => "enabled",
+                    'end_complemento' => "enabled",
+                    'end_logradouro' => "enabled",
+                    'email' => "enabled",
+                    'telefone' => "enabled",
+                    'telefoneCel' => "enabled",
+                    'sexo' => "disabled",
+                    'action' => 'editar'
+                ];
+            return view('crud-candidato/candidatoForm',compact("title","ent","fieldDateTitle","fieldDate","resp","enabledEdition","states"));
+        }else{//Se não tiver parametros retorna um formulario basico de cadastro
+            $title="SISSAR Cadastro Funcionario";
+            return view('crud-candidato/candidatoForm',compact("title","ent","fieldDateTitle","fieldDate","states")); 
         }
+ 
     }
     
     public function store(Request $request){
-        $dadosForm = $request->except('_token');//recebendo dados dos input do formulario
+        $dadosCandadosForm = $request->except('_token');//recebendo dados dos input do formulario
         
         if($request->hasFile('cand_imagem')){//Se existir imagem faz upload e armazena   
             $imagem = $request->file('cand_imagem');
             $ext=$imagem->getClientOriginalExtension();            
             $filename = md5(time()).".".$ext;//Criando um nome que não será repetido
             $request->cand_imagem->storeAs('public/storage/imgperfil', $filename); 
-            $dadosForm['cand_imagem'] = $filename;
+            $dadosCandadosForm['cand_imagem'] = $filename;
         }
         
         //mudando padrão de datas..
-        $dadosForm['cand_dataNasc']= implode("/",array_reverse(explode("/",$dadosForm['cand_dataNasc'])));
-        //dd($dadosForm);
+        $dadosCandadosForm['cand_dataNasc']= implode("/",array_reverse(explode("/",$dadosCandadosForm['cand_dataNasc'])));
+        //dd($dadosCandadosForm);
         $this->validate($request,$this->cand->rules,$this->messages);//Chamando validação dos dados de entrada
-        $insert = $this->cand->create($dadosForm);//cadastrado no banco de dados 
+        $insert = $this->cand->create($dadosCandadosForm);//cadastrado no banco de dados 
         
         if($insert)//se ocorre com sucesso direciona para..
            return redirect('/'); 

@@ -34,6 +34,7 @@ class Candidato extends Model
             'cand_end_bairro'=> "required",
             'cand_end_rua'=> "required",
             'cand_end_numero'=>"required",            
-            'cand_end_logradouro' =>"required",            
+            'cand_end_logradouro' =>"required", 
+            'cand_email'=>"required"
         ];
 }
