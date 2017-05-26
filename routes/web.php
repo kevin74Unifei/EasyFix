@@ -58,12 +58,9 @@ Route::post('/candidato/cadastrar','CandidatoController@store');
 
 Route::get('/candidato/list','CandidatoController@index');
 
+Route::get('candidato/delete/{id}','CandidatoController@destroy');
 
-/*
+
 Route::get('candidato/show/{id}','CandidatoController@show');
-        
-
 
 Route::post('candidato/edit/{id}','CandidatoController@edit');
-
-Route::get('candidato/delete/{id}','CandidatoController@destroy');*/

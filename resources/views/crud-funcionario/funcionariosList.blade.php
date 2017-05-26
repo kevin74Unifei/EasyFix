@@ -11,7 +11,7 @@
     .pagina{position: absolute;
         top:80px;
         left:350px;        
-        width:750en;
+        width:760px;
         background-color: whitesmoke;
         padding: 4%;
         padding-top:20px;
@@ -40,11 +40,11 @@
             <label>Filtros:</label><br/>
             <select name="campo_ent" class="form-control" >
                 <option value="cand_nome"
-                    @if(isset($valor_filter_campo) && $valor_filter_campo=='cand_name')
+                    @if(isset($valor_filter_campo) && $valor_filter_campo=='func_name')
                         selected="selected"
                     @endif>Nome</option>
                 <option value="cand_cpf"
-                    @if(isset($valor_filter_campo) && $valor_filter_campo=='cand_cpf')
+                    @if(isset($valor_filter_campo) && $valor_filter_campo=='func_cpf')
                         selected="selected"
                     @endif>CPF</option>
             </select>
@@ -66,28 +66,29 @@
     <!--LISTA DE Candidatos-->
     <table class="table">
         <thead class="thead-inverse">
-            <tr><th><h1>Candidatos</h1></th>
+            <tr><th><h1>Funcionarios</h1></th>
                 <th>
-                <a style="float:right;" href="{{url("candidato/form/")}}" class="btn btn-primary" role="button">
+                <a style="float:right;" href="{{url("funcionario/form/")}}" class="btn btn-primary" role="button">
                     <span class="glyphicon glyphicon-plus" aria-hidden="true" style="margin-right:5px;"></span>Cadastrar
                 </a>      
             </th></tr>
         </thead>
         <tbody>         
-        @foreach($dadosCand as $f)
+        @foreach($dadosFunc as $f)
         <tr>
             <th colspan="2">
-                <a href="{{url("candidato/show/".$f['cand_cod'])}}" class="list-group-item" style="height:100px;width:620px;">  
+                <a href="{{url("funcionario/show/".$f['func_cod'])}}" class="list-group-item" style="height:100px;width:620px;">  
                     <img src="{{url('storage/imgperfil/')."/"}}{{$f['cand_imagem'] or 'avatar.png'}}" style="width:51px;height:72px;" alt="perfil_foto">
                     <div style="position:relative;top:-92px;left:70px;width:500px;">                        
-                        <h3>{{$f['cand_nome']}}</h3>                         
-                        <label>CPF: {{$f['cand_CPF']}}</label><br/>
+                        <h3>{{$f['func_nome']}}</h3>                         
+                        <label>CPF: {{$f['func_CPF']}}</label><br/>
+                        <label>Cargo: {{$f['func_cargo']}}</label><br/>
                                         
                     </div>  
                     
-                    <a href="{{url("candidato/form/".$f['cand_cod'])}}" class="buttons_tools">
+                    <a href="{{url("funcionario/form/".$f['func_cod'])}}" class="buttons_tools">
                         <span class="glyphicon glyphicon-pencil" style="padding:4px;" aria-hidden="true"></span>Editar</a> 
-                    <a href="{{url("candidato/delete/".$f['cand_cod'])}}" class="buttons_tools">
+                    <a href="{{url("funcionario/delete/".$f['func_cod'])}}" class="buttons_tools">
                         <span class="glyphicon glyphicon-trash" style="padding: 4px;" aria-hidden="true"></span>Excluir</a>
                     
                 </a>                

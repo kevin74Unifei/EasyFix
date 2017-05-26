@@ -50,64 +50,11 @@ class FuncionarioController extends Controller
                                                                 "valor_filter_campo"));
     }
     
-    public function show($func_cod){
-        $title="SISSAR Visualização Funcionario";        
-        $fieldDateTitle="Data de Nascimento";
-        $fieldDate="_dataNasc";        
+    public function show($id){
+        $dadosFunc = $this->func->where("func_cod",$id)->get()->first();  
         
-        $states = DB::select('select * from estados');//pesquisando estados do Brasil no banco
-        
-        $dadosFuncs = $this->func->where("func_cod",$func_cod)->get();   
-        foreach($dadosFuncs as $d){
-            $resp= [//guarda dados em um vetor com nomes genericos para ser utilizado pelo components-templates
-                    'cod' => $d['func_cod'],
-                    'nome' => $d['func_nome'],
-                    'imagem' => $d['func_imagem'],
-                    'CPF' => $d['func_CPF'], 
-                    'RG' => $d['func_RG'],  
-                    'cartTrab' => $d['func_cartTrab'],
-                    'cargo' => $d['func_cargo'],
-                    'data' => implode("/",array_reverse(explode("-",$d['func_dataNasc']))),
-                    'end_cidade' => $d['func_end_cidade'],
-                    'end_estado' => $d['func_end_estado'],
-                    'end_bairro' => $d['func_end_bairro'],
-                    'end_rua' => $d['func_end_rua'],
-                    'end_numero' => $d['func_end_numero'],
-                    'end_complemento' => $d['func_end_complemento'],
-                    'end_logradouro' => $d['func_end_logradouro'],
-                    'email' => $d['func_email'],
-                    'telefone' => $d['func_telefone'],
-                    'telefoneCel' => $d['func_telefoneCel'],
-                    'sexo' => $d['func_sexo'],
-                    'cargaHor'=>$d['func_cargaHor'],
-            ];  
-                
-            break;
-        }//Retorna um formulario para alteração de dados.            
-                $enabledEdition = [
-                    'cod' => "disabled",
-                    'nome' => "disabled",
-                    'imagem' => "enabled",
-                    'CPF' => "disabled", 
-                    'RG' => "disabled",  
-                    'cartTrab' => "disabled",
-                    'cargo' =>  "disabled",
-                    'data' => "disabled",
-                    'end_cidade' => "disabled",
-                    'end_estado' => "disabled",
-                    'end_bairro' => "disabled",
-                    'end_rua' => "disabled",
-                    'end_numero' => "disabled",
-                    'end_complemento' => "disabled",
-                    'end_logradouro' => "disabled",
-                    'email' => "disabled",
-                    'telefone' => "disabled",
-                    'telefoneCel' => "disabled",
-                    'sexo' => "disabled",
-                    'cargaHor'=> "disabled",
-                    'action' => 'visualizar'
-                ];
-            return view('crud-funcionario/funcionariosForm',compact("title","fieldDateTitle","fieldDate","resp","enabledEdition","states"));    
+        $title = "SISSAR ".$dadosFunc['func_nome'];
+        return view('crud-funcionario/funcionarioView',compact("title","dadosFunc"));     
     }
     
     public function create($func_cod=null){
@@ -205,7 +152,7 @@ class FuncionarioController extends Controller
         if($request->hasFile('func_imagem')){//Se existir imagem faz upload e armazena   
             $imagem = $request->file('func_imagem');
             $ext=$imagem->getClientOriginalExtension();            
-            $filename = md5(time()).".".$ext;//Criando um nome que não será repetido
+            $filename = md5(time()).".".$ext;//Criando um nome que não se repetirar
             $request->func_imagem->storeAs('public/imgperfil', $filename); 
             $dataForm['func_imagem'] = $filename;
         }

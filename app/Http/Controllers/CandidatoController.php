@@ -31,7 +31,7 @@ class CandidatoController extends Controller
        
         $filter = $request->all();//Carregando filtros        
         if($filter){//Se filtros existirem, carrega dados atraves da operação LIKE do sql, em ordem crescente
-            $dadosCandadosCand = $this->cand->where("cand_status",'1')
+            $dadosCand = $this->cand->where("cand_status",'1')
                                 ->where($filter['campo_ent'],'LIKE',$filter['chave_busca'].'%')
                                 ->orderBy('cand_nome', 'asc')
                                 ->get(); 
@@ -39,7 +39,7 @@ class CandidatoController extends Controller
             $valor_filter_text = $filter['chave_busca'];
             $valor_filter_campo = $filter['campo_ent'];
         }else{//Senão existir filtros carrega todas as linhas da tabela, por ordem crescente.
-            $dadosCandadosCand = $this->cand->where("cand_status",'1')->orderBy('cand_nome', 'asc')->get();                                
+            $dadosCand = $this->cand->where("cand_status",'1')->orderBy('cand_nome', 'asc')->get();                                
         }       
         
         return view("crud-candidato/candidatosList",compact("dadosCand",
@@ -109,6 +109,14 @@ class CandidatoController extends Controller
  
     }
     
+    public function show($id){
+        
+        $dadosCand = $this->cand->where("cand_cod",$id)->get()->first();  
+        
+       $title = "SISSAR ".$dadosCand['cand_nome'];
+        return view('crud-candidato/candidatoView',compact("title","dadosCand"));  
+    }
+    
     public function store(Request $request){
         $dadosCandadosForm = $request->except('_token');//recebendo dados dos input do formulario
         
@@ -122,7 +130,6 @@ class CandidatoController extends Controller
         
         //mudando padrão de datas..
         $dadosCandadosForm['cand_dataNasc']= implode("/",array_reverse(explode("/",$dadosCandadosForm['cand_dataNasc'])));
-        //dd($dadosCandadosForm);
         $this->validate($request,$this->cand->rules,$this->messages);//Chamando validação dos dados de entrada
         $insert = $this->cand->create($dadosCandadosForm);//cadastrado no banco de dados 
         
@@ -130,4 +137,32 @@ class CandidatoController extends Controller
            return redirect('/'); 
         else return redirect ()->back();
     }
+    
+    public function edit($id,Request $request){
+        $dataForm = $request->except('_token');//recebe dados do formulario
+        
+        if($request->hasFile('cand_imagem')){//Se existir imagem faz upload e armazena   
+            $imagem = $request->file('cand_imagem');
+            $ext=$imagem->getClientOriginalExtension();            
+            $filename = md5(time()).".".$ext;//Criando um nome que não se repetirar
+            $request->cand_imagem->storeAs('public/imgperfil', $filename); 
+            $dataForm['cand_imagem'] = $filename;
+        }
+        
+        $this->validate($request,$this->cand->rulesEdit,$this->messages);//Chamando validação dos dados de entrada
+        $update = $this->cand->where('cand_cod',$id)->update($dataForm);//alterado a linha selecionada no banco de dados     
+              
+        if($update)
+           return redirect('/candidato/list'); 
+        else return redirect ()->back();
+    }
+    
+    public function destroy($id){
+        //fazendo a alteração do status da linha do banco de dados 
+        $update = $this->cand->where('cand_cod',$id)->update(["cand_status"=>'0']);
+        
+         if($update)//se feito com sucesso direciona para...
+           return redirect('/candidato/list'); 
+        else return redirect ()->back();
+    }   
 }
