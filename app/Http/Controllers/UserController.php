@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use App\User;
+use App\Funcionario;
 
 class UserController extends Controller {
     
@@ -21,35 +22,45 @@ class UserController extends Controller {
         $this->user = $u;
     }
     
-    public function create($user_id =null) {
+   public function create($func_id=null) {
         $ent ="user";
+        $title="SISSAR Cadastro Usuário";
         
-        if($user_id!=null){
-            $title="SISSAR Edição Usuário";
-            $dadosUsers = $this->user->where("id",$user_id)->get();
-            foreach ($dadosUsers as $d){
-                $dado = [
-                    'userId' => $d['id'],
-                    'imagem' => $d['user_imagem'],
-                    'userLogin'=> $d['username'] ,
-                    'userPass'=> $d['password'],
-                    'userPerfil'=> $d['user_perfil']
-                ];
-                break;               
-            }
-                $enabledEdition = [
-                    'userId' => 'disabled',
-                    'imagem'=> 'enabled',
+        if($func_id!=null){
+            $func = new Funcionario();            
+            $dadosFunc = $func->where("func_cod",$func_id)->get()->first();
+            
+            return view('crud-usuario/CadastroUsuario', compact("title", "ent","dadosFunc"));
+        }else{
+            return view('crud-usuario/CadastroUsuario', compact("title", "ent"));
+        }
+    }
+
+    
+    public function editor($user_id) {
+        $ent ="user";
+        $title="SISSAR Edição Usuário";       
+        
+        $dadosUsers = $this->user->where("id",$user_id)->get()->first();
+           
+        $func = new Funcionario();            
+        $dadosFunc = $func->where("func_cod",$dadosUsers["user_vinculo"])->get()->first();  
+            
+        $dado = [
+                    'userId' => $dadosUsers['id'],
+                    'imagem' => $dadosUsers['user_imagem'],
+                    'userLogin'=> $dadosUsers['username'] ,
+                    'userPass'=> $dadosUsers['password'],
+                    'userPerfil'=> $dadosUsers['user_perfil']
+                ];                            
+            
+        $enabledEdition = [
                     'userLogin'=> 'disabled',
                     'userPass'=> 'enabled',
                     'userPerfil'=>'disabled',
-                    'action' => 'editar'
-                    ];
-            return view('crud-usuario/CadastroUsuario', compact("title", "ent", "dado", "enabledEdition"));
-        }else{
-            $title="SISSAR Cadastro Usuario";
-            return view('crud-usuario/CadastroUsuario', compact("title", "ent"));
-        }
+                ];
+        return view('crud-usuario/CadastroUsuario', compact("title", "ent", "dado", "enabledEdition","dadosFunc"));
+        
     }
 
     public function index(Request $request) {
@@ -73,33 +84,6 @@ class UserController extends Controller {
                                                                 "title",
                                                                 "valor_filter_text",
                                                                 "valor_filter_campo"));
-    }
-
-    public function show($user_id){
-        $ent ="user";
-        
-
-        $title="SISSAR Visualização de Usuário";
-        $dadosUsers = $this->user->where("user_id",$user_id)->get();
-        foreach ($dadosUsers as $d){
-            $dado = [
-                'userId' => $d['user_id'],
-                'imagem' => $d['user_imagem'],
-                'userLogin'=> $d['user_login'] ,
-                'userPass'=> $d['user_password'],
-                'userPerfil'=> $d['user_perfil']
-            ];
-            break;
-
-        }
-            $enabledEdition = ['userId' => 'disabled',
-                              'imagem'=> 'enabled',
-                              'userLogin'=> 'disabled',
-                              'userPass'=> 'enabled',
-                              'userPerfil'=>'disabled',
-                                'action' => 'visualizar'
-                ];
-        return view('crud-usuario/CadastroUsuario', compact("title", "ent", "dado", "enabledEdition"));
     }
 
     public function store(Request $request) {
@@ -142,7 +126,20 @@ class UserController extends Controller {
         if(Auth::attempt($dadosForm, true)){
             return redirect('funcionario/list');
         }else{            
-            return redirect('/login');
+            return redirect('/');
         }
     }
+    
+    public function logout(){
+        if(Auth::check()){
+            Auth::logout(Auth::user());            
+        }
+        
+         return redirect('/');
+    }
+    
+   /* public function getUser($id){
+        $dadosUsers = $this->user->where("",$user_id)->get();
+        return $dadosUsers;
+    }*/
 }

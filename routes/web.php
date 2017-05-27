@@ -13,17 +13,18 @@
 
 Route::get('/', function () {
     return view('loginSystem');
-});
+})->middleware("CheckUser");
 
 Route::post('/logar', 'UserController@login');
+Route::get('/logout','UserController@logout');
 
 Route::get('/funcionario/list','FuncionarioController@index')->middleware("CheckUserAdmin");
 
-Route::get('/funcionario/form/{id?}','FuncionarioController@create')->middleware("CheckUserAdmin");
+Route::get('/funcionario/form/{id?}','FuncionarioController@create');
 
 Route::get('funcionario/show/{id}','FuncionarioController@show');
         
-Route::post('funcionario/cadastrar','FuncionarioController@store')->middleware("CheckUserAdmin");
+Route::post('funcionario/cadastrar','FuncionarioController@store');
 
 Route::post('funcionario/edit/{id}','FuncionarioController@edit');
 
@@ -41,7 +42,7 @@ Route::get('/usuario/cadastro/{id?}', 'UserController@create');
 
 Route::post('/usuario/cadastrar/', 'UserController@store');
 
-Route::get('usuario/show/{id}','UserController@show');
+Route::get('/usuario/formeditor/{id}','UserController@editor')->middleware("CheckUserAdmin");
 
 Route::post('usuario/edit/{id}','UserController@edit');
 

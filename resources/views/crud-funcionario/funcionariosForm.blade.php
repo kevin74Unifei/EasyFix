@@ -86,6 +86,14 @@
                 @include('../templates/components/fieldDate')
                 @include('../templates/components/fieldSexo')
                 
+                @if(!isset($resp))
+                <br/>
+                <div class="checkbox form-group" >
+                    <label>
+                      <input  name="criar_usuario" value='1' type="checkbox"> Criar usuário de acesso ao funcionário
+                    </label>
+                  </div>
+                @endif
                 <div class="area_cargo">
                     
                     @include('../templates/components/fieldOffice')

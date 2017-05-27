@@ -71,15 +71,15 @@
         <tr>
             <th>
                 <a href="#" class="list-group-item" style="height:100px;width:620px;">  
-                    <img src="{{url('img/avatar.png')}}" style="width:51px;height:72px;" alt="perfil_foto">
+                    <img src="{{url('storage/imgperfil/avatar.png')}}" style="width:51px;height:72px;" alt="perfil_foto">
                     <div style="position:relative;top:-92px;left:70px;width:500px;">                        
                         <h3>{{$f['username']}}</h3>                         
                         <label>Perfil: {{$f['user_perfil']}}</label><br/>                  
                     </div>  
                     
-                    <a href="{{url("usuario/cadastro/".$f['user_id'])}}" class="buttons_tools">
+                    <a href="{{url("usuario/formeditor/".$f['id'])}}" class="buttons_tools">
                         <span class="glyphicon glyphicon-pencil" style="padding:4px;" aria-hidden="true"></span>Editar</a> 
-                    <a href="{{url("usuario/delete/".$f['user_id'])}}" class="buttons_tools">
+                    <a href="{{url("usuario/delete/".$f['id'])}}" class="buttons_tools">
                         <span class="glyphicon glyphicon-trash" style="padding: 4px;" aria-hidden="true"></span>Excluir</a>
                     
                 </a>                

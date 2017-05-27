@@ -51,20 +51,22 @@
                     <b><p class="navbar-per1" >SISSAR</p></b>
                 </div>
 
+                @if(isset(Auth::user()->username))
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav navbar-right">                        
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                @if(isset(Auth::user()->username)){{Auth::user()->username}} @else "" @endif <span class="caret"></span></a>
+                                {{Auth::user()->username}}  <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                               <li><a href="{{url('funcionario/perfil/')}}">Editar Perfil</a></li>
                               <li><a href="{{url('usuario/perfil/')}}">Editar Login</a></li>
-                              <li><a href="{{url("usuario/logout")}}">Logout</a></li>
+                              <li><a href="{{url("/logout")}}">Logout</a></li>
                             </ul>
                        </li>
                        @yield('Menu')
                     </ul>
-                </div>                
+                </div>  
+                @endif
             </div>
         </nav>
     	@yield('Base')    

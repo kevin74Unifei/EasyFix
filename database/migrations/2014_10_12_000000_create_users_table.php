@@ -17,8 +17,8 @@ class CreateUsersTable extends Migration
             $table->increments('id');
             $table->string('user_imagem')->nullable();
             $table->string('username');
-            $table->string('user_perfil');
-           // $table->integer('user_vinculo');           
+            $table->integer('user_vinculo');
+            $table->string('user_perfil');                       
             $table->string('password');
             $table->integer('user_status')->default(1);
             $table->rememberToken();

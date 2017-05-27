@@ -25,10 +25,18 @@
         background-color: whitesmoke;
         padding:10px;
     }
+        
     .buttons_tools{
         position: relative;
         top:-30px;
         left:470px;
+    }
+
+    
+    .button_tools_user{
+        position: relative;
+        top:-30px;
+        left:250px;
     }
     </style>
    
@@ -74,22 +82,32 @@
             </th></tr>
         </thead>
         <tbody>         
-        @foreach($dadosFunc as $f)
+        @foreach($dadosFuncUser as $f)
         <tr>
             <th colspan="2">
-                <a href="{{url("funcionario/show/".$f['func_cod'])}}" class="list-group-item" style="height:100px;width:620px;">  
+                <a href="{{url("funcionario/show/".$f['func_cod'])}}" class="list-group-item" style="height:150px;width:620px;">  
                     <img src="{{url('storage/imgperfil/')."/"}}{{$f['cand_imagem'] or 'avatar.png'}}" style="width:51px;height:72px;" alt="perfil_foto">
                     <div style="position:relative;top:-92px;left:70px;width:500px;">                        
                         <h3>{{$f['func_nome']}}</h3>                         
                         <label>CPF: {{$f['func_CPF']}}</label><br/>
                         <label>Cargo: {{$f['func_cargo']}}</label><br/>
-                                        
-                    </div>  
-                    
+                         @if($f['func_codUser']!=null)
+                            <label>Usuario: {{$f['func_username']}}</label><br/>
+                            <label>Perfil Usuario: {{$f['func_userPerfil']}}</label><br/>
+                         @endif               
+                    </div> 
+
                     <a href="{{url("funcionario/form/".$f['func_cod'])}}" class="buttons_tools">
-                        <span class="glyphicon glyphicon-pencil" style="padding:4px;" aria-hidden="true"></span>Editar</a> 
+                        <span class="glyphicon glyphicon-pencil" style="padding:4px;" aria-hidden="true"></span>Editar
+                    </a> 
                     <a href="{{url("funcionario/delete/".$f['func_cod'])}}" class="buttons_tools">
                         <span class="glyphicon glyphicon-trash" style="padding: 4px;" aria-hidden="true"></span>Excluir</a>
+                                         
+                    @if($f['func_codUser']!=null)
+                        <a href="{{url("usuario/formeditor/".$f['func_codUser'])}}" class="button_tools_user">
+                            <span class="glyphicon glyphicon-user" style="padding:4px;" aria-hidden="true"></span>Usuario
+                        </a>                    
+                    @endif
                     
                 </a>                
             </th>            

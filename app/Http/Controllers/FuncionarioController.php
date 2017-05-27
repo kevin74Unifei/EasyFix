@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Funcionario;
+use App\User;
 use DB;
 
 class FuncionarioController extends Controller
@@ -32,10 +33,12 @@ class FuncionarioController extends Controller
     
     public function index(Request $request){        
         $title="SISSAR Painel Funcionario";        
-       
+        
+              
+        
         $filter = $request->all();//Carregando filtros        
         if($filter){//Se filtros existirem, carrega dados atraves da operação LIKE do sql, em ordem crescente
-            $dadosFunc = $this->func->where("func_status",'1')
+            $dadosFuncs = $this->func->where("func_status",'1')
                                 ->where($filter['campo_ent'],'LIKE',$filter['chave_busca'].'%')
                                 ->orderBy('func_nome', 'asc')
                                 ->get(); 
@@ -43,13 +46,29 @@ class FuncionarioController extends Controller
             $valor_filter_text = $filter['chave_busca'];
             $valor_filter_campo = $filter['campo_ent'];
         }else{//Senão existir filtros carrega todas as linhas da tabela, por ordem crescente.
-            $dadosFunc = $this->func->where("func_status",'1')->orderBy('func_nome', 'asc')->get();                                
+            $dadosFuncs = $this->func->where("func_status",'1')->orderBy('func_nome', 'asc')->get();                                
         }       
+        $dadosFuncUser = array();//criando um array
+        foreach($dadosFuncs as $d){
+            $user = User::whereIn('user_perfil',["Administrador","Atedente"])
+                    ->where("user_vinculo",$d['func_cod'])->get()->first();
+            
+             array_push($dadosFuncUser, array(//colocando no final do vetor mais um vetor, assim criando uma matriz
+               "func_cod" => $d['func_cod'],
+               "func_nome" => $d['func_nome'],
+               "func_CPF" => $d['func_CPF'],
+               "func_cargo" => $d['func_cargo'],
+               "func_codUser" => $user['id'],
+               "func_username" => $user['username'],
+               "func_userPerfil" => $user['user_perfil'],                
+            ));
+        }
         
-        return view("crud-funcionario/funcionariosList",compact("dadosFunc",
+        return view("crud-funcionario/funcionariosList",compact("dadosFuncUser",
                                                                 "title",
                                                                 "valor_filter_text",
-                                                                "valor_filter_campo"));
+                                                                "valor_filter_campo",
+                                                                "user"));
     }
     
     public function show($id){
@@ -142,9 +161,16 @@ class FuncionarioController extends Controller
         
         $this->validate($request,$this->func->rules,$this->messages);//Chamando validação dos dados de entrada
         $insert = $this->func->create($dataForm);//cadastrado no banco de dados 
-        
+       
         if($insert)//se ocorre com sucesso direciona para..
-           return redirect('/'); 
+            if(isset($dataForm['criar_usuario']) || $dataForm['func_cargo']=='Gerente' 
+                    || $dataForm['func_cargo']=='Atendente'){
+                
+                return redirect('/usuario/cadastro/'.$insert['id']); 
+            }else{
+                return redirect('/funcionario/list');
+            }
+           
         else return redirect ()->back();
     }
     
@@ -174,5 +200,5 @@ class FuncionarioController extends Controller
          if($update)//se feito com sucesso direciona para...
            return redirect('/funcionario/list'); 
         else return redirect ()->back();
-    }    
+    }   
 }
