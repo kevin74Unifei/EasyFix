@@ -67,18 +67,18 @@
             <tr><th><h1>Empresas</h1></th></tr>
         </thead>
         <tbody>         
-        @foreach($dadosEmps as $f)
+        @foreach($dadosEmp as $f)
         <tr>
             <th>
                 <a href="{{url("empresa/show/".$f['emp_cod'])}}" class="list-group-item" style="height:100px;width:620px;">  
-                    <div style="position:relative;top:-92px;left:70px;width:500px;">                        
+                    <div style="position:relative;top:-10px;left:70px;width:500px;">                        
                         <h3>{{$f['emp_nome']}}</h3>                         
                         <label>Cidade: {{$f['emp_end_cidade']}}</label><br/>                  
                     </div>  
                     
                     <a href="{{url("empresa/form/".$f['emp_cod'])}}" class="buttons_tools">
                         <span class="glyphicon glyphicon-pencil" style="padding:4px;" aria-hidden="true"></span>Editar</a> 
-                    <a href="{{url("usuario/delete/".$f['emp_cod'])}}" class="buttons_tools">
+                    <a href="{{url("empresa/delete/".$f['emp_cod'])}}" class="buttons_tools">
                         <span class="glyphicon glyphicon-trash" style="padding: 4px;" aria-hidden="true"></span>Inativar</a>
                 </a>                
             </th>            

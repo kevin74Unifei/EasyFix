@@ -17,7 +17,7 @@ class Empresa extends Model
             'emp_nome' => "required|min:3|max:100",
             'emp_razao'=>'required|min:3|max:100',
             'emp_CNPJ'=>'required|min:18|max:18',
-            'emp_inscricaEst'=>'required|min:12|max:15',
+            'emp_inscricaEst'=>'required|min:11|max:15',
             'emp_email'=>'required',
             'emp_telefone'=>'required',
             'emp_end_cidade'=> "required",

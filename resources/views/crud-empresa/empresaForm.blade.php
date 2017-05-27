@@ -51,7 +51,7 @@ $("#emp_inscricaEst").mask("999.999.999.999");
     @endif
     <form class="form-inline" method='post' enctype="multipart/form-data" action='
           @if(isset($resp))
-          {{url('empresa/edit/'.$resp['Cod'])}}    
+          {{url('empresa/edit/'.$resp['cod'])}}    
           @else
           {{url('empresa/cadastrar')}}
           @endif
@@ -65,17 +65,17 @@ $("#emp_inscricaEst").mask("999.999.999.999");
                 <div class="form-group">
                     <label for="emp_razao">Razão:</label><br/>
                     <input type="text" size="40" class="form-control"  name="emp_razao"
-                           autocomplete="off" name="{{$ent or "ent"}}_razao" value="{{$resp["razao"] or ""}}">                  
+                           autocomplete="off" name="{{$ent or "ent"}}_razao" value="{{$resp["razao"] or ""}}" {{$enabledEdition['razao'] or ""}}>                  
                 </div>
                 <div class="form-group">
                     <label for="emp_CNPJ">CNPJ:</label><br/>
                     <input type="text" maxlength="18" size="25" class="form-control"  id ="emp_CNPJ" name="emp_CNPJ"
-                           autocomplete="off" name="{{$ent or "ent"}}_CNPJ" value="{{$resp["CNPJ"] or ""}}">                  
+                           autocomplete="off" name="{{$ent or "ent"}}_CNPJ" value="{{$resp["CNPJ"] or ""}}" {{$enabledEdition['CNPJ'] or ""}}>                  
                 </div>
                 <div class="form-group">
                     <label for="emp_inscricaEst">Inscrição Estadual:</label><br/>
                     <input type="text" maxlength="15" size="25" class="form-control" id ="emp_inscricaEst" name="emp_inscricaEst"
-                           autocomplete="off" name="{{$ent or "ent"}}_inscricaEst" value="{{$resp["inscricaEst"] or ""}}">                  
+                           autocomplete="off" name="{{$ent or "ent"}}_inscricaEst" value="{{$resp["inscricaEst"] or ""}}" {{$enabledEdition['inscricaEst'] or ""}}>                  
                 </div>
 
             </div> 

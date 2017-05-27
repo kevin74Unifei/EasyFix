@@ -91,7 +91,7 @@ class EmpresaController extends Controller
                     'end_logradouro' => "disabled",
                     'email' => "disabled",
                     'telefone' => "disabled",
-                    'telefoneCel' => "disabled",
+                    'telefoneCel' => "enabled",
                     'action' => 'visualizar'
                 ];
             return view('crud-empresa/empresaForm',compact("title","fieldDateTitle","fieldDate","resp","enabledEdition","states"));    
@@ -133,16 +133,16 @@ class EmpresaController extends Controller
                     'razao' => "disabled",
                     'CNPJ' => "disabled", 
                     'inscricaEst' => "disabled",  
-                    'end_cidade' => "disabled",
-                    'end_estado' => "disabled",
-                    'end_bairro' => "disabled",
-                    'end_rua' => "disabled",
-                    'end_numero' => "disabled",
-                    'end_complemento' => "disabled",
-                    'end_logradouro' => "disabled",
-                    'email' => "disabled",
-                    'telefone' => "disabled",
-                    'telefoneCel' => "disabled",
+                    'end_cidade' => "enabled",
+                    'end_estado' => "enabled",
+                    'end_bairro' => "enabled",
+                    'end_rua' => "enabled",
+                    'end_numero' => "enabled",
+                    'end_complemento' => "enabled",
+                    'end_logradouro' => "enabled",
+                    'email' => "enabled",
+                    'telefone' => "enabled",
+                    'telefoneCel' => "enabled",
                     'action' => 'editar'
                 ];
             return view('crud-empresa/empresaForm',compact("title","ent","fieldDateTitle","fieldDate","resp","enabledEdition","states"));
