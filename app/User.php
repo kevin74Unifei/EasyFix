@@ -15,7 +15,7 @@ class User extends Authenticatable {
      * @var array
      */
     protected $fillable = [
-        'user_login', 'user_perfil', 'user_password',
+        'username', 'user_perfil', 'password',
     ];
 
     /**
@@ -24,13 +24,13 @@ class User extends Authenticatable {
      * @var array
      */
     public $rules = [
-        'user_login' => "required|min:5|max:40",
-        'user_password' => "required|min:7|max:24",
+        'username' => "required|min:5|max:40",
+        'password' => "required|min:7|max:24",
         'user_perfil' => "required",
     ];
     
     public $rulesEdit = [
-        'user_password' => "required",
+        'password' => "required",
         ];
     
     protected $hidden = [

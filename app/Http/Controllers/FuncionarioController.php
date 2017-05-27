@@ -25,7 +25,9 @@ class FuncionarioController extends Controller
     ];
     
     public function __construct(Funcionario $f){
-        $this->func=$f;        
+        
+        $this->func=$f;   
+        
     }
     
     public function index(Request $request){        

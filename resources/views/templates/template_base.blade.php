@@ -50,16 +50,21 @@
                     
                     <b><p class="navbar-per1" >SISSAR</p></b>
                 </div>
-                @yield('Menu')
-                <!--Exemplo de codigo para implemntar um menu.
+
                 <div id="navbar" class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#">Início</a></li>
-                    <li><a href="#">Opções</a></li>
-                    <li><a href="#">Perfil</a></li>
-                    <li><a href="#">Ajuda</a></li>
+                    <ul class="nav navbar-nav navbar-right">                        
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                @if(isset(Auth::user()->username)){{Auth::user()->username}} @else "" @endif <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                              <li><a href="{{url('funcionario/perfil/')}}">Editar Perfil</a></li>
+                              <li><a href="{{url('usuario/perfil/')}}">Editar Login</a></li>
+                              <li><a href="{{url("usuario/logout")}}">Logout</a></li>
+                            </ul>
+                       </li>
+                       @yield('Menu')
                     </ul>
-                </div>-->
+                </div>                
             </div>
         </nav>
     	@yield('Base')    

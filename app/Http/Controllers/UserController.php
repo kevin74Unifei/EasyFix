@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use App\User;
 
@@ -9,10 +10,10 @@ class UserController extends Controller {
     
     private $user;
     private $messages = [
-            'user_login.required' => "É obrigatório o preechimento do campo Nome de Usuário",
+            'username.required' => "É obrigatório o preechimento do campo Nome de Usuário",
             'user_login.min' => "É obrigatório o preechimento do campo Nome de Usuário com pelo menos 3 letras",
-            'user_password.required' => "É obrigatório op preenchimento do campo Senha",
-            'user_password.min' => "É obrigatório o preechimento do campo Senha com pelo menos 7 letras",
+            'password.required' => "É obrigatório op preenchimento do campo Senha",
+            'password.min' => "É obrigatório o preechimento do campo Senha com pelo menos 7 letras",
             'user_perfil.required' =>"É obrigatório a escolha de um perfil",
         ];
     
@@ -25,17 +26,16 @@ class UserController extends Controller {
         
         if($user_id!=null){
             $title="SISSAR Edição Usuário";
-            $dadosUsers = $this->user->where("user_id",$user_id)->get();
+            $dadosUsers = $this->user->where("id",$user_id)->get();
             foreach ($dadosUsers as $d){
                 $dado = [
-                    'userId' => $d['user_id'],
+                    'userId' => $d['id'],
                     'imagem' => $d['user_imagem'],
-                    'userLogin'=> $d['user_login'] ,
-                    'userPass'=> $d['user_password'],
+                    'userLogin'=> $d['username'] ,
+                    'userPass'=> $d['password'],
                     'userPerfil'=> $d['user_perfil']
                 ];
-                break;
-               
+                break;               
             }
                 $enabledEdition = [
                     'userId' => 'disabled',
@@ -59,13 +59,13 @@ class UserController extends Controller {
         if($filter){//Se filtros existirem, carrega dados atraves da operação LIKE do sql, em ordem crescente
             $dadosUser = $this->user->where("user_status",'1')
                                 ->where($filter['campo_ent'],'LIKE',$filter['chave_busca'].'%')
-                                ->orderBy('user_login', 'asc')
+                                ->orderBy('username', 'asc')
                                 ->get(); 
             
             $valor_filter_text = $filter['chave_busca'];
             $valor_filter_campo = $filter['campo_ent'];
         }else{//Senão existir filtros carrega todas as linhas da tabela, por ordem crescente.
-            $dadosUser = $this->where("user_status",'1')->user->orderBy('user_login', 'asc')->get();
+            $dadosUser = $this->user->where("user_status",'1')->orderBy('username', 'asc')->get();
                                 
         }       
         
@@ -105,6 +105,8 @@ class UserController extends Controller {
     public function store(Request $request) {
         $dataForm = $request->except('_token');
         
+        $dataForm['password']= Hash::make($dataForm['password']);
+        
         $this->validate($request,$this->user->rules,$this->messages);
         $insert = $this->user->create($dataForm);
         
@@ -133,5 +135,14 @@ class UserController extends Controller {
            return redirect('/usuario/list'); 
         else return redirect ()->back();
     }
-
+    
+    public function login(Request $request){
+        $dadosForm = $request->except('_token');
+           
+        if(Auth::attempt($dadosForm, true)){
+            return redirect('funcionario/list');
+        }else{            
+            return redirect('/login');
+        }
+    }
 }

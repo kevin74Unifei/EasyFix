@@ -36,11 +36,12 @@
     <div class='form-per1' data-provide="datepicker">
         <form method="post" action="{{url('logar')}}">
             <div>
+                 <input type="hidden" name="_token" value="{{csrf_token()}}">
                 <label for='login'  >Login:</label><br/>        
-                <input  type='text' class="form-control" name='login'placeholder="Login"><br/>         
+                <input  type='text' class="form-control" name='username'placeholder="Login"><br/>         
 
                 <label for='senha'  >Senha:</label><br/>
-                <input  type='password' class="form-control" name='senha' placeholder="Password"> 
+                <input  type='password' class="form-control" name='password' placeholder="Password"> 
             </div><br/>
 
             <button type="submit" class="btn btn-primary">Logar</button>              

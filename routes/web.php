@@ -15,21 +15,19 @@ Route::get('/', function () {
     return view('loginSystem');
 });
 
-Route::post('/logar', function () {
-    return view('loginSystem');
-});
+Route::post('/logar', 'UserController@login');
 
-Route::get('/funcionario/list','FuncionarioController@index');
+Route::get('/funcionario/list','FuncionarioController@index')->middleware("CheckUserAdmin");
 
-Route::get('/funcionario/form/{id?}','FuncionarioController@create');
+Route::get('/funcionario/form/{id?}','FuncionarioController@create')->middleware("CheckUserAdmin");
 
 Route::get('funcionario/show/{id}','FuncionarioController@show');
         
-Route::post('funcionario/cadastrar','FuncionarioController@store');
+Route::post('funcionario/cadastrar','FuncionarioController@store')->middleware("CheckUserAdmin");
 
 Route::post('funcionario/edit/{id}','FuncionarioController@edit');
 
-Route::get('funcionario/delete/{id}','FuncionarioController@destroy');
+Route::get('funcionario/delete/{id}','FuncionarioController@destroy')->middleware("CheckUserAdmin");
 
 
     
@@ -60,7 +58,7 @@ Route::get('/candidato/list','CandidatoController@index');
 
 Route::get('candidato/delete/{id}','CandidatoController@destroy');
 
-
 Route::get('candidato/show/{id}','CandidatoController@show');
 
 Route::post('candidato/edit/{id}','CandidatoController@edit');
+

@@ -74,12 +74,12 @@
                 <!-- A parte do view do cadastro de usuario que vai ter o nome de usuario(que deve ser unico, porem ainda nao esta); A senha que devera ter no minimo 7 caracteres -->
                 <div class="form-group">
                     <label for="user_login">Nome de Usuário:</label><br/>
-                    <input type="username" maxlength="60" size="60" class="form-control" name = "{{$ent or "ent"}}_login" required="required"value="{{$dado["userLogin"] or ""}}">
+                    <input type="username" maxlength="60" size="60" class="form-control" name = "username" required="required"value="{{$dado["userLogin"] or ""}}">
                 </div>
                 <br/> 
                 <div class="form-group">
                     <label for="user_password">Senha:</label><br/>
-                    <input type="password" maxlength="24" size="25" class="form-control" required pattern="[a-z]{7-24}" name = "{{$ent or "ent"}}_password"
+                    <input type="password" maxlength="24" size="25" class="form-control" required pattern="[a-z]{7-24}" name = "password"
                            placeholder="Senha" onchange="form.ConfirmaSenha.pattern = this.value;" required="required" value="{{$dado["userPass"] or ""}}" {{$enabledEdition['userPass'] or ""}}>               
                 </div>
 

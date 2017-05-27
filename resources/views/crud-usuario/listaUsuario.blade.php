@@ -73,7 +73,7 @@
                 <a href="#" class="list-group-item" style="height:100px;width:620px;">  
                     <img src="{{url('img/avatar.png')}}" style="width:51px;height:72px;" alt="perfil_foto">
                     <div style="position:relative;top:-92px;left:70px;width:500px;">                        
-                        <h3>{{$f['user_login']}}</h3>                         
+                        <h3>{{$f['username']}}</h3>                         
                         <label>Perfil: {{$f['user_perfil']}}</label><br/>                  
                     </div>  
                     
