@@ -63,3 +63,15 @@ Route::get('candidato/show/{id}','CandidatoController@show');
 
 Route::post('candidato/edit/{id}','CandidatoController@edit');
 
+
+Route::get('/empresa/form/{id?}', 'EmpresaController@create');
+
+Route::post('/empresa/cadastrar','EmpresaController@store');
+
+Route::get('/empresa/list', 'EmpresaController@index');
+
+Route::get('/empresa/show/{id}','EmpresaController@show');
+
+Route::post('/empresa/edit/{id}','EmpresaController@edit');
+
+Route::get('/empresa/delete/{id}','EmpresaController@destroy');
