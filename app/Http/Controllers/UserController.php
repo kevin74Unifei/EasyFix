@@ -51,7 +51,8 @@ class UserController extends Controller {
                     'imagem' => $dadosUsers['user_imagem'],
                     'userLogin'=> $dadosUsers['username'] ,
                     'userPass'=> $dadosUsers['password'],
-                    'userPerfil'=> $dadosUsers['user_perfil']
+                    'userPerfil'=> $dadosUsers['user_perfil'],
+                    
                 ];                            
             
         $enabledEdition = [
@@ -101,7 +102,7 @@ class UserController extends Controller {
     }
  
     public function edit($id, Request $request) {
-         $dataUser = $request->except('_token');//recebe dados do formulario
+        $dataUser = $request->except('_token');//recebe dados do formulario
         
         $this->validate($request,$this->user->rulesEdit,$this->messages);//Chamando validação dos dados de entrada
         $update = $this->user->where('user_id',$id)->update($dataUser);//alterado a linha selecionada no banco de dados 

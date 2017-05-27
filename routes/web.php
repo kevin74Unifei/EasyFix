@@ -20,13 +20,13 @@ Route::get('/logout','UserController@logout');
 
 Route::get('/funcionario/list','FuncionarioController@index')->middleware("CheckUserAdmin");
 
-Route::get('/funcionario/form/{id?}','FuncionarioController@create');
+Route::get('/funcionario/form/{id?}','FuncionarioController@create')->middleware("CheckUserAdmin");;
 
-Route::get('funcionario/show/{id}','FuncionarioController@show');
+Route::get('funcionario/show/{id}','FuncionarioController@show')->middleware("CheckUserAdmin");;
         
-Route::post('funcionario/cadastrar','FuncionarioController@store');
+Route::post('funcionario/cadastrar','FuncionarioController@store')->middleware("CheckUserAdmin");;
 
-Route::post('funcionario/edit/{id}','FuncionarioController@edit');
+Route::post('funcionario/edit/{id}','FuncionarioController@edit')->middleware("CheckUserAdmin");;
 
 Route::get('funcionario/delete/{id}','FuncionarioController@destroy')->middleware("CheckUserAdmin");
 

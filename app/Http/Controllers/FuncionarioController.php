@@ -58,6 +58,7 @@ class FuncionarioController extends Controller
                "func_nome" => $d['func_nome'],
                "func_CPF" => $d['func_CPF'],
                "func_cargo" => $d['func_cargo'],
+               "func_imagem" => $d['func_imagem'],
                "func_codUser" => $user['id'],
                "func_username" => $user['username'],
                "func_userPerfil" => $user['user_perfil'],                
@@ -188,9 +189,12 @@ class FuncionarioController extends Controller
         $this->validate($request,$this->func->rulesEdit,$this->messages);//Chamando validação dos dados de entrada
         $update = $this->func->where('func_cod',$id)->update($dataForm);//alterado a linha selecionada no banco de dados     
               
-        if($update)
+        if($update){
+            if($request->hasFile('func_imagem')){
+                User::where('user_vinculo',$id)->update(['user_imagem'=> $dataForm['func_imagem']]);
+            }
            return redirect('/funcionario/list'); 
-        else return redirect ()->back();
+        }else return redirect ()->back();
     }
     
     public function destroy($id){

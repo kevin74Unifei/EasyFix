@@ -44,14 +44,14 @@
 <div class="menu">
     <!--FILTER-->
     <div class="dropdown">
-        <form class="form-inline" id="form_busca" action="{{url('/candidato/list')}}">
+        <form class="form-inline" id="form_busca" action="{{url('/funcionario/list')}}">
             <label>Filtros:</label><br/>
             <select name="campo_ent" class="form-control" >
-                <option value="cand_nome"
+                <option value="func_nome"
                     @if(isset($valor_filter_campo) && $valor_filter_campo=='func_name')
                         selected="selected"
                     @endif>Nome</option>
-                <option value="cand_cpf"
+                <option value="func_CPF"
                     @if(isset($valor_filter_campo) && $valor_filter_campo=='func_cpf')
                         selected="selected"
                     @endif>CPF</option>
@@ -93,7 +93,7 @@
                    @endif
                    width:620px;
                    ">  
-                    <img src="{{url('storage/imgperfil/')."/"}}{{$f['cand_imagem'] or 'avatar.png'}}" style="width:51px;height:72px;" alt="perfil_foto">
+                    <img src="{{url('storage/imgperfil/')."/"}}{{$f['func_imagem'] or 'avatar.png'}}" style="width:51px;height:72px;" alt="perfil_foto">
                     <div style="position:relative;top:-92px;left:70px;width:500px;">                        
                         <h3>{{$f['func_nome']}}</h3>                         
                         <label>CPF: {{$f['func_CPF']}}</label><br/>

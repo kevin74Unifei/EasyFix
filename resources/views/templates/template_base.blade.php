@@ -56,7 +56,9 @@
                     <ul class="nav navbar-nav navbar-right">                        
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                {{Auth::user()->username}}  <span class="caret"></span></a>
+                                <img style="width:17px;height:24px;" src="{{url('storage/imgperfil/')."/"}}@if(isset(Auth::user()->user_imagem)){{Auth::user()->user_imagem}} @else{{'avatar.png'}}@endif" alt="usuario_imagem"/>
+                                
+                                    {{Auth::user()->username}}  <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                               <li><a href="{{url('funcionario/perfil/')}}">Editar Perfil</a></li>
                               <li><a href="{{url('usuario/perfil/')}}">Editar Login</a></li>
