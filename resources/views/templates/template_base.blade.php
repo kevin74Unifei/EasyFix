@@ -17,7 +17,7 @@
         <link rel="stylesheet" href="{{url('bootstrap/css/bootstrap.min.css')}}"  crossorigin="anonymous">
         <script src="{{url('bootstrap/js/bootstrap.min.js')}}"></script>
         <script src="{{url('bootstrap/js/bootstrap.js')}}"></script>
-
+        <link rel="stylesheet" href="{{url('css/stylesidebar.css')}}"  crossorigin="anonymous">
         
         <style>
             body{                
@@ -25,7 +25,7 @@
                 margin:0px; 
                 background-color:#bbbbd6; 
             }
-            .navbar-per1{
+            .navbar-per1{                
                 font-family: Serif;
                 font-size: 30px;
                 padding-top:10px;
@@ -36,19 +36,20 @@
 	
     </head>
     <body>   
-        <nav class="navbar navbar-inverse navbar-fixed-top">
+       <nav class="navbar navbar-inverse navbar-fixed-top">
             <div class="container-fluid">
                 <div class="navbar-header">
+                    @if(isset(Auth::user()->username))
+                    <button type="button" class="hamburger is-closed" data-toggle="offcanvas">
+                        <span class="hamb-top"></span>
+                                <span class="hamb-middle"></span>
+                                        <span class="hamb-bottom"></span>
+                    </button>
+                    @endif
                     @yield('tools-icon')
-                    <!--Exemplo de como embutir botões
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                        <span class="sr-only">N</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>-->
+                        
                     
-                    <b><p class="navbar-per1" >SISSAR</p></b>
+                <b><p class="navbar-per1" >SISSAR</p></b>
                 </div>
 
                 @if(isset(Auth::user()->username))
@@ -56,7 +57,7 @@
                     <ul class="nav navbar-nav navbar-right">                        
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                <img style="width:17px;height:24px;" src="{{url('storage/imgperfil/')."/"}}@if(isset(Auth::user()->user_imagem)){{Auth::user()->user_imagem}} @else{{'avatar.png'}}@endif" alt="usuario_imagem"/>
+                                <img style="width:17px;height:24px;" src="{{url('storage/app/public/imgperfil/')."/"}}@if(isset(Auth::user()->user_imagem)){{Auth::user()->user_imagem}} @else{{'avatar.png'}}@endif" alt="usuario_imagem"/>
                                 
                                     {{Auth::user()->username}}  <span class="caret"></span></a>
                             <ul class="dropdown-menu">
@@ -69,14 +70,103 @@
                                       ">Editar Perfil</a></li>
                               <li><a href="{{url('usuario/formeditor/').'/'.Auth::user()->id}}">Editar Login</a></li>
                               <li><a href="{{url("/logout")}}">Logout</a></li>
-                            </ul>>
-                       </li>
-                       @yield('Menu')
-                    </ul>
+                            </ul>
+                       </li>                       
+                   </ul>
                 </div>  
                 @endif
             </div>
         </nav>
+       
+<script type='text/javascript'>
+    //Funcionamento do botão do menu
+    $(document).ready(function () {
+    var trigger = $('.hamburger'),
+     overlay = $('.overlay'),
+     isClosed = false;
+
+    trigger.click(function () {
+      hamburger_cross();      
+    });
+
+    function hamburger_cross() {
+
+      if (isClosed == true) {          
+        overlay.hide();
+        trigger.removeClass('is-open');
+        trigger.addClass('is-closed');
+        isClosed = false;
+      } else {   
+        overlay.show();
+        trigger.removeClass('is-closed');
+        trigger.addClass('is-open');
+        isClosed = true;
+      }
+  }
+  
+  $('[data-toggle="offcanvas"]').click(function () {
+        $('#wrapper').toggleClass('toggled');
+  });  
+});
+</script>
+        <div id="wrapper" class='wrapper'><!--Menu de opçãoes-->
+             @if(isset(Auth::user()->username))
+            <div class="overlay"></div>
+            <!-- Sidebar -->
+            <nav class="navbar navbar-inverse navbar-fixed-top" id="sidebar-wrapper" role="navigation">
+                <ul class="nav sidebar-nav">
+                    <li class="sidebar-brand">
+                        <a href="#">
+                           Brand
+                        </a>
+                    </li>
+                    <li class="sidebar-brand">
+                        <a href="{{url('/')}}">
+                           Home
+                        </a>
+                    </li>
+                    @if(Auth::user()->user_perfil=='Administrador')
+                        <li class="dropdown">
+                          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Funcionários <span class="caret"></span></a>
+                          <ul class="dropdown-menu" role="menu">                        
+                            <li><a href="{{url('funcionario/form')}}">Cadastrar Funcionario</a></li>
+                            <li><a href="{{url('funcionario/list')}}">Listar Funcionario</a></li>                        
+                          </ul>
+                        </li>
+
+                        <li class="dropdown">
+                          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Empresas Parceiras <span class="caret"></span></a>
+                          <ul class="dropdown-menu" role="menu">                        
+                            <li><a href="{{url('empresa/form')}}">Cadastrar Empresa</a></li>
+                            <li><a href="{{url('empresa/list')}}">Listar Empresas</a></li>                        
+                          </ul>
+                        </li>
+                    @endif
+                    @if(Auth::user()->user_perfil!='Candidato')
+                    <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown">Candidatos <span class="caret"></span></a>
+                      <ul class="dropdown-menu" role="menu">                        
+                        <li><a href="{{url('candidato/form')}}">Cadastrar Candidato</a></li>
+                        <li><a href="{{url('candidato/list')}}">Listar Candidatos</a></li>                        
+                      </ul>
+                    </li>                    
+                    @endif
+                    <li>
+                        <a href="www.google.com">Ajuda</a>
+                    </li>
+                    @yield('Menu')
+                </ul>
+            </nav>
+            <!-- /#sidebar-wrapper -->
+
+            <!-- Page Content -->
+            <div id="page-content-wrapper">
+                <div class="container">
+                    
+                </div>
+            </div>
+            @endif
+    </div>
     	@yield('Base')    
  
     </body>

@@ -19,11 +19,11 @@ class CheckUser
         if(Auth::check()){
            $user = Auth::user();
            if($user["user_perfil"]=='Administrador'){
-               return redirect("funcionario/list");
+               return redirect("/home");
            }else if($user['user_perfil']=='Atendente'){
-               return redirect("candidato/list");
+               return redirect("/home");
            }else if($user['user_perfil']=='Candidato'){
-               return redirect("candidato/list");
+               return redirect("/home");
            }
         }
         return $next($request);

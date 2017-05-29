@@ -103,7 +103,7 @@
                    @endif
                    width:620px;
                    ">  
-                    <img src="{{url('storage/imgperfil/')."/"}}{{$f['func_imagem'] or 'avatar.png'}}" style="width:51px;height:72px;" alt="perfil_foto">
+                    <img src="{{url('storage/app/public/imgperfil/')."/"}}{{$f['func_imagem'] or 'avatar.png'}}" style="width:51px;height:72px;" alt="perfil_foto">
                     <div style="position:relative;top:-92px;left:70px;width:500px;">                        
                         <h3>{{$f['func_nome']}}</h3>                         
                         <label>CPF: {{$f['func_CPF']}}</label><br/>
@@ -117,7 +117,7 @@
                     <a href="{{url("funcionario/form/".$f['func_cod'])}}" class="buttons_tools">
                         <span class="glyphicon glyphicon-pencil" style="padding:4px;" aria-hidden="true"></span>Editar
                     </a> 
-                    <a href="" class="buttons_tools" onclick="ex()" > <!--"{{url("funcionario/delete/".$f['func_cod'])}}"-->
+                    <a  class="buttons_tools"  href="{{url("funcionario/delete/".$f['func_cod'])}}">
                         <span class="glyphicon glyphicon-trash" style="padding: 4px;" aria-hidden="true"></span>Excluir</a>
                                          
                     @if($f['func_codUser']!=null)

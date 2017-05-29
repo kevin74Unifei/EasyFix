@@ -17,7 +17,6 @@
         padding-top:20px;
         padding-bottom:100px;
     }
-
 </style>
 
 <div class="pagina"> 
@@ -25,7 +24,7 @@
         <tbody>
             <tr>
                 <th rowspan="5">
-                    <img src="{{url('storage/imgperfil/')."/"}}{{$dadosFunc['func_imagem'] or 'avatar.png'}}" 
+                    <img src="{{url('storage/app/public/imgperfil/')."/"}}{{$dadosFunc['func_imagem'] or 'avatar.png'}}" 
                         alt="Imagem perfil" style="width:173px; height:240px;"/>
                 </th>
                 <th>

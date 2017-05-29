@@ -86,7 +86,7 @@
         <tr>
             <th colspan="2">
                 <a href="{{url("candidato/show/".$f['cand_cod'])}}" class="list-group-item" style="height:100px;width:620px;">  
-                    <img src="{{url('storage/imgperfil/')."/"}}{{$f['cand_imagem'] or 'avatar.png'}}" style="width:51px;height:72px;" alt="perfil_foto">
+                    <img src="{{url('storage/app/public/imgperfil/')."/"}}{{$f['cand_imagem'] or 'avatar.png'}}" style="width:51px;height:72px;" alt="perfil_foto">
                     <div style="position:relative;top:-92px;left:70px;width:500px;">                        
                         <h3>{{$f['cand_nome']}}</h3>                         
                         <label>CPF: {{$f['cand_CPF']}}</label><br/>
@@ -94,12 +94,12 @@
                             <label>Usuario: {{$f['cand_username']}}</label><br/>                            
                          @endif                  
                     </div>  
-                    
+                    <!--Botões de edição e exclusão-->
                     <a href="{{url("candidato/form/".$f['cand_cod'])}}" class="buttons_tools">
                         <span class="glyphicon glyphicon-pencil" style="padding:4px;" aria-hidden="true"></span>Editar</a> 
                     <a href="{{url("candidato/delete/".$f['cand_cod'])}}" class="buttons_tools">
                         <span class="glyphicon glyphicon-trash" style="padding: 4px;" aria-hidden="true"></span>Excluir</a>
-                    
+                    <!--Botão de edição de usuario, se tiver opção de editar, se não opção de criar-->
                     @if($f['cand_codUser']!=null)
                         <a href="{{url("usuario/formeditor/".$f['cand_codUser'])}}" class="button_tools_user">
                             <span class="glyphicon glyphicon-user" style="padding:4px;" aria-hidden="true"></span>Usuario

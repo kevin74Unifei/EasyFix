@@ -37,15 +37,23 @@ fieldset{
             </div>
             
                    <script type="text/javascript">
-                        $('#fieldState').on('change',function () {                            
-                            var idEstado = $(this).val();
+                        $(function(){//Ao carregar a pagina                           
+                            getCidades();
+                        });
+                       
+                        $('#fieldState').on('change',function(){//Ao selecionar um estado                       
+                            getCidades();
+                        });
+                        //Carrega as cidades do estado seleciona 
+                        function getCidades(){
+                            var idEstado = $('#fieldState').val();
                             $.get("{{url('/cidades')}}" +'/'+ idEstado, function (cidades) {
-                                $("#fieldCity").empty();
+                                
                                 $.each(cidades, function (key, value) {
                                     $('#fieldCity').append('<option value=' + value.nome + '>' + value.nome + '</option>');
                                 });
                             });
                             $('#end_bairro').attr('size',15);
-                        });
+                        }
                     </script>          
         </fieldset>

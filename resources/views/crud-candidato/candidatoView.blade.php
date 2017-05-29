@@ -25,7 +25,7 @@
         <tbody>
             <tr>
                 <th rowspan="5">
-                    <img src="{{url('storage/imgperfil/')."/"}}{{$dadosCand['cand_imagem'] or 'avatar.png'}}" 
+                    <img src="{{url('storage/app/public/imgperfil/')."/"}}{{$dadosCand['cand_imagem'] or 'avatar.png'}}" 
                         alt="Imagem perfil" style="width:173px; height:240px;"/>
                 </th>
                 <th colspan="2">

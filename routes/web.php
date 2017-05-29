@@ -10,9 +10,8 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/t', function () {
-    return view('welcome');
-    
+Route::get('/home', function () {
+    return view('painel/userView');    
 });
 
 Route::get('/', function () {
@@ -51,7 +50,6 @@ Route::post('usuario/edit/{id}','UserController@edit');
 
 Route::get('usuario/delete/{ent}/{id}','UserController@destroy');
 
- 
 
  
 Route::get('/candidato/form/{id?}','CandidatoController@create');
@@ -67,14 +65,14 @@ Route::get('candidato/show/{id}','CandidatoController@show');
 Route::post('candidato/edit/{id}','CandidatoController@edit');
 
 
-Route::get('/empresa/form/{id?}', 'EmpresaController@create');
+Route::get('/empresa/form/{id?}', 'EmpresaController@create')->middleware("CheckUserAdmin");
 
-Route::post('/empresa/cadastrar','EmpresaController@store');
+Route::post('/empresa/cadastrar','EmpresaController@store')->middleware("CheckUserAdmin");
 
-Route::get('/empresa/list', 'EmpresaController@index');
+Route::get('/empresa/list', 'EmpresaController@index')->middleware("CheckUserAdmin");
 
-Route::get('/empresa/show/{id}','EmpresaController@show');
+Route::get('/empresa/show/{id}','EmpresaController@show')->middleware("CheckUserAdmin");
 
-Route::post('/empresa/edit/{id}','EmpresaController@edit');
+Route::post('/empresa/edit/{id}','EmpresaController@edit')->middleware("CheckUserAdmin");
 
-Route::get('/empresa/delete/{id}','EmpresaController@destroy');
+Route::get('/empresa/delete/{id}','EmpresaController@destroy')->middleware("CheckUserAdmin");
