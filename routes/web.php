@@ -10,6 +10,10 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/t', function () {
+    return view('welcome');
+    
+});
 
 Route::get('/', function () {
     return view('loginSystem');
@@ -17,38 +21,37 @@ Route::get('/', function () {
 
 Route::post('/logar', 'UserController@login');
 Route::get('/logout','UserController@logout');
+Route::post('/testPass','UserController@testPass');
 
 Route::get('/funcionario/list','FuncionarioController@index')->middleware("CheckUserAdmin");
 
-Route::get('/funcionario/form/{id?}','FuncionarioController@create')->middleware("CheckUserAdmin");;
+Route::get('/funcionario/form/{id?}','FuncionarioController@create')->middleware("CheckUserAdmin");
 
-Route::get('funcionario/show/{id}','FuncionarioController@show')->middleware("CheckUserAdmin");;
+Route::get('funcionario/show/{id}','FuncionarioController@show')->middleware("CheckUserAdmin");
         
-Route::post('funcionario/cadastrar','FuncionarioController@store')->middleware("CheckUserAdmin");;
+Route::post('funcionario/cadastrar','FuncionarioController@store')->middleware("CheckUserAdmin");
 
-Route::post('funcionario/edit/{id}','FuncionarioController@edit')->middleware("CheckUserAdmin");;
+Route::post('funcionario/edit/{id}','FuncionarioController@edit')->middleware("CheckUserAdmin");
 
 Route::get('funcionario/delete/{id}','FuncionarioController@destroy')->middleware("CheckUserAdmin");
-
 
     
 Route::get('cidades/{idEstado}', "siteController@getCidades");
 
 
-
 Route::get('/usuario/list','UserController@index');
 
-Route::get('/usuario/cadastro/{id?}', 'UserController@create');
+Route::get('/usuario/cadastro/{ent}/{id}', 'UserController@create');
 
 Route::post('/usuario/cadastrar/', 'UserController@store');
 
-Route::get('/usuario/formeditor/{id}','UserController@editor')->middleware("CheckUserAdmin");
+Route::get('/usuario/formeditor/{id}','UserController@editor');
 
 Route::post('usuario/edit/{id}','UserController@edit');
 
-Route::get('usuario/delete/{id}','UserController@destroy');
+Route::get('usuario/delete/{ent}/{id}','UserController@destroy');
 
-
+ 
 
  
 Route::get('/candidato/form/{id?}','CandidatoController@create');

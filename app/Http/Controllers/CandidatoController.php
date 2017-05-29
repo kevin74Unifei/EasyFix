@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Candidato;
+use App\User;
 use DB;
 
 class CandidatoController extends Controller
@@ -40,9 +41,24 @@ class CandidatoController extends Controller
             $valor_filter_campo = $filter['campo_ent'];
         }else{//Senão existir filtros carrega todas as linhas da tabela, por ordem crescente.
             $dadosCand = $this->cand->where("cand_status",'1')->orderBy('cand_nome', 'asc')->get();                                
-        }       
+        } 
         
-        return view("crud-candidato/candidatosList",compact("dadosCand",
+        $dadosCandUser = array();//criando um array
+        foreach($dadosCand as $d){
+            $user = User::where('user_perfil','Candidato')
+                    ->where("user_vinculo",$d['cand_cod'])->get()->first();
+            
+             array_push($dadosCandUser, array(//colocando no final do vetor mais um vetor, assim criando uma matriz
+               "cand_cod" => $d['cand_cod'],
+               "cand_nome" => $d['cand_nome'],
+               "cand_CPF" => $d['cand_CPF'],
+               "cand_imagem" => $d['cand_imagem'],
+               "cand_codUser" => $user['id'],
+               "cand_username" => $user['username'],                
+            ));
+        }
+        
+        return view("crud-candidato/candidatosList",compact("dadosCandUser",
                                                                 "title",
                                                                 "valor_filter_text",
                                                                 "valor_filter_campo"));
@@ -134,7 +150,9 @@ class CandidatoController extends Controller
         $insert = $this->cand->create($dadosCandadosForm);//cadastrado no banco de dados 
         
         if($insert)//se ocorre com sucesso direciona para..
-           return redirect('/'); 
+        {
+           return redirect('/usuario/cadastro/cand/'.$insert['id']); 
+        }
         else return redirect ()->back();
     }
     

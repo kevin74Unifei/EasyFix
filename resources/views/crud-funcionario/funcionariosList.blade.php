@@ -39,7 +39,17 @@
         left:250px;
     }
     </style>
-   
+
+    <script type='text/javascript'>
+        function ex()
+            {
+            var x=confirm("Você quer mesmo sair desta página?")
+            if (x)
+             window.open("http://www.variedadesedicas.com")
+            else
+            alert("Você irá permanecer aqui!")
+            } 
+    </script>
     
 <div class="menu">
     <!--FILTER-->
@@ -107,13 +117,17 @@
                     <a href="{{url("funcionario/form/".$f['func_cod'])}}" class="buttons_tools">
                         <span class="glyphicon glyphicon-pencil" style="padding:4px;" aria-hidden="true"></span>Editar
                     </a> 
-                    <a href="{{url("funcionario/delete/".$f['func_cod'])}}" class="buttons_tools">
+                    <a href="" class="buttons_tools" onclick="ex()" > <!--"{{url("funcionario/delete/".$f['func_cod'])}}"-->
                         <span class="glyphicon glyphicon-trash" style="padding: 4px;" aria-hidden="true"></span>Excluir</a>
                                          
                     @if($f['func_codUser']!=null)
                         <a href="{{url("usuario/formeditor/".$f['func_codUser'])}}" class="button_tools_user">
                             <span class="glyphicon glyphicon-user" style="padding:4px;" aria-hidden="true"></span>Usuario
-                        </a>                    
+                        </a>
+                    @else
+                        <a href="{{url("usuario/cadastro/func/".$f['func_cod'])}}" class="button_tools_user">
+                            <span class="glyphicon glyphicon-plus" style="padding:4px;" aria-hidden="true"></span>Usuario
+                        </a>
                     @endif
                     
                 </a>                

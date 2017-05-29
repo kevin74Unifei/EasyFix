@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
 use App\User;
 use App\Funcionario;
+use App\Candidato;
 
 class UserController extends Controller {
     
@@ -22,17 +24,48 @@ class UserController extends Controller {
         $this->user = $u;
     }
     
-   public function create($func_id=null) {
-        $ent ="user";
-        $title="SISSAR Cadastro Usuário";
+   public function create($ent,$id) {        
+        $title="SISSAR Cadastro Usuário";       
         
-        if($func_id!=null){
-            $func = new Funcionario();            
-            $dadosFunc = $func->where("func_cod",$func_id)->get()->first();
-            
-            return view('crud-usuario/CadastroUsuario', compact("title", "ent","dadosFunc"));
-        }else{
-            return view('crud-usuario/CadastroUsuario', compact("title", "ent"));
+        if($id!=null){
+            if($ent=='func'){    //Se funcionario       
+               $u = $this->user->whereIn('user_perfil',['Administrador','Atedente'])->where('user_vinculo',$id)->get();
+               
+               if(isset($u['id'])){
+                   return redirect('/');
+                   //Se ja existir usuario para esse funcionario, impede de acessa a pagina cadastro
+               }
+                
+               $func = new Funcionario(); //Recuperando dados do funcionario recém cadastrado          
+               $dadosFunc = $func->where("func_cod",$id)->get()->first(); 
+               
+               $dadosEnt = [//Carregando em um vetor generico
+                    'cod' => $dadosFunc['func_cod'],
+                    'imagem' => $dadosFunc['func_imagem'],
+                    'nome'=> $dadosFunc['func_nome'] ,                   
+                    'cpf'=> $dadosFunc['func_CPF'],                   
+                ];
+     
+               
+            }else if($ent=='cand'){//Se candidato
+                $u = $this->user->where('user_perfil','Candidato')->where('user_vinculo',$id)->get();
+                if(isset($u['id'])){                   
+                    return redirect('/');                   
+                   //Se ja existir usuario para esse candidato, impede de acessa a pagina cadastro
+                }
+                
+                $cand = new Candidato();//Recuperando dados do candidato recém cadastrado        
+                $dadosCand = $cand->where("cand_cod",$id)->get()->first(); 
+                
+                $dadosEnt = [//Carregando em um vetor generico os dados
+                    'cod' => $dadosCand['cand_cod'],
+                    'imagem' => $dadosCand['cand_imagem'],
+                    'nome'=> $dadosCand['cand_nome'] ,                   
+                    'cpf'=> $dadosCand['cand_CPF'],                    
+                ];
+                
+            }            
+            return view('crud-usuario/CadastroUsuario', compact("title", "ent","dadosEnt"));
         }
     }
 
@@ -43,24 +76,35 @@ class UserController extends Controller {
         
         $dadosUsers = $this->user->where("id",$user_id)->get()->first();
            
-        $func = new Funcionario();            
-        $dadosFunc = $func->where("func_cod",$dadosUsers["user_vinculo"])->get()->first();  
-            
-        $dado = [
-                    'userId' => $dadosUsers['id'],
-                    'imagem' => $dadosUsers['user_imagem'],
-                    'userLogin'=> $dadosUsers['username'] ,
-                    'userPass'=> $dadosUsers['password'],
-                    'userPerfil'=> $dadosUsers['user_perfil'],
-                    
-                ];                            
+        if($dadosUsers['user_perfil']=='Administrador'|| $dadosUsers['user_perfil']=='Atendente'){
+            $func = new Funcionario();            
+            $dadosFunc = $func->where("func_cod",$dadosUsers["user_vinculo"])->get()->first();        
+        
+            $dadosEnt = [//Carregando em um vetor generico
+                        'cod' => $dadosFunc['func_cod'],
+                        'imagem' => $dadosFunc['func_imagem'],
+                        'nome'=> $dadosFunc['func_nome'] ,                   
+                        'cpf'=> $dadosFunc['func_CPF'],                   
+                    ];
+        }else if($dadosUsers['user_perfil']=='Candidato'){
+                $cand = new Candidato();//Recuperando dados do candidato recém cadastrado        
+                $dadosCand = $cand->where("cand_cod",$user_id)->get()->first(); 
+                
+                $dadosEnt = [//Carregando em um vetor generico os dados
+                    'cod' => $dadosCand['cand_cod'],
+                    'imagem' => $dadosCand['cand_imagem'],
+                    'nome'=> $dadosCand['cand_nome'] ,                   
+                    'cpf'=> $dadosCand['cand_CPF'],                    
+                ];
+        }           
+        $resp = $dadosUsers;
             
         $enabledEdition = [
                     'userLogin'=> 'disabled',
                     'userPass'=> 'enabled',
                     'userPerfil'=>'disabled',
                 ];
-        return view('crud-usuario/CadastroUsuario', compact("title", "ent", "dado", "enabledEdition","dadosFunc"));
+        return view('crud-usuario/CadastroUsuario', compact("title", "ent",'resp',"enabledEdition","dadosEnt"));
         
     }
 
@@ -102,27 +146,33 @@ class UserController extends Controller {
     }
  
     public function edit($id, Request $request) {
-        $dataUser = $request->except('_token');//recebe dados do formulario
+        $dataUser = $request->except('_token','ConfirmaSenha');//recebe dados do formulario
+        
+        $dataUser['password']= Hash::make($dataUser['password']);
         
         $this->validate($request,$this->user->rulesEdit,$this->messages);//Chamando validação dos dados de entrada
-        $update = $this->user->where('user_id',$id)->update($dataUser);//alterado a linha selecionada no banco de dados 
+        $update = $this->user->where('id',$id)->update($dataUser);//alterado a linha selecionada no banco de dados 
         
         if($update)
            return redirect('/usuario/list'); 
         else return redirect ()->back();
     }
 
-    public function destroy($id) {
+    public function destroy($ent,$id) {
          //fazendo a alteração do status da linha do banco de dados 
-        $update = $this->user->where('user_id',$id)->update(["user_status"=>'0']);
+        $update = $this->user->where('id',$id)->update(["user_status"=>'0']);
         
-         if($update)//se feito com sucesso direciona para...
-           return redirect('/usuario/list'); 
+        if($update)//se feito com sucesso direciona para...
+        {
+           if($ent=='func')
+                return redirect('/funcionario/list'); 
+           else if($ent=='cand') return redirect('/candidato/list'); 
+        }
         else return redirect ()->back();
     }
     
     public function login(Request $request){
-        $dadosForm = $request->except('_token');
+        $dadosForm = $request->except('_token');        
            
         if(Auth::attempt($dadosForm, true)){
             return redirect('funcionario/list');
@@ -139,8 +189,16 @@ class UserController extends Controller {
          return redirect('/');
     }
     
-   /* public function getUser($id){
-        $dadosUsers = $this->user->where("",$user_id)->get();
-        return $dadosUsers;
-    }*/
+    public function testPass(Request $request){
+       $user = $this->user->where('id',Auth::user()->id)->get()->first();        
+       $dados = $request->except('_token');
+       
+       if(Hash::check($dados['userPass'],$user['password'])){
+           $resp=1;
+       }else{
+           $resp=0;
+       }        
+        return Response::json($resp);
+    }
+    
 }

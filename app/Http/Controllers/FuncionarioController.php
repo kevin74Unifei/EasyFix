@@ -33,9 +33,7 @@ class FuncionarioController extends Controller
     
     public function index(Request $request){        
         $title="SISSAR Painel Funcionario";        
-        
-              
-        
+
         $filter = $request->all();//Carregando filtros        
         if($filter){//Se filtros existirem, carrega dados atraves da operação LIKE do sql, em ordem crescente
             $dadosFuncs = $this->func->where("func_status",'1')
@@ -50,7 +48,7 @@ class FuncionarioController extends Controller
         }       
         $dadosFuncUser = array();//criando um array
         foreach($dadosFuncs as $d){
-            $user = User::whereIn('user_perfil',["Administrador","Atedente"])
+            $user = User::whereIn('user_perfil',["Administrador","Atendente"])
                     ->where("user_vinculo",$d['func_cod'])->get()->first();
             
              array_push($dadosFuncUser, array(//colocando no final do vetor mais um vetor, assim criando uma matriz
@@ -167,7 +165,7 @@ class FuncionarioController extends Controller
             if(isset($dataForm['criar_usuario']) || $dataForm['func_cargo']=='Gerente' 
                     || $dataForm['func_cargo']=='Atendente'){
                 
-                return redirect('/usuario/cadastro/'.$insert['id']); 
+                return redirect('/usuario/cadastro/func/'.$insert['id']); 
             }else{
                 return redirect('/funcionario/list');
             }
@@ -201,8 +199,14 @@ class FuncionarioController extends Controller
         //fazendo a alteração do status da linha do banco de dados 
         $update = $this->func->where('func_cod',$id)->update(["func_status"=>'0']);
         
-         if($update)//se feito com sucesso direciona para...
-           return redirect('/funcionario/list'); 
+        if($update)//se feito com sucesso direciona para... 
+        {
+           $u = User::whereIn('user_perfil',['Administrador','Atedente'])->where('user_vinculo',$id)->get()->first();
+           
+           if($u["id"]!=null){               
+                return redirect('/usuario/delete/func/'.$u['id']); 
+           }else return redirect('/funcionario/list');
+        }
         else return redirect ()->back();
     }   
 }

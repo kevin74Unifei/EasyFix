@@ -47,8 +47,5 @@ fieldset{
                             });
                             $('#end_bairro').attr('size',15);
                         });
-                    </script>
-            
-                
-
+                    </script>          
         </fieldset>

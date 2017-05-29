@@ -22,6 +22,8 @@ class CheckUser
                return redirect("funcionario/list");
            }else if($user['user_perfil']=='Atendente'){
                return redirect("candidato/list");
+           }else if($user['user_perfil']=='Candidato'){
+               return redirect("candidato/list");
            }
         }
         return $next($request);

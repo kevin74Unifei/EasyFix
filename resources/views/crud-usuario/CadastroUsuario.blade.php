@@ -54,8 +54,8 @@
             @endif
             ">
         <input type="hidden" name="_token" value="{{csrf_token()}}">
-        <input type="hidden" name="user_vinculo" value="{{$dadosFunc['func_cod'] or ""}}">
-        <input type="hidden" name="user_imagem" value="{{$dadosFunc['func_imagem'] or ""}}">
+        <input type="hidden" name="user_vinculo" value="{{$dadosEnt['cod'] or ""}}">
+        <input type="hidden" name="user_imagem" value="{{$dadosEnt['imagem'] or ""}}">
        
         <fieldset>
             <legend>Dados de Usuário:</legend>            
@@ -67,7 +67,7 @@
                     <div class="row" >
                         <div class="col-xs-240 col-md-173">
                             <a href="#" class="thumbnail">
-                                <img style="width:173px; height:240px;"  src="{{url('storage/imgperfil/')."/"}}{{$dadosFunc['func_imagem'] or 'avatar.png'}}" id="thumb" alt="img_perfil">                    
+                                <img style="width:173px; height:240px;"  src="{{url('storage/imgperfil/')."/"}}{{$dadosEnt['imagem'] or 'avatar.png'}}" id="thumb" alt="img_perfil">                    
                             </a>
                         </div>
                     </div>  
@@ -77,7 +77,7 @@
                     <!-- A parte do view do cadastro de usuario que vai ter o nome de usuario(que deve ser unico, porem ainda nao esta); A senha que devera ter no minimo 7 caracteres -->
                     <div class="form-group">
                         <label for="user_login">Nome de Usuário:</label><br/>
-                        <input type="username" maxlength="60" size="60" class="form-control" name = "username" required="required" value="{{$dado['userLogin'] or ''}}">
+                        <input type="username" maxlength="60" size="60" class="form-control" name = "username" required="required" value="{{$resp['username'] or ''}}">
                     </div>
                     <br/> 
                     <div class="form-group">
@@ -95,9 +95,11 @@
                     <br/>
                     <div class="form-group">
                          <label for="user_perfil">Perfil de Usuário:</label><br/>
-                        <select class="form-control" name="{{$ent or "ent"}}_perfil" required="required"  {{$enabledEdition['userPerfil'] or ''}}>
+                        <select class="form-control" name="user_perfil" required="required"  {{$enabledEdition['userPerfil'] or ''}}>
+                             @if($ent=='func')   
                             <option value="Administrador" @if(isset($dado) && $dado['userPerfil']=='Administrador') {{'selected'}} @endif>Administrador</option>
                             <option value="Atendente" @if(isset($dado) && $dado['userPerfil']=='Atendente') {{'selected'}} @endif>Atendente</option>
+                            @endif
                             <option value="Candidato" @if(isset($dado) && $dado['userPerfil']=='Candidato') {{'selected'}} @endif >Candidato</option>
                         </select> 
                     </div>

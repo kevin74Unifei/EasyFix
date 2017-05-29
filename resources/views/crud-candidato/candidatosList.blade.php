@@ -30,6 +30,14 @@
         top:-30px;
         left:470px;
     }
+    
+    .button_tools_user{
+        position: relative;
+        top:-30px;
+        left:250px;
+    }
+    </style>
+    
     </style>
    
     
@@ -74,7 +82,7 @@
             </th></tr>
         </thead>
         <tbody>         
-        @foreach($dadosCand as $f)
+        @foreach($dadosCandUser as $f)
         <tr>
             <th colspan="2">
                 <a href="{{url("candidato/show/".$f['cand_cod'])}}" class="list-group-item" style="height:100px;width:620px;">  
@@ -82,7 +90,9 @@
                     <div style="position:relative;top:-92px;left:70px;width:500px;">                        
                         <h3>{{$f['cand_nome']}}</h3>                         
                         <label>CPF: {{$f['cand_CPF']}}</label><br/>
-                                        
+                         @if($f['cand_codUser']!=null)
+                            <label>Usuario: {{$f['cand_username']}}</label><br/>                            
+                         @endif                  
                     </div>  
                     
                     <a href="{{url("candidato/form/".$f['cand_cod'])}}" class="buttons_tools">
@@ -90,6 +100,15 @@
                     <a href="{{url("candidato/delete/".$f['cand_cod'])}}" class="buttons_tools">
                         <span class="glyphicon glyphicon-trash" style="padding: 4px;" aria-hidden="true"></span>Excluir</a>
                     
+                    @if($f['cand_codUser']!=null)
+                        <a href="{{url("usuario/formeditor/".$f['cand_codUser'])}}" class="button_tools_user">
+                            <span class="glyphicon glyphicon-user" style="padding:4px;" aria-hidden="true"></span>Usuario
+                        </a>
+                    @else
+                        <a href="{{url("usuario/cadastro/cand/".$f['cand_cod'])}}" class="button_tools_user">
+                            <span class="glyphicon glyphicon-plus" style="padding:4px;" aria-hidden="true"></span>Usuario
+                        </a>
+                    @endif
                 </a>                
             </th>            
         </tr>

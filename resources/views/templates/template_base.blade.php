@@ -60,10 +60,16 @@
                                 
                                     {{Auth::user()->username}}  <span class="caret"></span></a>
                             <ul class="dropdown-menu">
-                              <li><a href="{{url('funcionario/perfil/')}}">Editar Perfil</a></li>
-                              <li><a href="{{url('usuario/perfil/')}}">Editar Login</a></li>
+                                <li><a href="
+                                      @if(Auth::user()->user_perfil=='Administrador' || Auth::user()->user_perfil=='Atendente')
+                                      {{url('funcionario/form/')."/".Auth::user()->user_vinculo}}
+                                      @else
+                                      {{url('candidato/form/')."/".Auth::user()->user_vinculo}}
+                                      @endif
+                                      ">Editar Perfil</a></li>
+                              <li><a href="{{url('usuario/formeditor/').'/'.Auth::user()->id}}">Editar Login</a></li>
                               <li><a href="{{url("/logout")}}">Logout</a></li>
-                            </ul>
+                            </ul>>
                        </li>
                        @yield('Menu')
                     </ul>
