@@ -43,11 +43,11 @@
     <script type='text/javascript'>
         function ex()
             {
-            var x=confirm("Você quer mesmo sair desta página?")
+            var x=confirm("Você quer mesmo sair desta página?");
             if (x)
-             window.open("http://www.variedadesedicas.com")
+             window.open("http://www.variedadesedicas.com");
             else
-            alert("Você irá permanecer aqui!")
+            alert("Você irá permanecer aqui!");
             } 
     </script>
     

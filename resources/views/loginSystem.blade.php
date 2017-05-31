@@ -37,6 +37,7 @@
         <form method="post" action="{{url('logar')}}">
             <div>
                  <input type="hidden" name="_token" value="{{csrf_token()}}">
+                 <input type="hidden" name="user_status" value="1">
                 <label for='login'  >Login:</label><br/>        
                 <input  type='text' class="form-control" name='username'placeholder="Login"><br/>         
 

@@ -172,8 +172,8 @@ class UserController extends Controller {
     }
     
     public function login(Request $request){
-        $dadosForm = $request->except('_token');        
-           
+        $dadosForm = $request->except('_token');   
+        
         if(Auth::attempt($dadosForm, true)){
             return redirect('funcionario/list');
         }else{            
