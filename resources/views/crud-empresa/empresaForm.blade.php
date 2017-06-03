@@ -19,7 +19,7 @@
     }
 
     .info_pessoal{position:relative;
-                  float:left;
+            float:left;
     }
 
     .form-group{

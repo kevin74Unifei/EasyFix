@@ -76,3 +76,6 @@ Route::get('/empresa/show/{id}','EmpresaController@show')->middleware("CheckUser
 Route::post('/empresa/edit/{id}','EmpresaController@edit')->middleware("CheckUserAdmin");
 
 Route::get('/empresa/delete/{id}','EmpresaController@destroy')->middleware("CheckUserAdmin");
+
+
+Route::get('/curriculo/form', 'CurriculoController@create');

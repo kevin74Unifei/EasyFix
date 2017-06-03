@@ -25,8 +25,7 @@ class FuncionarioController extends Controller
             'func_cargaHor.required'=>"É obrigatorio preechimento do carga Horária",            
     ];
     
-    public function __construct(Funcionario $f){
-        
+    public function __construct(Funcionario $f){        
         $this->func=$f;   
         
     }

@@ -47,6 +47,7 @@ fieldset{
                         //Carrega as cidades do estado seleciona 
                         function getCidades(){
                             var idEstado = $('#fieldState').val();
+                            $("#fieldCity").empty();
                             $.get("{{url('/cidades')}}" +'/'+ idEstado, function (cidades) {
                                 
                                 $.each(cidades, function (key, value) {
