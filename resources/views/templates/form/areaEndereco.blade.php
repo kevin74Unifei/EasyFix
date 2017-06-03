@@ -36,7 +36,7 @@ fieldset{
                        name="{{$ent or "ent"}}_end_bairro" value="{{$resp["end_bairro"] or ""}}" {{$enabledEdition['end_bairro'] or ""}}>
             </div>
             
-                   <script type="text/javascript">
+                    <script type="text/javascript">
                         $(function(){//Ao carregar a pagina                           
                             getCidades();
                         });
@@ -56,5 +56,7 @@ fieldset{
                             });
                             $('#end_bairro').attr('size',15);
                         }
-                    </script>          
+                    </script> 
+                
+
         </fieldset>

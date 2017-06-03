@@ -1,4 +1,3 @@
-
 @extends('../templates/template_base')
 
 @section('tools-icon')
@@ -36,17 +35,17 @@
 <div class="menu">
     <!--FILTER-->
     <div class="dropdown">
-        <form class="form-inline" id="form_busca" action="{{url('/empresa/list')}}">
+        <form class="form-inline" id="form_busca" action="{{url('/vaga/list')}}">
             <label>Filtros:</label><br/>
             <select name="campo_ent" class="form-control" >
-                <option value="emp_nome"
-                    @if(isset($valor_filter_campo) && $valor_filter_campo=='emp_nome')
+                <option value="vag_nome"
+                    @if(isset($valor_filter_campo) && $valor_filter_campo=='vag_nome')
                         selected="selected"
                     @endif>Nome</option>
-                <option value="emp_end_cidade"
-                    @if(isset($valor_filter_campo) && $valor_filter_campo=='emp_end_cidade')
+                <option value="vag_valorPag"
+                    @if(isset($valor_filter_campo) && $valor_filter_campo=='vag_valorPag')
                         selected="selected"
-                    @endif>Cidade</option>
+                    @endif>Valor de Pagamento</option>
             </select>
             <input type="text" id="chave_busca" name="chave_busca" class="form-control"  
                 value="{{$valor_filter_text or ""}}" >                 
@@ -60,25 +59,25 @@
    
 </div>
     
-<!--LISTA DE Empresas-->
+<!--LISTA DE Vagas-->
 <div class="pagina">
     <table class="table">
         <thead class="thead-inverse">
-            <tr><th><h1>Empresas</h1></th></tr>
+            <tr><th><h1>Vagas</h1></th></tr>
         </thead>
         <tbody>         
-        @foreach($dadosEmp as $f)
+        @foreach($dadosVag as $f)
         <tr>
             <th>
-                <a href="{{url("empresa/show/".$f['emp_cod'])}}" class="list-group-item" style="height:100px;width:620px;">  
+                <a href="{{url("vaga/show/".$f['vag_id'])}}" class="list-group-item" style="height:100px;width:620px;">  
                     <div style="position:relative;top:-10px;left:70px;width:500px;">                        
-                        <h3>{{$f['emp_nome']}}</h3>                         
-                        <label>Cidade: {{$f['emp_end_cidade']}}</label><br/>                  
+                        <h3>{{$f['vag_nome']}}</h3>                         
+                        <label>Valor de Pagamento: {{$f['vag_valorPag']}}</label><br/>                  
                     </div>  
                     
-                    <a href="{{url("empresa/form/".$f['emp_cod'])}}" class="buttons_tools">
+                    <a href="{{url("vaga/form/".$f['vag_id'])}}" class="buttons_tools">
                         <span class="glyphicon glyphicon-pencil" style="padding:4px;" aria-hidden="true"></span>Editar</a> 
-                    <a href="{{url("empresa/delete/".$f['emp_cod'])}}" class="buttons_tools">
+                    <a href="{{url("vaga/delete/".$f['vag_id'])}}" class="buttons_tools">
                         <span class="glyphicon glyphicon-trash" style="padding: 4px;" aria-hidden="true"></span>Inativar</a>
                 </a>                
             </th>            
@@ -88,5 +87,6 @@
     </table>
 </div>
 @endSection
+
 
 
