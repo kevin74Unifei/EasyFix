@@ -13,6 +13,7 @@
 Route::get('/home', function () {
     return view('painel/userView');    
 });
+Route::get('/candidatohome','CandidatoController@loadPainel');
 
 Route::get('/', function () {
     return view('loginSystem');
@@ -51,7 +52,8 @@ Route::post('usuario/edit/{id}','UserController@edit');
 Route::get('usuario/delete/{ent}/{id}','UserController@destroy');
 
 
- 
+
+
 Route::get('/candidato/form/{id?}','CandidatoController@create');
 
 Route::post('/candidato/cadastrar','CandidatoController@store');
@@ -91,4 +93,6 @@ Route::post('/vaga/edit/{id}','VagaController@edit');
 Route::get('/vaga/delete/{id}','VagaController@destroy');
 
 
-Route::get('/curriculo/form', 'CurriculoController@create');
+Route::get('/curriculo/form/{id}', 'CurriculoController@create');
+
+Route::post('/curriculo/gerar', 'CurriculoController@store');

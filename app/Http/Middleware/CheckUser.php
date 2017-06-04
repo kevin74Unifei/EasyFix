@@ -23,7 +23,7 @@ class CheckUser
            }else if($user['user_perfil']=='Atendente'){
                return redirect("/home");
            }else if($user['user_perfil']=='Candidato'){
-               return redirect("/home");
+               return redirect("/candidatohome");
            }
         }
         return $next($request);

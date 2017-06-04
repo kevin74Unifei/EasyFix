@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Candidato;
 use App\User;
+use App\Curriculo;
 use DB;
 
 class CandidatoController extends Controller
@@ -173,6 +175,14 @@ class CandidatoController extends Controller
         if($update)
            return redirect('/candidato/list'); 
         else return redirect ()->back();
+    }
+    
+    public function loadPainel(){
+        $currs = Curriculo::where('cand_cod',Auth::user()->user_vinculo)
+                ->where('curr_active','1')
+                ->get();
+        
+        return view('painel/candView', compact('currs'));
     }
     
     public function destroy($id){

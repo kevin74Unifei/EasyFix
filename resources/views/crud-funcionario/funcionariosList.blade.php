@@ -81,7 +81,7 @@
 
 <div class="pagina">    
     
-    <!--LISTA DE Candidatos-->
+    <!--LISTA DE Funcionarios-->
     <table class="table">
         <thead class="thead-inverse">
             <tr><th><h1>Funcionarios</h1></th>

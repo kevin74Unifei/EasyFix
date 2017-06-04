@@ -40,11 +40,7 @@
         padding-left: 11px;
         padding-top: 10px;
     } 
-    
-    .data{position: relative;   
-        top:-68px;
-        left:72%;        
-    }
+
     
 </style>
 
@@ -52,6 +48,7 @@
     <form class="form-inline" method='post' enctype="multipart/form-data" action='{{url('curriculo/gerar')}}' >
     
     <input type="hidden" name="_token" value="{{csrf_token()}}">
+    <input type="hidden" name="cand_cod" value="{{$resp['cod']}}">
     <fieldset>
         <div>
             <div class="img_perfil">
@@ -115,37 +112,52 @@
         </script>
       
         <select name="curr_profissao" style="width:50%" id="curr_profissao" class="form-control">
-            <option value="1" selected="selected">Tecnico em informatica</option>
+            @foreach($profs as $prof)
+                <option value="{{$prof->id}}" >{{$prof->profissao}}</option>
+            @endforeach
         </select>
 
         <select name="curr_vagaEsp" style="width:50%" id="curr_vagaEsp" class="form-control" style="display: none;">
-            <option value="1" selected="selected">Tecnico em HelpDesk</option>
+            @foreach($vagasDados as $v)
+                <option value="{{$v->id}}" >{{$v->nome}}</option>
+            @endforeach
         </select>
         </div>
-    </fieldset>    
+    </fieldset>  
     
-    @include('../templates/form/areaFormacao')<!--Incluido fieldset de formação-->
+    <script type="text/javascript">
+                    $(function () {
+                         
+                         $('#datetimepickerForm').datetimepicker({
+                             format:'DD/MM/YYYY', 
+                             });
+                         
+                          $('#datetimepickerInicioExp').datetimepicker({
+                             format:'DD/MM/YYYY', 
+                             });
+                             
+                          $('#datetimepickerSaidaExp').datetimepicker({
+                             format:'DD/MM/YYYY', 
+                             });
+                          });
+    </script>
     
+    @include('../templates/form/areaFormacao')<!--Incluido fieldset de formação-->    
     @include('../templates/form/areaExperiencia')<!--Incluido fieldset de Experiencia-->
         
     
-    <fieldset style="position:relative;top:-160px;">
+    <fieldset>
         <legend>Extras</legend>
                 
-        <div class="form-group" style="width:96%;">
-            <label for="curr_idiomas">Idiomas:</label><br/>
-            <div style="overflow: scroll;width:100%;height:100px;">
-                
-            </div>
-        </div>
+        @include('../templates/components/fieldLanguage')            
         
-        <div class="form-group" style="width: 96%;" >
+        <div class="form-group" style="width: 100%;" >
                 <label for="curr_extra">Formações Extra:</label><br/>
                 <textarea name="curr_extra" style="width: 100%;" rows="4" cols="80"></textarea>
         </div><br/>
     </fieldset>    
     
-    <button action="submit" class="btn btn-primary" style='margin-left:10px;position:relative;width:95%;top:-130px;' >
+    <button action="submit" class="btn btn-primary" style='margin-left:10px;position:relative;width:99%;top:30px;' >
         Gerar e Cadastrar
     </button>  
     </form>

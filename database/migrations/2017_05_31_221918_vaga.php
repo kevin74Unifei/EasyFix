@@ -27,6 +27,7 @@ class Vaga extends Migration
             $table->string('vag_estado');
             $table->string('vag_regime');
             $table->string('vag_dias'); 
+            $table->string('vag_idioma');
             $table->string('vag_horario'); 
             $table->string('vag_beneficios');            
             $table->integer('vag_active')->default(1);
