@@ -11,7 +11,7 @@ class Vaga extends Migration
     {
         Schema::create('vagas', function (Blueprint $table) {
             $table->increments('vag_id');
-            $table->integer('vag_empresa_cod')->unsigned();
+            $table->integer('vag_empresa_cod')->unsigned()->nullable();
             $table->foreign('vag_empresa_cod')
                     ->references('emp_cod')
                     ->on('empresas')
