@@ -80,6 +80,16 @@
                         <span class="glyphicon glyphicon-pencil" style="padding:4px;" aria-hidden="true"></span>Editar</a> 
                     <a href="{{url("empresa/delete/".$f['emp_cod'])}}" class="buttons_tools">
                         <span class="glyphicon glyphicon-trash" style="padding: 4px;" aria-hidden="true"></span>Inativar</a>
+                        
+                         
+                    
+                        <a href="{{url("vaga/form/".$f['emp_cod'])}}" class="button_tools_user">
+                            <span class="glyphicon glyphicon-user" style="padding:4px;" aria-hidden="true"></span>Cadastro de Vagas
+                        </a>
+                        <a href="{{url("vaga/list?campo_ent=vag_nomeEmpresa&chave_busca=".$f['emp_nome'])}}" class="button_tools_user">
+                            <span class="glyphicon glyphicon-pencil" style="padding:4px;" aria-hidden="true"></span>Visualizar Vagas
+                        </a>
+                   
                 </a>                
             </th>            
         </tr>

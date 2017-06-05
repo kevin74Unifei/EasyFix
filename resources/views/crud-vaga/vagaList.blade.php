@@ -42,10 +42,15 @@
                     @if(isset($valor_filter_campo) && $valor_filter_campo=='vag_nome')
                         selected="selected"
                     @endif>Nome</option>
-                <option value="vag_valorPag"
-                    @if(isset($valor_filter_campo) && $valor_filter_campo=='vag_valorPag')
+                <option value="vag_estado"
+                    @if(isset($valor_filter_campo) && $valor_filter_campo=='vag_estado')
                         selected="selected"
-                    @endif>Valor de Pagamento</option>
+                    @endif>Estado da vaga</option>
+                
+                <option value="vag_nomeEmpresa"
+                    @if(isset($valor_filter_campo) && $valor_filter_campo=='vag_nomeEmpresa')
+                        selected="selected"
+                    @endif>Empresa</option>
             </select>
             <input type="text" id="chave_busca" name="chave_busca" class="form-control"  
                 value="{{$valor_filter_text or ""}}" >                 
@@ -72,10 +77,11 @@
                 <a href="{{url("vaga/show/".$f['vag_id'])}}" class="list-group-item" style="height:100px;width:620px;">  
                     <div style="position:relative;top:-10px;left:70px;width:500px;">                        
                         <h3>{{$f['vag_nome']}}</h3>                         
-                        <label>Valor de Pagamento: {{$f['vag_valorPag']}}</label><br/>                  
+                        <label>Estado da vaga: {{$f['vag_estado']}}</label><br/> 
+                        <label>Empresa: {{$f['vag_nomeEmpresa']}}</label><br/> 
                     </div>  
                     
-                    <a href="{{url("vaga/form/".$f['vag_id'])}}" class="buttons_tools">
+                    <a href="{{url("vaga/show/".$f['vag_id'])}}" class="buttons_tools">
                         <span class="glyphicon glyphicon-pencil" style="padding:4px;" aria-hidden="true"></span>Editar</a> 
                     <a href="{{url("vaga/delete/".$f['vag_id'])}}" class="buttons_tools">
                         <span class="glyphicon glyphicon-trash" style="padding: 4px;" aria-hidden="true"></span>Inativar</a>
@@ -87,6 +93,3 @@
     </table>
 </div>
 @endSection
-
-
-
