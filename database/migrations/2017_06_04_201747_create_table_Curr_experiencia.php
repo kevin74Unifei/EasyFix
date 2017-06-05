@@ -24,7 +24,7 @@ class CreateTableCurrExperiencia extends Migration
             $table->string('curr_cargo');    
             $table->date('curr_dataInicioExp'); 
             $table->date('curr_dataSaidaExp');
-            $table->date('curr_descExp');
+            $table->string('curr_descExp');
             $table->integer('curr_active')->default(1);
             $table->timestamps();
         });

@@ -11,9 +11,9 @@
         <div id="fieldFormation" style="height:200px;">
             <div class="form-extra">
                 <label for="curr_curso">Curso:</label><br/>
-                <select name="curr_curso[]" class="form-control" style="width:100%">              
-                    <option value="">Tecnico em informatica</option>
-                </select>
+                <input name="curr_curso[]" class="form-control" onkeyup="this.value = this.value.toUpperCase();" style="width:100%">              
+                <!--    <option value="tec">Tecnico em informatica</option>
+                </select>-->
             </div>
 
             <div class="form-group">

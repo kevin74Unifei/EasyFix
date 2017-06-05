@@ -131,7 +131,7 @@ class CandidatoController extends Controller
         
         $dadosCand = $this->cand->where("cand_cod",$id)->get()->first();  
         
-       $title = "SISSAR ".$dadosCand['cand_nome'];
+        $title = "SISSAR ".$dadosCand['cand_nome'];
         return view('crud-candidato/candidatoView',compact("title","dadosCand"));  
     }
     

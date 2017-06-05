@@ -96,3 +96,7 @@ Route::get('/vaga/delete/{id}','VagaController@destroy');
 Route::get('/curriculo/form/{id}', 'CurriculoController@create');
 
 Route::post('/curriculo/gerar', 'CurriculoController@store');
+
+Route::get('/curriculo/view/{id}', 'CurriculoController@show');
+
+Route::get('/curriculo/delete/{id}', 'CurriculoController@destroy');

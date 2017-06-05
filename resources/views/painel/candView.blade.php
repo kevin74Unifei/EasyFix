@@ -48,10 +48,10 @@
                             <label>Objetivo:</label><br/>
                             <label>Data de Emissão:{{$c['curr_dataEmit']}}</label>
                         </div> 
-                        <a href="{{url("funcionario/form/")}}" class="buttons_tools">
+                        <a href="#" onclick="window.open ('{{url('curriculo/view/'.$c['id'])}}','popup');" class="buttons_tools">
                             <span class="glyphicon glyphicon-search" style="padding:4px;" aria-hidden="true"></span>Visualizar
                         </a> 
-                        <a href="{{url("funcionario/form/")}}" class="buttons_tools">
+                        <a href="{{url("curriculo/delete/".$c['id'])}}" class="buttons_tools">
                             <span class="glyphicon glyphicon-pencil" style="padding:4px;" aria-hidden="true"></span>Excluir
                         </a>                        
                     </div>   

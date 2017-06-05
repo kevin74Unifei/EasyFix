@@ -8,6 +8,8 @@ use App\Candidato;
 use App\Vaga;
 use App\Profissao;
 use App\Curriculo;
+use App\CurrExperiencia;
+use App\CurrFormacao;
 use App\Util;
 
 class CurriculoController extends Controller
@@ -98,16 +100,58 @@ class CurriculoController extends Controller
                 'curr_obj_type' => 'App/Vaga'
             ];              
         }
-        $insert = $this->curr->create($dadosCad); 
+        $insert = $this->curr->create($dadosCad);
         
-         ///$insert = $this->curr->create($dadosCurr);//cadastrado no banco de dados     
+        for($i=0;$i<count($dadosCurr['curr_nomeEmpresa']);$i++){//Contando o numero de experiencias e percorrendo as mesmas e as cadastrando
+            $vectCurrExp = [
+                'curr_cod' =>$insert['id'],
+                'curr_nomeEmpresa' =>$dadosCurr['curr_nomeEmpresa'][$i],
+                'curr_cargo' =>$dadosCurr['curr_cargo'][$i],
+                'curr_dataInicioExp' =>implode("-",array_reverse(explode("/",$dadosCurr['curr_dataInicioExp'][$i]))),
+                'curr_dataSaidaExp' =>implode("-",array_reverse(explode("/",$dadosCurr['curr_dataSaidaExp'][$i]))),
+                'curr_descExp' =>$dadosCurr['curr_descExp'][$i],                
+            ];
             
+            $currExp = CurrExperiencia::create($vectCurrExp);
+        }    
+        
+        for($i=0;$i<count($dadosCurr['curr_nomeInst']);$i++){ //Contando o numero de formações e percorrendo as mesmas e as cadastrando           
+            $vectCurrForm = [
+                'curr_cod' =>$insert['id'],
+                'curr_nomeInst' =>$dadosCurr['curr_nomeInst'][$i],
+                'curr_curso' =>$dadosCurr['curr_curso'][$i],
+                'curr_situacaoCurso' =>$dadosCurr['curr_situacaoCurso'][$i],
+                'curr_dataForm' =>implode("-",array_reverse(explode("/",$dadosCurr['curr_dataForm'][$i]))),                              
+            ];
+            
+            $currExp = CurrFormacao::create($vectCurrForm);
+        } 
+  
         if($insert)//se ocorre com sucesso direciona para..
            return redirect('/'); 
         else return redirect ()->back();
    }
    
-    
+   public function show($id){
+        //Pesquisando dados do candidato
+        $dadosCurr = $this->curr::where('id',$id)->get()->first();
+        $dadosCand = Candidato::where('cand_cod',$dadosCurr['cand_cod'])->get()->first();  
+        $dadosCand['cand_dataNasc'] = Util::calc_idade(implode("/",array_reverse(explode("-",$dadosCand['cand_dataNasc']))));
+        
+        $dadosFormacoes = CurrFormacao::where('curr_cod',$dadosCurr['id'])->get();
+        $dadosProfExp = CurrExperiencia::where('curr_cod',$dadosCurr['id'])->get();
+
+        $dadosCurrObj = $dadosCurr->curr_obj();//recebendo objetivos que pode ser uma profissao o uma vaga        
+        $idiomas = DB::select("select * from TB_Idiomas where id IN (".$dadosCurr['curr_idiomas'][0].")");       
+
+        return view('crud-curriculo/curriculoView',compact('dadosCand','dadosCurr','dadosCurrObj','dadosFormacoes','dadosProfExp','idiomas'));
+   }
+   
+   public function destroy($id){
+       $update = $this->curr->where('id',$id)->update(["curr_active"=>'0']);
+       
+       return redirect('/candidatohome');
+   }
         
 
 }
