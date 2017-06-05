@@ -24,7 +24,7 @@ class VagaController extends Controller
             'vag_beneficios'=> "É obrigatorio preenchimento do campo Benefícios",
             'vag_email'=>'É obrigatório preenchimento do Email',
             'vag_nomeEmpresa'=>'É obrigatório preenchimento do Email',
-            'vag_telefone'=>'É obrigatório preenchimento do Telefone'
+            'vag_telefone'=>'É obrigatório preenchimento do Telefone',
     ];
     
     public function __construct(Vaga $f){
@@ -53,10 +53,11 @@ class VagaController extends Controller
                                                                 "valor_filter_campo"));
     }
     
-    public function show($vag_id){
+    public function show($vag_id=null){
+        $ent ="vag";
         $title="SISSAR Edição Vaga";
-            $dadosVags = $this->vag->where("vag_id",$vag_id)->get();   
-            foreach($dadosVags as $d){
+            $d = $this->vag->where("vag_id",$vag_id)->get()->first();   
+            
                 $resp= [//guarda dados em um vetor com nomes genericos para ser utilizado pelo components-templates
                     'id' => $d['vag_id'],
                     'nome' => $d['vag_nome'],
@@ -73,11 +74,11 @@ class VagaController extends Controller
                     'email' => $d['vag_email'],
                     'telefone' => $d['vag_telefone'],
                     'telefoneCel' => $d['vag_telefoneCel'],
-                    'nomeEmp' => $d['vag_nomeEmpresa']
+                    'nomeEmp' => $d['vag_nomeEmpresa'],
+                    'vagCod'=>$d['vag_empresa_cod']
                 ];
-                
-                break;
-            }//Retorna um formulario para alteração de dados.            
+         
+            //Retorna um formulario para alteração de dados.            
                 $enabledEdition = [
                     'id' => "disabled",
                     'nome' => "enabled",
@@ -94,6 +95,8 @@ class VagaController extends Controller
                     'email' => "enabled",
                     'telefone' => "enabled",
                     'telefoneCel' => "enabled",
+                    'nomeEmp' =>"disabled",
+                    'vagCod'=>"disabled",
                     'action' => 'editar'
                 ];
             return view('crud-vaga/vagaForm',compact("title","ent","resp","enabledEdition"));   
