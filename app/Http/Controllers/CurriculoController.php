@@ -77,14 +77,16 @@ class CurriculoController extends Controller
         $dadosCurr = $request->except('_token');   
         
         $idiomas = ""; //Recebendo idioma guardado       
-        foreach($dadosCurr['curr_idiomas'] as $idioma){
-           $idiomas = $idiomas.$idioma.","; 
+        if(isset($dadosCurr['curr_idiomas'])){
+            foreach($dadosCurr['curr_idiomas'] as $idioma){
+               $idiomas = $idiomas.$idioma.","; 
+            }
         }
         
         if($dadosCurr['curr_obj']==1){     
             $dadosCad = [
                 'curr_idiomas' => $idiomas,
-                'currExtra' => $dadosCurr['curr_extra'],
+                'curr_extra' => $dadosCurr['curr_extra'],
                 'curr_dataEmit' => date('y-m-d'),                
                 'cand_cod' => $dadosCurr['cand_cod'],
                 'curr_obj_id'=> $dadosCurr['curr_profissao'],
@@ -93,7 +95,7 @@ class CurriculoController extends Controller
         }else if($dadosCurr['curr_obj']==2){
             $dadosCad = [
                 'curr_idiomas' => $idiomas,
-                'currExtra' => $dadosCurr['curr_extra'],
+                'curr_extra' => $dadosCurr['curr_extra'],
                 'curr_dataEmit' => date('y-m-d'),                
                 'cand_cod' => $dadosCurr['cand_cod'],
                 'curr_obj_id'=> $dadosCurr['curr_vagaEsp'],
@@ -141,9 +143,12 @@ class CurriculoController extends Controller
         $dadosFormacoes = CurrFormacao::where('curr_cod',$dadosCurr['id'])->get();
         $dadosProfExp = CurrExperiencia::where('curr_cod',$dadosCurr['id'])->get();
 
-        $dadosCurrObj = $dadosCurr->curr_obj();//recebendo objetivos que pode ser uma profissao o uma vaga        
-        $idiomas = DB::select("select * from TB_Idiomas where id IN (".$dadosCurr['curr_idiomas'][0].")");       
-
+        $dadosCurrObj = $dadosCurr->curr_obj();//recebendo objetivos que pode ser uma profissao o uma vaga
+        $idiomas=["",""];        
+        if(isset($dadosCurr['curr_idiomas'][0])){
+            $idiomas = DB::select("select * from TB_Idiomas where id IN (".$dadosCurr['curr_idiomas'][0].")");       
+        }
+        
         return view('crud-curriculo/curriculoView',compact('dadosCand','dadosCurr','dadosCurrObj','dadosFormacoes','dadosProfExp','idiomas'));
    }
    

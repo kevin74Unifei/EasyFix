@@ -108,7 +108,7 @@
                             <fieldset>
                                     <Legend>Informações Adicionais</Legend>
                                     <ul>
-                                        <li>Idiomas: @foreach($idiomas as $idioma){{" ".$idioma->nome." "}}@endforeach</li>
+                                        <li>Idiomas: @foreach($idiomas as $idioma){{$idioma->nome or ""}}@endforeach</li>
                                         <li>{{$dadosCurr['curr_extra']}}</li>
                                     </ul>
                                 </fieldset>

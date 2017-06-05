@@ -159,9 +159,7 @@ class VagaController extends Controller
                     'email'=> $dadosEmp['emp_email'],
                     'vag_empresa_cod'=>$dadosEmp['emp_cod'],
                 ];
-               
-               
-            
+
             return view('crud-vaga/vagaForm',compact("title","ent","dadosEnt", "enabledEdition")); 
         }                
     }
