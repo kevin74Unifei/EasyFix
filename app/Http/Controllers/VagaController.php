@@ -54,11 +54,10 @@ class VagaController extends Controller
     }
     
     public function show($vag_id){
-        $title="SISSAR Visualização Vaga";            
-        
-        $dadosVags = $this->vag->where("vag_id",$vag_id)->get();   
-        foreach($dadosVags as $d){
-            $resp= [//guarda dados em um vetor com nomes genericos para ser utilizado pelo components-templates
+        $title="SISSAR Edição Vaga";
+            $dadosVags = $this->vag->where("vag_id",$vag_id)->get();   
+            foreach($dadosVags as $d){
+                $resp= [//guarda dados em um vetor com nomes genericos para ser utilizado pelo components-templates
                     'id' => $d['vag_id'],
                     'nome' => $d['vag_nome'],
                     'tipoPag'=>$d['vag_tipoPag'],
@@ -75,10 +74,10 @@ class VagaController extends Controller
                     'telefone' => $d['vag_telefone'],
                     'telefoneCel' => $d['vag_telefoneCel'],
                     'nomeEmp' => $d['vag_nomeEmpresa']
-            ];  
+                ];
                 
-            break;
-        }//Retorna um formulario para alteração de dados.            
+                break;
+            }//Retorna um formulario para alteração de dados.            
                 $enabledEdition = [
                     'id' => "disabled",
                     'nome' => "enabled",
@@ -92,12 +91,12 @@ class VagaController extends Controller
                     'horario' => "enabled",
                     'beneficios' => "enabled",
                     'nomeEmpresa'=>"disabled",
-                    'email' => "disabled",
-                    'telefone' => "disabled",
+                    'email' => "enabled",
+                    'telefone' => "enabled",
                     'telefoneCel' => "enabled",
-                    'action' => 'visualizar'
+                    'action' => 'editar'
                 ];
-            return view('crud-vaga/vagaForm',compact("title","ent","resp","enabledEdition"));    
+            return view('crud-vaga/vagaForm',compact("title","ent","resp","enabledEdition"));   
     }
     
     public function create($vag_id=null){

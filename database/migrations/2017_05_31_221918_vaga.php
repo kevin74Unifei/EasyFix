@@ -18,7 +18,7 @@ class Vaga extends Migration
                     ->onDelete('cascade');
             $table->string('vag_nome');
             $table->string('vag_tipoPag');
-            $table->float('vag_valorPag');    
+            $table->string('vag_valorPag');    
             $table->string('vag_escolar');           
             $table->string('vag_estado');
             $table->string('vag_regime');
