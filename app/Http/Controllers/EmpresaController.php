@@ -159,7 +159,7 @@ class EmpresaController extends Controller
         $insert = $this->emp->create($dataForm);//cadastrado no banco de dados 
         
         if($insert)//se ocorre com sucesso direciona para..
-           return redirect('/'); 
+           return redirect('/empresa/list'); 
         else return redirect ()->back();
     }
     

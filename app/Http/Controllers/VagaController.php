@@ -1,7 +1,12 @@
 <?php
+
 namespace App\Http\Controllers;
+
 use Illuminate\Http\Request;
+
 use App\Vaga;
+use App\Empresa;
+
 class VagaController extends Controller
 {
     private $vag;
@@ -16,7 +21,10 @@ class VagaController extends Controller
             'vag_regime'=> "É obrigatorio preechimento do campo Regime",
             'vag_dias'=> "É obrigatorio preechimento do campo Dias",
             'vag_horario'=> "É obrigatorio preechimento do campo Horário",
-            'vag_beneficios'=> "É obrigatorio preenchimento do campo Benefícios"                     
+            'vag_beneficios'=> "É obrigatorio preenchimento do campo Benefícios",
+            'vag_email'=>'É obrigatório preenchimento do Email',
+            'vag_nomeEmpresa'=>'É obrigatório preenchimento do Email',
+            'vag_telefone'=>'É obrigatório preenchimento do Telefone'
     ];
     
     public function __construct(Vaga $f){
@@ -46,48 +54,7 @@ class VagaController extends Controller
     }
     
     public function show($vag_id){
-        $title="SISSAR Visualização Vaga";            
-        
-        $dadosVags = $this->vag->where("vag_id",$vag_id)->get();   
-        foreach($dadosVags as $d){
-            $resp= [//guarda dados em um vetor com nomes genericos para ser utilizado pelo components-templates
-                    'id' => $d['vag_id'],
-                    'nome' => $d['vag_nome'],
-                    'tipoPag'=>$d['vag_tipoPag'],
-                    'valorPag'=>$d['vag_valorPag'],
-                    'escolar'=>$d['vag_escolar'],
-                    'idioma'=>$d['vag_idioma'],
-                    'estado'=>$d['vag_estado'],
-                    'regime'=> $d['vag_regime'],
-                    'dias'=> $d['vag_dias'],
-                    'horario'=> $d['vag_horario'],
-                    'beneficios'=> $d['vag_beneficios'],
-            ];  
-                
-            break;
-        }//Retorna um formulario para alteração de dados.            
-                $enabledEdition = [
-                    'id' => "disabled",
-                    'nome' => "enabled",
-                    'tipoPag' => "enabled",
-                    'valorPag' => "enabled", 
-                    'escolar' => "enabled",  
-                    'idioma' => "enabled",
-                    'estado' => "enabled",
-                    'regime' => "enabled",
-                    'dias' => "enabled",
-                    'horario' => "enabled",
-                    'beneficios' => "enabled",
-                    'action' => 'visualizar'
-                ];
-            return view('crud-vaga/vagaForm',compact("title","ent","resp","enabledEdition"));    
-    }
-    
-    public function create($vag_id=null){
-        $ent ="vag";
-                
-        if($vag_id!=null){//Se recebe um parametro, faz o que esta aqui dentro
-            $title="SISSAR Edição Vaga";
+        $title="SISSAR Edição Vaga";
             $dadosVags = $this->vag->where("vag_id",$vag_id)->get();   
             foreach($dadosVags as $d){
                 $resp= [//guarda dados em um vetor com nomes genericos para ser utilizado pelo components-templates
@@ -102,6 +69,11 @@ class VagaController extends Controller
                     'dias'=> $d['vag_dias'],
                     'horario'=> $d['vag_horario'],
                     'beneficios'=> $d['vag_beneficios'],
+                    'nomeEmpresa'=>$d['vag_nomeEmpresa'],
+                    'email' => $d['vag_email'],
+                    'telefone' => $d['vag_telefone'],
+                    'telefoneCel' => $d['vag_telefoneCel'],
+                    'nomeEmp' => $d['vag_nomeEmpresa']
                 ];
                 
                 break;
@@ -118,12 +90,79 @@ class VagaController extends Controller
                     'dias' => "enabled",
                     'horario' => "enabled",
                     'beneficios' => "enabled",
+                    'nomeEmpresa'=>"disabled",
+                    'email' => "enabled",
+                    'telefone' => "enabled",
+                    'telefoneCel' => "enabled",
+                    'action' => 'editar'
+                ];
+            return view('crud-vaga/vagaForm',compact("title","ent","resp","enabledEdition"));   
+    }
+    
+    public function create($vag_id=null){
+        $ent ="vag";
+        $id = $vag_id;
+        $vag_id =null;
+        if($vag_id!=null){//Se recebe um parametro, faz o que esta aqui dentro
+            $title="SISSAR Edição Vaga";
+            $dadosVags = $this->vag->where("vag_id",$vag_id)->get();   
+            foreach($dadosVags as $d){
+                $resp= [//guarda dados em um vetor com nomes genericos para ser utilizado pelo components-templates
+                    'id' => $d['vag_id'],
+                    'nome' => $d['vag_nome'],
+                    'tipoPag'=>$d['vag_tipoPag'],
+                    'valorPag'=>$d['vag_valorPag'],
+                    'escolar'=>$d['vag_escolar'],
+                    'idioma'=>$d['vag_idioma'],
+                    'estado'=>$d['vag_estado'],
+                    'regime'=> $d['vag_regime'],
+                    'dias'=> $d['vag_dias'],
+                    'horario'=> $d['vag_horario'],
+                    'beneficios'=> $d['vag_beneficios'],
+                    'nomeEmpresa'=>$d['vag_nomeEmpresa'],
+                    'email' => $d['vag_email'],
+                    'telefone' => $d['vag_telefone'],
+                    'telefoneCel' => $d['vag_telefoneCel'],
+                    'nomeEmp' => $d['vag_nomeEmpresa']
+                ];
+                
+                break;
+            }//Retorna um formulario para alteração de dados.            
+                $enabledEdition = [
+                    'id' => "disabled",
+                    'nome' => "enabled",
+                    'tipoPag' => "enabled",
+                    'valorPag' => "enabled", 
+                    'escolar' => "enabled",  
+                    'idioma' => "enabled",
+                    'estado' => "enabled",
+                    'regime' => "enabled",
+                    'dias' => "enabled",
+                    'horario' => "enabled",
+                    'beneficios' => "enabled",
+                    'nomeEmpresa'=>"disabled",
+                    'email' => "enabled",
+                    'telefone' => "enabled",
+                    'telefoneCel' => "enabled",
                     'action' => 'editar'
                 ];
             return view('crud-vaga/vagaForm',compact("title","ent","resp","enabledEdition"));
         }else{//Se não tiver parametros retorna um formulario basico de cadastro
             $title="SISSAR Cadastro Vaga";
-            return view('crud-vaga/vagaForm',compact("title","ent")); 
+               
+               $emp = new Empresa(); //Recuperando dados do funcionario recém cadastrado          
+               $dadosEmp = $emp->where("emp_cod",$id)->get()->first(); 
+               $u = $this->vag->where('vag_empresa_cod',$dadosEmp['emp_cod'])->get();
+               
+               $dadosEnt = [//Carregando em um vetor generico
+                    'nomeEmpresa'=> $dadosEmp['emp_nome'] ,                   
+                    'email'=> $dadosEmp['emp_email'],
+                    'vag_empresa_cod'=>$dadosEmp['emp_cod'],
+                ];
+               
+               
+            
+            return view('crud-vaga/vagaForm',compact("title","ent","dadosEnt", "enabledEdition")); 
         }                
     }
     
@@ -157,4 +196,5 @@ class VagaController extends Controller
            return redirect('/vaga/list'); 
         else return redirect ()->back();
     }
+    
 }

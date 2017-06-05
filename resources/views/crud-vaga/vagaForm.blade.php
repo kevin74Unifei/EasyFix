@@ -37,7 +37,7 @@
 <script type="text/javascript">    
     
 $(function(){
-$("#vag_valorPag").mask("R$0000000,00");
+$("#vag_valorPag").mask("R$000000,00");
 });
 </script>
 
@@ -129,9 +129,21 @@ $("#vag_valorPag").mask("R$0000000,00");
                     <input type="text" size="103" maxlength="110" class="form-control" name="{{$ent or "ent"}}_beneficios"
                            value="{{$resp['beneficios'] or ""}}" required="required" {{$enabledEdition['beneficios'] or ""}}>
                 </div>
-            </div> 
+                
+            </div>  
         </fieldset>
+        <br/>
+        <legend>Informações da Empresa:</legend> 
+        <div class="form-group">
+            <label for="vag_nomeEmpresa">Nome:</label><br/>
+            <input type="text" size="103" maxlength="110" class="form-control" name="{{$ent or "ent"}}_nomeEmpresa"
+                   value="{{$resp['nomeEmpresa'] or ""}}"  onkeyup="this.value = this.value.toUpperCase();" required="required" {{$enabledEdition['nomeEmpresa'] or ""}}>
+        </div>
+        <input type="hidden" name="vag_empresa_cod" value="{{$dadosEnt['vag_empresa_cod'] or ""}}">
+        
+        @include('../templates/form/areaContato')
         @include('../templates/form/areaBotao') 
         <br/> 
 </div>
 @endsection
+
