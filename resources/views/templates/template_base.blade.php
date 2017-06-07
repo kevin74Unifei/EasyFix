@@ -138,6 +138,14 @@
                             <li><a href="{{url('empresa/list')}}">Listar Empresas</a></li>                        
                           </ul>
                         </li>
+                        
+                        <li class="dropdown">
+                          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Vagas Disponiveis <span class="caret"></span></a>
+                          <ul class="dropdown-menu" role="menu">                        
+                            <li><a href="{{url('vaga/form')}}">Cadastrar Vagas</a></li>
+                            <li><a href="{{url('vaga/list')}}">Listar Vagas</a></li>                        
+                          </ul>
+                        </li>
                     @endif
                     @if(Auth::user()->user_perfil!='Candidato')
                     <li class="dropdown">
@@ -147,6 +155,11 @@
                         <li><a href="{{url('candidato/list')}}">Listar Candidatos</a></li>                        
                       </ul>
                     </li>                    
+                    @endif
+                    @if(Auth::user()->user_perfil=='Administrador')
+                    <li>
+                        <a href="{{url('/rel')}}">Emitir Rel. de Vagas</a>
+                    </li>
                     @endif
                     <li>
                         <a href="www.google.com">Ajuda</a>

@@ -1,4 +1,4 @@
-USE sissar_sys;
+
 
 CREATE TABLE TB_Profissoes (    
     profissao varchar(250),

@@ -23,7 +23,7 @@ class CurriculoController extends Controller
    public function create($id){
        //Pesquisando bancos simples
         $states = DB::select('select * from estados');//Pesquisando estados para o preechimeto de enderenço
-        $profs = DB::select('select * from TB_profissoes');//Pesquisando Profissoes para o preechimeto de objetivo
+        $profs = DB::select('select * from TB_Profissoes');//Pesquisando Profissoes para o preechimeto de objetivo
         $idiomas = DB::select('select * from TB_Idiomas');//Pesquisando Profissoes para o preechimeto de objetivo
         
         $cand = new Candidato;//Pesquisando dados do candidato

@@ -15,9 +15,7 @@ Route::get('/home', function () {
 });
 Route::get('/candidatohome','CandidatoController@loadPainel');
 
-Route::get('/rel', function () {
-    return view('painel/relatorioVagaPreechida');    
-});
+Route::get('/rel',"siteController@relVagas" );
 
 Route::get('/', function () {
     return view('loginSystem');

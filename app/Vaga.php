@@ -11,7 +11,8 @@ class Vaga extends Model
         'vag_id','vag_nome','vag_tipoPag','vag_valorPag','vag_escolar',
         'vag_idioma','vag_estado','vag_regime','vag_dias',
         'vag_horario','vag_beneficios', 'vag_email',
-        'vag_telefone','vag_telefoneCel', 'vag_nomeEmpresa','vag_empresa_cod' 
+        'vag_telefone','vag_telefoneCel', 'vag_nomeEmpresa','vag_empresa_cod',
+        'create_at',
     ];
     
     public $rules = [
