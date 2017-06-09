@@ -119,7 +119,7 @@
 
         <select name="curr_vagaEsp" style="width:50%" id="curr_vagaEsp" class="form-control" style="display: none;">
             @foreach($vagasDados as $v)
-                <option value="{{$v->id}}" >{{$v->nome}}</option>
+                <option value="{{$v['vag_id']}}" >{{$v['vag_nome']}}</option>
             @endforeach
         </select>
         </div>

@@ -43,7 +43,7 @@
                 <th colspan="2">
                     @foreach($currs as $c)
                     <div class="list-group-item" style="">    
-                        <img src='{{url('img/curriculum.png')}}' style='width:10%;height:10%' alt='imagem'/>
+                        <img src='{{url('img/curriculum.jpg')}}' style='width:10%;height:10%' alt='imagem'/>
                         <div style="position:relative;top:-50px;left:70px;height:0px;width:500px;">      
                             <label>Objetivo:</label><br/>
                             <label>Data de Emissão:{{$c['curr_dataEmit']}}</label>
