@@ -27,13 +27,13 @@ Route::post('/logar', 'UserController@login');
 Route::get('/logout','UserController@logout');
 Route::post('/testPass','UserController@testPass');
 
-Route::get('/funcionario/list','FuncionarioController@index')->middleware("CheckUserAdmin");
+Route::get('/funcionario/list','FuncionarioController@index');//->middleware("CheckUserAdmin");
 
-Route::get('/funcionario/form/{id?}','FuncionarioController@create')->middleware("CheckUserAdmin");
+Route::get('/funcionario/form/{id?}','FuncionarioController@create');//->middleware("CheckUserAdmin");
 
 Route::get('funcionario/show/{id}','FuncionarioController@show')->middleware("CheckUserAdmin");
         
-Route::post('funcionario/cadastrar','FuncionarioController@store')->middleware("CheckUserAdmin");
+Route::post('funcionario/cadastrar','FuncionarioController@store');//->middleware("CheckUserAdmin");
 
 Route::post('funcionario/edit/{id}','FuncionarioController@edit')->middleware("CheckUserAdmin");
 
@@ -104,3 +104,16 @@ Route::post('/curriculo/gerar', 'CurriculoController@store');
 Route::get('/curriculo/view/{id}', 'CurriculoController@show');
 
 Route::get('/curriculo/delete/{id}', 'CurriculoController@destroy');
+
+
+Route::get('/pagamento/form/{id?}', 'pagamentoController@create');
+
+Route::post('/pagamento/cadastrar','pagamentoController@store');
+
+Route::get('/pagamento/list', 'pagamentoController@index');
+
+Route::get('/pagamento/show/{id}','pagamentoController@show');
+
+Route::post('/pagamento/edit/{id}','pagamentoController@edit');
+
+Route::get('/pagamento/delete/{id}','pagamentoController@destroy');
