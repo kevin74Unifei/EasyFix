@@ -77,9 +77,9 @@ class EntrevistaController extends Controller
                     'cod' => "disabled",
                     'entrevistador' => "disabled",
                     'entrevistado' => "disabled",
-                    'data' => "enabled", 
+                    'data' => "disabled", 
                     'empresa' => "disabled", 
-                    'obs' =>'disabled',
+                    'obs' =>'enabled',
                     'end_cidade' => "enabled",
                     'end_estado' => "enabled",
                     'end_bairro' => "enabled",
@@ -96,8 +96,7 @@ class EntrevistaController extends Controller
     public function create($ent_cod=null){
         
         $enti ="ent";
-        $fieldDate="_data";
-        
+        $fieldDate="_data";    
         $states = DB::select('select * from estados');
                 
         if($ent_cod!=null){//Se recebe um parametro, faz o que esta aqui dentro
@@ -112,12 +111,12 @@ class EntrevistaController extends Controller
                     'empresa'=>$d['ent_empresa'],
                     'horario'=>$d['ent_horario'],
                     'obs'=>$d['ent_obs'],
+                    'end_complemento' => $d['ent_end_complemento'],
                     'end_cidade'=> $d['ent_end_cidade'],
                     'end_estado'=> $d['ent_end_estado'],
                     'end_bairro'=> $d['ent_end_bairro'],
                     'end_rua'=> $d['ent_end_rua'],
                     'end_numero' => $d['ent_end_numero'],
-                    'end_complemento' => $d['ent_end_complemento'],
                     'end_logradouro' => $d['ent_end_logradouro']
                     ];  
                 
@@ -129,7 +128,7 @@ class EntrevistaController extends Controller
                     'entrevistado' => "disabled",
                     'data' => "enabled", 
                     'empresa' => "disabled",
-                    'obs' =>'disabled',
+                    'obs' =>'enabled',
                     'end_cidade' => "enabled",
                     'end_estado' => "enabled",
                     'end_bairro' => "enabled",
@@ -140,10 +139,10 @@ class EntrevistaController extends Controller
                     'horario' => "enabled",
                     'action' => 'editar'
                 ];
-            return view('crud-entrevista/entrevistaForm',compact("title","enti","fieldDateTitle","fieldDate","resp","enabledEdition","states"));
+            return view('crud-entrevista/entrevistaForm',compact("title","enti","fieldDate","resp","enabledEdition","states"));
         }else{//Se não tiver parametros retorna um formulario basico de cadastro
             $title="SISSAR Cadastro Entrevista";
-            return view('crud-entrevista/entrevistaForm',compact("title","enti","fieldDateTitle","fieldDate","states")); 
+            return view('crud-entrevista/entrevistaForm',compact("title","enti","fieldDate","states")); 
         }                
     }
     
@@ -160,7 +159,7 @@ class EntrevistaController extends Controller
     
     public function edit($id,Request $request){
         $dataForm = $request->except('_token');//recebe dados do formulario
-        
+        $dataForm['ent_data']= implode("/",array_reverse(explode("/",$dataForm['ent_data'])));
         $this->validate($request,$this->ent->rulesEdit,$this->messages);//Chamando validação dos dados de entrada
         $update = $this->ent->where('ent_cod',$id)->update($dataForm);//alterado a linha selecionada no banco de dados     
               

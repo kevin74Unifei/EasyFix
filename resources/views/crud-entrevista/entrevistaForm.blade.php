@@ -88,7 +88,7 @@ $("#ent_horario").mask("99:99");
                                 <label for="ent_data">{{$fieldDateTitle or "data"}}</label><br/>
                                 <div class='input-group date' id='datetimepicker1' >                                    
                                     <input type='text' class="form-control" required="required" name="ent_data"
-                                           name="{{$ent or ""}}_data" value="{{$resp['date'] or ""}}" {{$enabledEdition['data'] or ""}}/>
+                                           name="{{$ent or "ent"}}_data" value="{{$resp['data'] or ""}}" {{$enabledEdition['data'] or ""}}/>
                                     <span class="input-group-addon">
                                         <span class="glyphicon glyphicon-calendar"></span>
                                     </span>
@@ -106,8 +106,8 @@ $("#ent_horario").mask("99:99");
                 
                  <div class="form-group" style="width: 100%;" >
                         <label for="ent_obs">Observações:</label><br/>
-                        <textarea name="ent_obs" style="width: 100%;" rows="4" cols="80" 
-                                  name="{{$ent or "ent"}}_obs" value="{{$resp["obs"] or ""}}" ></textarea>
+                        <textarea name="ent_obs" style="width: 100%;" rows="4" cols="80" class="form-control"
+                                  name="{{$ent or "ent"}}_obs" value="{{$resp["obs"] or ""}}" {{$enabledEdition['obs'] or ""}} ></textarea>
                 </div><br/>
                 
             </div> 

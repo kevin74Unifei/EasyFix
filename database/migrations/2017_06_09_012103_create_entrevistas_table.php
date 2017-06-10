@@ -13,7 +13,7 @@ class CreateEntrevistasTable extends Migration
             $table->string('ent_entrevistado');
             $table->string('ent_entrevistador');
             $table->date('ent_data');     
-            $table->string('ent_obs',256)->nullable;
+            $table->string('ent_obs')->nullable();
             $table->string('ent_empresa');
             $table->string('ent_horario');
             $table->string('ent_end_cidade');
