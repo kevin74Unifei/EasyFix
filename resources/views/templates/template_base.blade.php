@@ -162,7 +162,7 @@
                     </li>
                     @endif
                     <li>
-                        <a href="www.google.com">Ajuda</a>
+                        <a href="http://www.google.com">Ajuda</a>
                     </li>
                     @yield('Menu')
                 </ul>

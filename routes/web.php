@@ -116,6 +116,8 @@ Route::get('/entrevista/show/{id}','EntrevistaController@show');
 Route::post('/entrevista/edit/{id}','EntrevistaController@edit');
 
 Route::get('/entrevista/delete/{id}','EntrevistaController@destroy');
+
+
 Route::get('/pagamento/form/{id?}', 'pagamentoController@create');
 
 Route::post('/pagamento/cadastrar','pagamentoController@store');

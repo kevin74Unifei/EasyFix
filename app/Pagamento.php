@@ -8,31 +8,21 @@ class Pagamento extends Model
 {
         protected $fillable = [
             
-            'func_Empresa', 'func_Serviços_Prestados','func_DataAtual','func_Valor_Unitario','func_Descriçao',
-            'func_Tipopag',
+            'pag_id', 'pag_empresa_cod','pag_tipoPag','pag_valorPag','pag_desconto',
+            'pag_valorTotal','pag_situacao'
         ];
         
-        public $rules = [
-            
-            'func_Empresa'=>"required",
-            'func_Serviços_Prestados'=>"required",
-            'func_DataAtual'=>"required",
-            'func_Valor_Unitario'=>"required",
-            'func_Descriçao'=>"required",
-            'func_Tipopag'=>"required",
-            
-            
-            
+        public $rules = [            
+            'pag_empresa_cod'=>"required",
+            'pag_tipoPag'=>"required",
+            'pag_valorPag'=>"required",
+            'pag_desconto'=>"required",            
         ];
         
-        public $rulesEdit = [
-            
-            'func_Empresa'=>"required",
-            'func_Serviços_Prestados'=>"required",
-            'func_DataAtual'=>"required",
-            'func_Valor_Unitario'=>"required",
-            'func_Descriçao'=>"required",
-            'func_Tipopag'=>"required",
+        public $rulesEdit = [         
+            'pag_tipoPag'=>"required",
+            'pag_valorPag'=>"required",
+            'pag_desconto'=>"required",            
         ];
         
  

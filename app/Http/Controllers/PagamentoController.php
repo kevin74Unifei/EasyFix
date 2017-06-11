@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Pagamento;
-use App\User;
+use App\Empresa;
 use DB;
 
 
@@ -13,16 +13,6 @@ class PagamentoController extends Controller
 {
     private $pag;
     private $messages = [//mensagens que serão exibidas quando a validação falhar
-            'pag_Empresa.required' => "É obrigatorio preechimento do campo EMPRESA",
-            'pag_Serviços_Prestados' => "É obrigatorio preechimento do campo Serviços Prestados",
-            'pag_DataAtual'=>'É obrigatorio preechimento do campo Data Atual',
-            'pag_Valor_Unitario'=>'É obrigatorio preechimento do campo Valor unitario',
-            'pag_Descriçao'=>'É obrigatorio preechimento do campo descriçao',
-            'pag_Tipopag'=>'É obrigatório preenchimento do Campo tipo de pagamento',
-            
-        
-        
-           
         
     ];
     
@@ -43,10 +33,24 @@ class PagamentoController extends Controller
             $valor_filter_text = $filter['chave_busca'];
             $valor_filter_campo = $filter['campo_ent'];
         }else{//Senão existir filtros carrega todas as linhas da tabela, por ordem crescente.
-            $dadosPag = $this->pag->where("pag_status",'1')->orderBy('pag_nome', 'asc')->get();                                
+            $dadosPags = $this->pag->where("pag_active",'1')->orderBy('created_at', 'asc')->get(); 
+                        
+            $dadosPagsEmp = array();//criando um array
+            foreach($dadosPags as $pag){
+                $empre = Empresa::where('emp_cod',$pag['pag_empresa_cod'])->get()->first();                    
+            
+                array_push($dadosPagsEmp, array(//colocando no final do vetor mais um vetor, assim criando uma matriz
+                  'pag_id' => $pag['pag_id'],                  
+                  'pag_tipoPag' => $pag['pag_tipoPag'], 
+                  'pag_valorTotal' => $pag['pag_valorTotal'],
+                  'pag_situacao' => $pag['pag_situacao'],
+                  "emp_nome" => $empre['emp_nome'],
+                  "emp_CNPJ" => $empre['emp_CNPJ'],            
+               ));
+            }
         }       
         
-        return view("crud-pagamento/PagamentoForm",compact("dadospag",
+        return view("crud-pagamento/PagamentoList",compact("dadosPagsEmp",
                                                                 "title",
                                                                 "valor_filter_text",
                                                                 "valor_filter_campo"));
@@ -66,15 +70,6 @@ class PagamentoController extends Controller
                     'pag_Valor_Unitario' => $d['pag_Valor_Unitario'], 
                     'pag_Descriçao' => $d['pag_Descriçao'],  
                     'pag_Tipopag' => $d['pag_Tipopag'],
-                   // 'end_estado' => $d['emp_end_estado'],
-                   // 'end_bairro' => $d['emp_end_bairro'],
-                   // 'end_rua' => $d['emp_end_rua'],
-                   // 'end_numero' => $d['emp_end_numero'],
-                   // 'end_complemento' => $d['emp_end_complemento'],
-                   // 'end_logradouro' => $d['emp_end_logradouro'],
-                   // 'email' => $d['emp_email'],
-                   // 'telefone' => $d['emp_telefone'],
-                   // 'telefoneCel' => $d['emp_telefoneCel']
             ];  
                 
             break;
@@ -91,61 +86,76 @@ class PagamentoController extends Controller
             return view('crud-pagamento/PagamentoForm',compact("title","fieldDateTitle","fieldDate","resp","enabledEdition","states"));    
     }
     
-    public function create($pag_cod=null){
-        
+    public function create($pag_id=null){        
         $ent ="pag";
-        
-        //$states = DB::select('select * from estados'); Apenas para prencher estados
                 
-        if($pag_cod!=null){//Se recebe um parametro, faz o que esta aqui dentro
+        if($pag_id!=null){//Se recebe um parametro, faz o que esta aqui dentro
             $title="SISSAR Edição Pagamento";
-            $dadosPags = $this->pag->where("pag_cod",$pag_cod)->get();   
+            $dadosPags = $this->pag->where("pag_id",$pag_id)->get();   
             foreach($dadosPags as $d){
                 $resp= [//guarda dados em um vetor com nomes genericos para ser utilizado pelo components-templates
-                    'Emppag' => $d['pag_empresa'],
-                    'pag_Serviços_Prestados' => $d['pag_Serviços_Prestados'],
-                    'pag_DataAtual' => $d['pag_dataAtual'],
-                    'pag_Valor_Unitario' => $d['emp_CNPJ'], 
-                    'pag_Descriçao' => $d['pag_Valor_Unitario'],  
-                    'pag_Tipopag' => $d['pag_Tipopag'],
-                    
+                    'pag_id' => $d['pag_id'],
+                    'pag_empresa_cod' => $d['pag_empresa_cod'],
+                    'pag_tipoPag' => $d['pag_tipoPag'],
+                    'pag_valorPag' => $d['pag_valorPag'], 
+                    'pag_desconto' => $d['pag_desconto'],  
+                    'pag_valorTotal' => $d['pag_valorTotal'],
+                    'pag_situacao' => $d['pag_situacao'],
                     ];  
                 
                 break;
             }//Retorna um formulario para alteração de dados.            
                 $enabledEdition = [
-                    'Emppag' => "disabled",
-                    'pag_Serviços_Prestados' => "disabled",
-                    'pag_DataAtual' => "disabled",
-                    'pag_Valor_Unitario' => "disabled", 
-                    'pag_Descriçao' => "disabled",  
-                    'pag_Tipopag' => "enabled",
-                    'action' => 'editar'
+                   'Empresa' => 'disabled', 
                 ];
-            return view('crud-pagamento/PagamentoForm',compact("title","ent","fieldDateTitle","fieldDate","resp","enabledEdition","states"));
+                $dadosEmpresas= Empresa::where('emp_cod',$resp['pag_empresa_cod'])->get();
+                
+            return view('crud-pagamento/PagamentoForm',compact("title","ent","resp","enabledEdition","dadosEmpresas"));
         }else{//Se não tiver parametros retorna um formulario basico de cadastro
             $title="SISSAR Cadastro Pagamento";
             $ent="pag";
-            return view('crud-pagamento/PagamentoForm',compact("title","ent")); 
+            
+            $dadosEmpresas = Empresa::where("emp_status","1")->get();
+            
+            return view('crud-pagamento/PagamentoForm',compact("title","ent","dadosEmpresas")); 
         }                
     }
     
-    public function store(Request $request){
+    public function store(Request $request){//ok
         $dataForm = $request->except('_token');//recebendo dados dos input do formulario
       
-        $this->validate($request,$this->pag->rules,$this->messages);//Chamando validação dos dados de entrada
-        $insert = $this->pag->create($dataForm);//cadastrado no banco de dados 
+        $this->validate($request,$this->pag->rules);//Chamando validação dos dados de entrada
+        
+        $dadosPagCad= [
+            'pag_empresa_cod'=>$dataForm['pag_empresa_cod'],
+            'pag_tipoPag'=>$dataForm['pag_tipoPag'],
+            'pag_valorPag'=>$dataForm['pag_valorPag'],
+            'pag_desconto'=>$dataForm['pag_desconto'],
+            'pag_situacao'=>"Aguardando",
+            'pag_valorTotal'=>$dataForm['pag_valorPag']-($dataForm['pag_valorPag']*($dataForm['pag_desconto']/100)),            
+        ];
+        
+        $insert = $this->pag->create($dadosPagCad);//cadastrado no banco de dados 
         
         if($insert)//se ocorre com sucesso direciona para..
            return redirect('/pagamento/list'); 
         else return redirect ()->back();
     }
     
-    public function edit($id,Request $request){
+    public function edit($id,Request $request){//ok
         $dataForm = $request->except('_token');//recebe dados do formulario
         
         $this->validate($request,$this->pag->rulesEdit,$this->messages);//Chamando validação dos dados de entrada
-        $update = $this->pag->where('pag_cod',$id)->update($dataForm);//alterado a linha selecionada no banco de dados     
+        
+         $dadosPagCad= [            
+            'pag_tipoPag'=>$dataForm['pag_tipoPag'],
+            'pag_valorPag'=>$dataForm['pag_valorPag'],
+            'pag_desconto'=>$dataForm['pag_desconto'],           
+            'pag_valorTotal'=>$dataForm['pag_valorPag']-($dataForm['pag_valorPag']*($dataForm['pag_desconto']/100)),
+             'pag_situacao' => $dataForm['pag_situacao'],
+        ];
+        
+        $update = $this->pag->where('pag_id',$id)->update($dadosPagCad);//alterado a linha selecionada no banco de dados     
               
         if($update)
            return redirect('/pagamento/list'); 
@@ -154,7 +164,7 @@ class PagamentoController extends Controller
     
     public function destroy($id){
         //fazendo a alteração do status da linha do banco de dados 
-        $update = $this->pag->where('pag_cod',$id)->update(["pag_status"=>'0']);
+        $update = $this->pag->where('pag_id',$id)->update(["pag_active"=>'0']);
         
          if($update)//se feito com sucesso direciona para...
            return redirect('/pagamento/list'); 

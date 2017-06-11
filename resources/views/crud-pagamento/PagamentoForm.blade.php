@@ -50,7 +50,7 @@
     @endif
     <form class="form-inline" method='post' enctype="multipart/form-data" action='
             @if(isset($resp))
-                {{url('pagamento/edit/'.$resp['cod'])}}    
+                {{url('pagamento/edit/'.$resp['pag_id'])}}    
             @else
                 {{url('pagamento/cadastrar')}}
             @endif
@@ -59,46 +59,55 @@
             <input type="hidden" name="_token" value="{{csrf_token()}}">
         <fieldset>
             <legend>Informações Sobre Pagamento:</legend> 
-            
-            <!-- @include('../templates/components/fieldDescricao')-->
-            
-            
+
             <div class="form-group" style="width:100%;">
-                    <label for="func_Empresa">Empresa:</label><br/>
-                    <select  class="form-control" name="func_Empresa"
+                    <label for="pag_empresa">Empresa:</label><br/>
+                    <select  class="form-control" name="pag_empresa_cod"
                          style="width:100%;"  required="required" {{$enabledEdition['Empresa'] or ''}}>
-                         <option value="">empresa</option>
+                        @foreach($dadosEmpresas as $empresaDados)
+                         <option value="{{$empresaDados['emp_cod'] or ""}}">{{$empresaDados['emp_CNPJ']." - ".$empresaDados['emp_nome']}}</option>
+                        @endforeach
                         </select>
             </div><br/>
-                       
-                       
-            
-            
-            
-                       
-            @include('../templates/components/fildTipodepagamento')
+      
+            @include('../templates/components/fieldTipoPagamento')
             
             <div class="form-group">
-                <label for="func_Valor_Unitario">Valor:</label><br/>
-                <input type="number" size="6" class="form-control" 
-                       value="{{$resp["end_numero"] or ""}}" required="required" name="{{$ent or "ent"}}_end_valor" 
-                       placeholder="Valor Unitario" {{$enabledEdition['end_valor'] or ""}}>
+                <label for="{{$ent or "ent"}}_valorPag">Valor:</label><br/>
+                <input type="number" size="6" class="form-control" id="valor_pagamento"
+                       value="{{$resp["pag_valorPag"] or ""}}" required="required" name="{{$ent or "ent"}}_valorPag" 
+                       placeholder="Valor Unitario">
             </div>
             
             <div class="form-group">
-                <label for="func_desconto">Desconto:</label><br/>
-                <input type="number"  class="form-control" min='0' max='30'
-                       value="{{$resp["end_numero"] or ""}}" required="required" name="{{$ent or "ent"}}_end_valor" 
-                       placeholder="Porcentagem" {{$enabledEdition['end_valor'] or ""}}> %
+                <label for="{{$ent or "ent"}}_desconto">Desconto:</label><br/>
+                <input type="number"  class="form-control" min='0' max='30' id="valor_desc"
+                       value="{{$resp["pag_desconto"] or ""}}" required="required" name="{{$ent or "ent"}}_desconto" 
+                       placeholder="Porcentagem"> %
             </div><br/>
             
             <div class="form-group" style="float:right">
-                <label for="func_Valor_Total">Valor Total:</label><br/>
-                <input type="number" size="6" class="form-control" 
-                       value="{{$resp["end_numero"] or ""}}" required="required" name="{{$ent or "ent"}}_end_valor" 
-                       placeholder="Valor Total" {{$enabledEdition['end_valor'] or ""}}>
-            </div>
-            
+                <label for="pag_valorTotal">Valor Total:</label><br/>
+                <input type="number" size="6" class="form-control" id="previewValorTotal" 
+                       value="0.00" placeholder="Valor Total" disabled/> 
+                <script type="text/javascript">
+                    $('#valor_desc').on("change",function(){
+                        calculaValorTotal();
+                    });
+                    $('#valor_pagamento').on("change",function(){
+                        calculaValorTotal();
+                    });
+                    
+                    function calculaValorTotal(){
+                        var valorPag = $('#valor_pagamento').val();
+                        var valorDesc = $('#valor_desc').val();
+                        
+                        $("#previewValorTotal").val(valorPag-(valorPag*(valorDesc/100)));
+                    }
+                </script> 
+            </div>     
+            @if(isset($resp))
+            @include('../templates/components/fieldSituacaoPagamento')@endif
             @include('../templates/form/areaBotao')
             
             
