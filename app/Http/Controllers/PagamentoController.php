@@ -25,13 +25,45 @@ class PagamentoController extends Controller
        
         $filter = $request->all();//Carregando filtros        
         if($filter){//Se filtros existirem, carrega dados atraves da operação LIKE do sql, em ordem crescente
-            $dadospag = $this->pag->where("pag_status",'1')
-                                ->where($filter['campo_ent'],'LIKE',$filter['chave_busca'].'%')
-                                ->orderBy('pag_nome', 'asc')
-                                ->get(); 
             
-            $valor_filter_text = $filter['chave_busca'];
-            $valor_filter_campo = $filter['campo_ent'];
+            $dadosPags = $this->pag->where("pag_active",'1');
+                     
+            if(isset($filter['chave_vlrMin'])){//Add filtro de valor minimo a pesquisa
+                $dadosPags = $dadosPags->where('pag_valorTotal','>=',$filter['chave_vlrMin']);
+            }
+            if(isset($filter['chave_vlrMax'])){//Add filtro de valor maximo a pesquisa
+                $dadosPags = $dadosPags->where('pag_valorTotal','<',$filter['chave_vlrMax']);
+            }
+            if(isset($filter['chave_situacao'])){//Add filtro da situacao de pagamento a pesquisa
+                $dadosPags = $dadosPags->where('pag_situacao',$filter['chave_situacao']);
+            }
+            $dadosPags=$dadosPags->get();                            
+            
+            $dadosPagsEmp = array();//criando um array
+            foreach($dadosPags as $pag){
+                $empre = Empresa::where('emp_cod',$pag['pag_empresa_cod']);
+                $empre = $empre->where('emp_CNPJ','LIKE',$filter['chave_CNPJ']."%")->get()->first();
+              
+                if(isset($empre['emp_CNPJ'])){
+                    array_push($dadosPagsEmp, array(//colocando no final do vetor mais um vetor, assim criando uma matriz
+                          'pag_id' => $pag['pag_id'],                  
+                          'pag_tipoPag' => $pag['pag_tipoPag'], 
+                          'pag_valorTotal' => $pag['pag_valorTotal'],
+                          'pag_situacao' => $pag['pag_situacao'],
+                          "emp_nome" => $empre['emp_nome'],
+                          "emp_CNPJ" => $empre['emp_CNPJ'],            
+                    ));  
+                }
+            }       
+            
+            $val_filters = [
+                'chave_CNPJ'=>$filter['chave_CNPJ'],
+                'chave_vlrMin'=>$filter['chave_vlrMin'],
+                'chave_vlrMax'=>$filter['chave_vlrMax'],
+                'chave_situacao'=>$filter['chave_situacao'],
+            ];
+            
+            
         }else{//Senão existir filtros carrega todas as linhas da tabela, por ordem crescente.
             $dadosPags = $this->pag->where("pag_active",'1')->orderBy('created_at', 'asc')->get(); 
                         
@@ -52,8 +84,7 @@ class PagamentoController extends Controller
         
         return view("crud-pagamento/PagamentoList",compact("dadosPagsEmp",
                                                                 "title",
-                                                                "valor_filter_text",
-                                                                "valor_filter_campo"));
+                                                                "val_filters"));
     }
     
     public function show($pag_cod){

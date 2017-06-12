@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\MessageBag;
 use App\User;
 use App\Funcionario;
 use App\Candidato;
@@ -174,10 +175,13 @@ class UserController extends Controller {
     public function login(Request $request){
         $dadosForm = $request->except('_token');   
         
+        $errors = new MessageBag;
+        
         if(Auth::attempt($dadosForm, true)){
-            return redirect('funcionario/list');
-        }else{            
             return redirect('/');
+        }else{   
+            $errors = new MessageBag(['login' => 'Username e/ou senha não corresponde!']);
+            return redirect()->back()->withErrors($errors);            
         }
     }
     

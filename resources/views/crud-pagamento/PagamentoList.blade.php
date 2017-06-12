@@ -9,8 +9,8 @@
 @section('Base')
     <style>
     .pagina{position: absolute;
-        top:80px;
-        left:350px;        
+        top:90px;
+        left:300px;        
         width:760px;
         background-color: whitesmoke;
         padding: 4%;
@@ -18,10 +18,8 @@
         padding-bottom:100px;
     }
     .menu{
-        position:fixed;
-        top:80px;
-        width:300px;
-        height:100%;
+        
+        
         background-color: whitesmoke;
         padding:10px;
     }
@@ -32,28 +30,51 @@
     }
     </style>
    
-    
+<div class="pagina">  
 <div class="menu">
     <!--FILTER-->
-    <div class="dropdown">
-        <form class="form-inline" id="form_busca" action="{{url('/empresa/list')}}">
-            <label>Filtros:</label><br/>
-            <select name="campo_ent" class="form-control" >
-                <option value="emp_nome"
-                    @if(isset($valor_filter_campo) && $valor_filter_campo=='emp_nome')
-                        selected="selected"
-                    @endif>Nome</option>
-                <option value="emp_end_cidade"
-                    @if(isset($valor_filter_campo) && $valor_filter_campo=='emp_end_cidade')
-                        selected="selected"
-                    @endif>Cidade</option>
-            </select>
-            <input type="text" id="chave_busca" name="chave_busca" class="form-control"  
-                value="{{$valor_filter_text or ""}}" >                 
+   
+        <form class="form-inline" id="form_busca" action="{{url('/pagamento/list')}}">
+            <div class="form-group">            
+                <label for="chave_CNPJ">CNPJ:</label><br/>
+                <input type="text" id="chave_CNPJ" name="chave_CNPJ" class="form-control"  
+                       value="{{$val_filters['chave_CNPJ'] or "" }}" >                 
+            </div>
+            
+            <div class="form-group">  
+                <label>Valor Minimo:</label><br/>
+                <input type="text" id="chave_vlrMin" name="chave_vlrMin" size="16" name="chave_salMin" class="form-control"  
+                    value="{{$val_filters['chave_vlrMin'] or "" }}" > 
+            </div>
+            
+            <div class="form-group">
+                <label>Valor Maximo:</label><br/>
+                <input type="text" id="chave_vlrMax" size="16" name="chave_vlrMax" class="form-control"  
+                    value="{{$val_filters['chave_vlrMax'] or "" }}" >
+            </div>
+            <div class="form-group">
+                <label>Situação:</label><br/>
+                <select name="chave_situacao" id="chave_situacao" class="form-control"  >
+                    <option value="" @if(isset($val_filters['chave_situacao']) && $val_filters['chave_situacao']==''){{'selected'}}@endif ></option>
+                    <option value="Aguardando" @if(isset($val_filters['chave_situacao']) && $val_filters['chave_situacao']=='Aguardando'){{'selected'}}@endif >Aguardando</option>
+                    <option value="Efetuado" @if(isset($val_filters['chave_situacao']) && $val_filters['chave_situacao']=='Efetuado'){{'selected'}}@endif >Efetuado</option>
+                    <option value="Estornado" @if(isset($val_filters['chave_situacao']) && $val_filters['chave_situacao']=='Estornado'){{'selected'}}@endif >Estornado</option>                
+                </select>
+            </div>
+            
         </form>
-    </div>
+    
 <script type="text/javascript">
-    $("#chave_busca").on('change',function(){
+    $("#chave_CNPJ").on('change',function(){
+        document.getElementById("form_busca").submit();
+    });
+    $("#chave_vlrMin").on('change',function(){
+        document.getElementById("form_busca").submit();
+    });
+    $("#chave_vlrMax").on('change',function(){
+        document.getElementById("form_busca").submit();
+    });
+    $("#chave_situacao").on('change',function(){
         document.getElementById("form_busca").submit();
     });
 </script>
@@ -61,10 +82,10 @@
 </div>
     
 <!--LISTA DE Empresas-->
-<div class="pagina">
+
     <table class="table">
         <thead class="thead-inverse">
-            <tr><th><h1>Empresas</h1></th></tr>
+            <tr><th><h1>Pagamentos</h1></th></tr>
         </thead>
         <tbody>         
         @foreach($dadosPagsEmp as $pag)

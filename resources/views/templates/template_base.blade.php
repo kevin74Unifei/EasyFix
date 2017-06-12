@@ -146,6 +146,20 @@
                             <li><a href="{{url('vaga/list')}}">Listar Vagas</a></li>                        
                           </ul>
                         </li>
+                        <li class="dropdown">
+                          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Pagamentos<span class="caret"></span></a>
+                          <ul class="dropdown-menu" role="menu">                        
+                            <li><a href="{{url('pagamento/form')}}">Cadastrar Pagamento</a></li>
+                            <li><a href="{{url('pagameto/list')}}">Listar Pagamentos</a></li>                        
+                          </ul>
+                        </li>
+                        <li class="dropdown">
+                          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Entrevistas<span class="caret"></span></a>
+                          <ul class="dropdown-menu" role="menu">                        
+                            <li><a href="{{url('entrevista/form')}}">Cadastrar Entrevista</a></li>
+                            <li><a href="{{url('entrevista/list')}}">Listar Entrevistas</a></li>                        
+                          </ul>
+                        </li>
                     @endif
                     @if(Auth::user()->user_perfil!='Candidato')
                     <li class="dropdown">
