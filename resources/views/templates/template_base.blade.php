@@ -150,7 +150,7 @@
                           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Pagamentos<span class="caret"></span></a>
                           <ul class="dropdown-menu" role="menu">                        
                             <li><a href="{{url('pagamento/form')}}">Cadastrar Pagamento</a></li>
-                            <li><a href="{{url('pagameto/list')}}">Listar Pagamentos</a></li>                        
+                            <li><a href="{{url('pagamento/list')}}">Listar Pagamentos</a></li>                        
                           </ul>
                         </li>
                         <li class="dropdown">

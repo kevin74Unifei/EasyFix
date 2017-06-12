@@ -91,7 +91,7 @@
         @foreach($dadosPagsEmp as $pag)
         <tr>
             <th>
-                <a href="{{url("pagamento/show/".$pag['pag_id'])}}" class="list-group-item" style="height:150px;width:620px;">  
+                <a href="{{url("pagamento/form/".$pag['pag_id'])}}" class="list-group-item" style="height:150px;width:620px;">  
                     <div style="position:relative;width:500px;">                        
                         <h4>{{$pag['emp_nome'] or ""}}</h4>  
                         <label>CNPJ: {{$pag['emp_CNPJ']}}</label><br/>        

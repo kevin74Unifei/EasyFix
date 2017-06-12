@@ -118,14 +118,14 @@ Route::post('/entrevista/edit/{id}','EntrevistaController@edit');
 Route::get('/entrevista/delete/{id}','EntrevistaController@destroy');
 
 
-Route::get('/pagamento/form/{id?}', 'pagamentoController@create');
+Route::get('/pagamento/form/{id?}', 'PagamentoController@create');
 
-Route::post('/pagamento/cadastrar','pagamentoController@store');
+Route::post('/pagamento/cadastrar','PagamentoController@store');
 
-Route::get('/pagamento/list', 'pagamentoController@index');
+Route::get('/pagamento/list', 'PagamentoController@index');
 
-Route::get('/pagamento/show/{id}','pagamentoController@show');
+Route::get('/pagamento/show/{id}','PagamentoController@show');
 
-Route::post('/pagamento/edit/{id}','pagamentoController@edit');
+Route::post('/pagamento/edit/{id}','PagamentoController@edit');
 
-Route::get('/pagamento/delete/{id}','pagamentoController@destroy');
+Route::get('/pagamento/delete/{id}','PagamentoController@destroy');
