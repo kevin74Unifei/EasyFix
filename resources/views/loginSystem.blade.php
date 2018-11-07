@@ -15,6 +15,12 @@
     .img_show{       
        top:159px;        
     }    
+    
+    .thumbnail{
+        height: 22em;
+       width: 33em;
+    }
+    
     .msg_alert{position:absolute;
         top:-10px;
         left: 700px; 
@@ -35,7 +41,7 @@
 </script>
 <div class="pagina">
     <div class="img_show" >
-        <img class="thumbnail" src="{{url('img/curriculum_login_desenho.jpg')}}"/>    
+        <img class="thumbnail" src="{{url('img/tools.jpg')}}"/>    
     </div>
 
    

@@ -3,7 +3,7 @@
     <head>
     	<meta charset="utf-8"/>
     	<meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport">
-    	<title>{{$title or "SisSaR"}}</title>
+    	<title>{{$title or "EasyFix"}}</title>
         
         <link href="//cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/build/css/bootstrap-datetimepicker.css" rel="stylesheet">
         <script type="text/javascript" src="//code.jquery.com/jquery-2.1.1.min.js"></script>
@@ -46,7 +46,7 @@
                     @yield('tools-icon')
                         
                     
-                <b><p class="navbar-per1" >SISSAR</p></b>
+                <b><p class="navbar-per1" >EasyFix</p></b>
                 </div>
 
                 @if(isset(Auth::user()->username))
