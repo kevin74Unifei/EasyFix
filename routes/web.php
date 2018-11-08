@@ -69,6 +69,19 @@ Route::get('candidato/show/{id}','CandidatoController@show');
 Route::post('candidato/edit/{id}','CandidatoController@edit');
 
 
+Route::get('/cliente/form/{id?}','ClienteController@create');
+
+Route::post('/cliente/cadastrar','ClienteController@store');
+
+Route::get('/cliente/list','ClienteController@index');
+
+Route::get('cliente/delete/{id}','ClienteController@destroy');
+
+Route::get('cliente/show/{id}','ClienteController@show');
+
+Route::post('cliente/edit/{id}','ClienteController@edit');
+
+
 Route::get('/empresa/form/{id?}', 'EmpresaController@create')->middleware("CheckUserAdmin");
 
 Route::post('/empresa/cadastrar','EmpresaController@store')->middleware("CheckUserAdmin");
