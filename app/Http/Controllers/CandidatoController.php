@@ -14,8 +14,7 @@ class CandidatoController extends Controller
     private $messages = [//mensagens que serão exibidas quando a validação falhar
             'cand_nome.required' => "É obrigatorio preechimento do campo NOME",
             'cand_nome.min' => "É obrigatorio preechimento do campo NOME com pelo menos 3 letras",
-            'cand_CPF.required' => "É obrigatorio preechimento do campo CPF",
-            'cand_RG.required'  => "É obrigatorio preechimento do campo RG",            
+            'cand_CPF.required' => "É obrigatorio preechimento do campo CPF",         
             'cand_dataNasc.required'=> "É obrigatorio preechimento do campo Data de nascimento",
             'cand_end_cidade.required'=> "É obrigatorio preechimento do campo Cidade",
             'cand_end_estado.required'=> "É obrigatorio preechimento do campo Estado",
@@ -30,7 +29,7 @@ class CandidatoController extends Controller
     }
     
     public function index(Request $request){
-        $title="SISSAR Painel Candidatos";        
+        $title="EasyFix";        
        
         $filter = $request->all();//Carregando filtros        
         if($filter){//Se filtros existirem, carrega dados atraves da operação LIKE do sql, em ordem crescente
@@ -68,7 +67,7 @@ class CandidatoController extends Controller
     
     public function create($cand_cod = null){
         $ent = "cand";
-        $title = "SISSAR Candidatos Painel";
+        $title = "EasyFix";
         $fieldDateTitle="Data de Nascimento";
         $fieldDate="_dataNasc";
         
@@ -83,7 +82,6 @@ class CandidatoController extends Controller
                     'nome' => $dadosCand['cand_nome'],
                     'imagem' => $dadosCand['cand_imagem'],
                     'CPF' => $dadosCand['cand_CPF'], 
-                    'RG' => $dadosCand['cand_RG'],  
                     'data' => implode("/",array_reverse(explode("-",$dadosCand['cand_dataNasc']))),
                     'end_cidade' => $dadosCand['cand_end_cidade'],
                     'end_estado' => $dadosCand['cand_end_estado'],
@@ -104,7 +102,6 @@ class CandidatoController extends Controller
                     'nome' => "disabled",
                     'imagem' => "enabled",
                     'CPF' => "disabled", 
-                    'RG' => "disabled",  
                     'data' => "disabled",
                     'end_cidade' => "enabled",
                     'end_estado' => "enabled",
@@ -131,7 +128,7 @@ class CandidatoController extends Controller
         
         $dadosCand = $this->cand->where("cand_cod",$id)->get()->first();  
         
-        $title = "SISSAR ".$dadosCand['cand_nome'];
+        $title = "EasyFix ".$dadosCand['cand_nome'];
         return view('crud-candidato/candidatoView',compact("title","dadosCand"));  
     }
     
@@ -173,7 +170,7 @@ class CandidatoController extends Controller
         $update = $this->cand->where('cand_cod',$id)->update($dataForm);//alterado a linha selecionada no banco de dados     
               
         if($update)
-           return redirect('/candidato/list'); 
+           return redirect('/'); 
         else return redirect ()->back();
     }
     

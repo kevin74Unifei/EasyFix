@@ -4,16 +4,11 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePrestadorTable extends Migration
+class CreatePrestadorsTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
-        Schema::create('prestador', function (Blueprint $table) {
+        Schema::create('prestadors', function (Blueprint $table) {
             $table->increments('prestador_cod');
             $table->string('prestador_nome');
             $table->integer('prestador_vinculo');
@@ -32,6 +27,6 @@ class CreatePrestadorTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('prestador');
+        Schema::dropIfExists('prestadors');
     }
 }

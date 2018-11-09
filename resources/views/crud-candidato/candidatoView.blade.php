@@ -34,12 +34,6 @@
             </tr>
             <tr>
                 <th colspan="2">
-                    <h4>RG: {{$dadosCand['cand_RG']}}</h4>
-                </th>
-            </tr>
-            
-            <tr>
-                <th colspan="2">
                     <h4>Data de Nasc.: {{$dadosCand['cand_dataNasc']}}</h4>
                 </th>
             </tr>
@@ -74,9 +68,7 @@
                 <th><h4>Telefone:{{$dadosCand['cand_telefone']}}</h4></th>
                 <th><h4>Celular:{{$dadosCand['cand_telefoneCel']}}</h4></th>                
             </tr>            
-            
-            <tr><th colspan="2"><h3>Curriculos:</h3></th></tr>
-            
+           
         </tbody>
             
         <thead>

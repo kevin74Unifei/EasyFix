@@ -9,54 +9,54 @@
 
 <style>
     .pagina{position: absolute;
-        top:100px;
-        left:20%;        
-        width:80rem;
-        background-color: whitesmoke;
-        padding: 4%;
-        padding-bottom:100px;
+            top:100px;
+            left:20%;        
+            width:80rem;
+            background-color: whitesmoke;
+            padding: 4%;
+            padding-bottom:100px;
     }
 
     .info_pessoal{position:relative;
-        float:right;
+                  float:right;
     }
     .img_perfil{
         padding-left: 4%;
         float:left;
     }
-    
+
     .form-group{
         padding-left: 11px;
         padding-top: 10px;
     }     
-    
+
     .buttons{position: relative;  
-        top:30px;
-        left:10px;
+             top:30px;
+             left:10px;
     }
 
 </style>
 
 <div class="pagina">
-   @if(isset($errors) && count($errors)>0)
+    @if(isset($errors) && count($errors)>0)
     <div class="alert alert-danger">
         @foreach($errors->all() as $error)
         <p>{{$error}}</p>
         @endforeach
     </div>
     @endif
-    
+
     <form class="form-inline" method='post' action="
-            @if(isset($resp))
-                {{url('usuario/edit/'.$resp['id'])}}    
-            @else
-                {{url('usuario/cadastrar')}}
-            @endif
-            ">
+          @if(isset($resp))
+          {{url('usuario/edit/'.$resp['id'])}}    
+          @else
+          {{url('usuario/cadastrar')}}
+          @endif
+          ">
         <input type="hidden" name="_token" value="{{csrf_token()}}">
         <input type="hidden" name="user_vinculo" value="{{$dadosEnt['cod'] or ""}}">
         <input type="hidden" name="user_imagem" value="{{$dadosEnt['imagem'] or ""}}">
-       
+
         <fieldset>
             <legend>Dados de Usuário:</legend>            
             <div>
@@ -94,17 +94,10 @@
                     </div>
                     <br/>
                     <div class="form-group">
-                         <label for="user_perfil">Perfil de Usuário:</label><br/>
-                        <select class="form-control" name="user_perfil" required="required"  {{$enabledEdition['userPerfil'] or ''}}>
-                             @if($ent=='func')   
-                            <option value="Administrador" @if(isset($dado) && $dado['userPerfil']=='Administrador') {{'selected'}} @endif>Administrador</option>
-                            <option value="Atendente" @if(isset($dado) && $dado['userPerfil']=='Atendente') {{'selected'}} @endif>Atendente</option>
-                            @endif
-                            <option value="Candidato" @if(isset($dado) && $dado['userPerfil']=='Candidato') {{'selected'}} @endif >Candidato</option>
-                        </select> 
+                        <input type="hidden" name="user_perfil" value="Candidato"> 
                     </div>
-                
-            </div>
+
+                </div>
         </fieldset>
         @include('../templates/form/areaBotao')
         <br/>

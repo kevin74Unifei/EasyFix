@@ -17,8 +17,7 @@ class CreateTableCandidatos extends Migration
             $table->increments('cand_cod');
             $table->string('cand_imagem')->nullable();
             $table->string('cand_nome');
-            $table->string('cand_CPF',14);      
-            $table->string('cand_RG',20);           
+            $table->string('cand_CPF',14);          
             $table->date('cand_dataNasc');
             $table->string('cand_end_cidade');
             $table->string('cand_end_estado');

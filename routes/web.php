@@ -15,6 +15,8 @@ Route::get('/home', function () {
 });
 Route::get('/candidatohome','CandidatoController@loadPainel');
 
+Route::get('/clientehome','ClienteController@loadPainel');
+
 Route::get('/rel',"siteController@relVagas" );
 
 Route::get('/', function () {

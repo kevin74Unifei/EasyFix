@@ -9,6 +9,7 @@ use Illuminate\Support\MessageBag;
 use App\User;
 use App\Funcionario;
 use App\Candidato;
+use App\Cliente;
 
 class UserController extends Controller {
     
@@ -26,7 +27,7 @@ class UserController extends Controller {
     }
     
    public function create($ent,$id) {        
-        $title="SISSAR Cadastro Usuário";       
+        $title="EasyFix";       
         
         if($id!=null){
             if($ent=='func'){    //Se funcionario       
@@ -65,6 +66,22 @@ class UserController extends Controller {
                     'cpf'=> $dadosCand['cand_CPF'],                    
                 ];
                 
+            }else if($ent=='cliente'){//Se candidato
+                $u = $this->user->where('user_perfil','Cliente')->where('user_vinculo',$id)->get();
+                if(isset($u['id'])){                   
+                    return redirect('/');                   
+                   //Se ja existir usuario para esse candidato, impede de acessa a pagina cadastro
+                }
+                
+                $cliente = new Cliente();//Recuperando dados do candidato recém cadastrado        
+                $dadosCliente = $cliente->where("cliente_cod",$id)->get()->first(); 
+                
+                $dadosEnt = [//Carregando em um vetor generico os dados
+                    'cod' => $dadosCliente['cliente_cod'],
+                    'imagem' => $dadosCliente['cliente_imagem'],
+                    'nome'=> $dadosCliente['cliente_nome'] ,                   
+                    'cpf'=> $dadosCliente['cliente_CPF'],                    
+                ];
             }            
             return view('crud-usuario/CadastroUsuario', compact("title", "ent","dadosEnt"));
         }
@@ -73,7 +90,7 @@ class UserController extends Controller {
     
     public function editor($user_id) {
         $ent ="user";
-        $title="SISSAR Edição Usuário";       
+        $title="EasyFix";       
         
         $dadosUsers = $this->user->where("id",$user_id)->get()->first();
            
@@ -110,7 +127,7 @@ class UserController extends Controller {
     }
 
     public function index(Request $request) {
-        $title="SISSAR Painel Usuario";        
+        $title="EasyFix";        
        
         $filter = $request->all();//Carregando filtros        
         if($filter){//Se filtros existirem, carrega dados atraves da operação LIKE do sql, em ordem crescente
@@ -155,7 +172,7 @@ class UserController extends Controller {
         $update = $this->user->where('id',$id)->update($dataUser);//alterado a linha selecionada no banco de dados 
         
         if($update)
-           return redirect('/usuario/list'); 
+           return redirect('/'); 
         else return redirect ()->back();
     }
 

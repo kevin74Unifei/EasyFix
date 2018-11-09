@@ -47,9 +47,9 @@
     @endif
     <form class="form-inline" method='post' enctype="multipart/form-data" action='
             @if(isset($resp))
-                {{url('candidato/edit/'.$resp['cod'])}}    
+                {{url('cliente/edit/'.$resp['cod'])}}    
             @else
-                {{url('candidato/cadastrar')}}
+                {{url('cliente/cadastrar')}}
             @endif
             '>
         <input type="hidden" name="_token" value="{{csrf_token()}}">
@@ -61,10 +61,7 @@
             <div class="info_pessoal">
                 
                 @include('../templates/components/fieldName')
-                <br/>
-                
-                @include('../templates/components/fieldCPF')                      
-                        
+                @include('../templates/components/fieldCPF')                                      
                 @include('../templates/components/fieldDate')
                 @include('../templates/components/fieldSexo')                
 

@@ -1,16 +1,16 @@
 <?php
 
 namespace App\Http\Controllers;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 use App\Cliente;
 use App\User;
 use App\Curriculo;
 use DB;
 
-class CandidatoController extends Controller
+class ClienteController extends Controller
 {
-    private $cand;
+    private $cliente;
     private $messages = [//mensagens que serão exibidas quando a validação falhar
             'cliente_nome.required' => "É obrigatorio preechimento do campo NOME",
             'cliente_nome.min' => "É obrigatorio preechimento do campo NOME com pelo menos 3 letras",
@@ -33,7 +33,7 @@ class CandidatoController extends Controller
        
         $filter = $request->all();//Carregando filtros        
         if($filter){//Se filtros existirem, carrega dados atraves da operação LIKE do sql, em ordem crescente
-            $dadosCliente = $this->cand->where("cliente_status",'1')
+            $dadosCliente = $this->cliente->where("cliente_status",'1')
                                 ->where($filter['campo_ent'],'LIKE',$filter['chave_busca'].'%')
                                 ->orderBy('cliente_nome', 'asc')
                                 ->get(); 
@@ -41,7 +41,7 @@ class CandidatoController extends Controller
             $valor_filter_text = $filter['chave_busca'];
             $valor_filter_campo = $filter['campo_ent'];
         }else{//Senão existir filtros carrega todas as linhas da tabela, por ordem crescente.
-            $dadosCliente = $this->cand->where("cliente_status",'1')->orderBy('cliente_nome', 'asc')->get();                                
+            $dadosCliente = $this->cliente->where("cliente_status",'1')->orderBy('cliente_nome', 'asc')->get();                                
         } 
         
         $dadosClienteUser = array();//criando um array
@@ -59,7 +59,7 @@ class CandidatoController extends Controller
             ));
         }
         
-        return view("crud-candidato/candidatosList",compact("dadosClienteUser",
+        return view("crud-cliente/clienteList",compact("dadosClienteUser",
                                                                 "title",
                                                                 "valor_filter_text",
                                                                 "valor_filter_campo"));
@@ -75,7 +75,7 @@ class CandidatoController extends Controller
         
         if($cliente_cod!=null){//Se recebe um parametro, faz o que esta aqui dentro
             $title="EasyFix";
-            $dadosCliente = $this->cand->where("cliente_cod",$cliente_cod)->get()->first();   
+            $dadosCliente = $this->cliente->where("cliente_cod",$cliente_cod)->get()->first();   
            
                 $resp= [//guarda dados em um vetor com nomes genericos para ser utilizado pelo components-templates
                     'cod' => $dadosCliente['cliente_cod'],
@@ -116,10 +116,10 @@ class CandidatoController extends Controller
                     'sexo' => "disabled",
                     'action' => 'editar'
                 ];
-            return view('crud-candidato/candidatoForm',compact("title","ent","fieldDateTitle","fieldDate","resp","enabledEdition","states"));
+            return view('crud-cliente/clienteForm',compact("title","ent","fieldDateTitle","fieldDate","resp","enabledEdition","states"));
         }else{//Se não tiver parametros retorna um formulario basico de cadastro
             $title="EasyFix";
-            return view('crud-candidato/candidatoForm',compact("title","ent","fieldDateTitle","fieldDate","states")); 
+            return view('crud-cliente/clienteForm',compact("title","ent","fieldDateTitle","fieldDate","states")); 
         }
  
     }
@@ -139,7 +139,7 @@ class CandidatoController extends Controller
             $imagem = $request->file('cliente_imagem');
             $ext=$imagem->getClientOriginalExtension();            
             $filename = md5(time()).".".$ext;//Criando um nome que não será repetido
-            $request->cand_imagem->storeAs('public/storage/imgperfil', $filename); 
+            $request->cliente_imagem->storeAs('public/storage/imgperfil', $filename); 
             $dadosClienteForm['cliente_imagem'] = $filename;
         }
         
@@ -162,7 +162,7 @@ class CandidatoController extends Controller
             $imagem = $request->file('cliente_imagem');
             $ext=$imagem->getClientOriginalExtension();            
             $filename = md5(time()).".".$ext;//Criando um nome que não se repetirar
-            $request->cand_imagem->storeAs('public/imgperfil', $filename); 
+            $request->cliente_imagem->storeAs('public/imgperfil', $filename); 
             $dataForm['cliente_imagem'] = $filename;
         }
         
@@ -175,11 +175,11 @@ class CandidatoController extends Controller
     }
     
     public function loadPainel(){
-        $currs = Curriculo::where('cand_cod',Auth::user()->user_vinculo)
+        $currs = Curriculo::where('cliente_cod',Auth::user()->user_vinculo)
                 ->where('curr_active','1')
                 ->get();
         
-        return view('painel/candView', compact('currs'));
+        return view('painel/clienteView', compact('currs'));
     }
     
     public function destroy($id){
@@ -189,5 +189,5 @@ class CandidatoController extends Controller
          if($update)//se feito com sucesso direciona para...
            return redirect('/cliente/list'); 
         else return redirect ()->back();
-    }   
+    }  
 }
